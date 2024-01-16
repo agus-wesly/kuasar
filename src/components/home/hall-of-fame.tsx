@@ -16,7 +16,7 @@ export default function HallOfFame({}: Props) {
       <p className="mb-5">Best of AR creation from our community</p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-x-2 md:gap-y-10 place-items-center md:place-items-center">
-        {CARD_ITEM.map((item) => (
+        {CARD_ITEM.map(() => (
           <CardARCreation />
         ))}
       </div>
