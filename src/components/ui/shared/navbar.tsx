@@ -69,9 +69,9 @@ export default function Navbar({}: Props) {
               key={item.label}
               className={cn(
                 buttonVariants({
-                  variant: 'outline',
+                  variant: 'link',
                 }),
-                'rounded-full text-sm'
+                'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline'
               )}
               href={'#'}
             >
