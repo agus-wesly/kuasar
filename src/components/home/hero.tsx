@@ -23,7 +23,7 @@ export default function Hero({}: Props) {
           href="#"
           className={cn(
             buttonVariants({ variant: 'default' }),
-            'mt-5 rounded-full z-[3] px-7 bg-purple-900 hover:bg-purple-800'
+            'mt-5 rounded-full z-[3] px-7 '
           )}
         >
           Explore more

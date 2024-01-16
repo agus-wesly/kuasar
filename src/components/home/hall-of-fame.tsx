@@ -25,7 +25,7 @@ export default function HallOfFame({}: Props) {
         href="#"
         className={cn(
           buttonVariants({ variant: 'outline' }),
-          'mt-5 rounded-full z-[3] px-7 border-purple-900 text-purple-900 w-fit mx-auto'
+          'mt-5 rounded-full z-[3] px-7 w-fit mx-auto'
         )}
       >
         Explore more
