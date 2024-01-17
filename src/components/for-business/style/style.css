@@ -1,0 +1,4 @@
+.__gradient {
+  background: #452478;
+  background: linear-gradient(45deg, #452478, #682d60);
+}
