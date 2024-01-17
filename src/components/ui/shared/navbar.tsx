@@ -8,7 +8,9 @@ import {
 } from '@/components/ui/sheet'
 import { buttonVariants } from '../button'
 import { cn } from '@/lib/utils'
+
 import useScroll from '@/hooks/use-scroll'
+import { Link, NavLink } from 'react-router-dom'
 
 const MENU_ITEMS = [
   { label: 'For Creator' },
@@ -18,9 +20,9 @@ const MENU_ITEMS = [
 ] as const
 
 const MENU_ITEMS_DESKTOP = [
-  { label: 'For Business' },
-  { label: 'For Creators' },
-  { label: 'Schedule a Meeting' },
+  { label: 'For Business', href: '/for-business' },
+  { label: 'For Creators', href: '/for-creators' },
+  { label: 'Schedule a Meeting', href: '/meet' },
 ] as const
 
 type Props = {}
@@ -35,12 +37,13 @@ export default function Navbar({}: Props) {
       })}
     >
       <div className="container flex justify-between items-center py-3">
-        <a href="#">
+        <Link to={'/'}>
           <img
             src="https://static.wixstatic.com/media/9b385a_fe85acd294524651a9c73760dbaf3d31~mv2.png/v1/fill/w_114,h_61,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/9b385a_fe85acd294524651a9c73760dbaf3d31~mv2.png"
             className="w-[96px]"
           />
-        </a>
+        </Link>
+
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
@@ -54,9 +57,9 @@ export default function Navbar({}: Props) {
               </SheetHeader>
               <ul className="pt-10 px-4 flex flex-col gap-2 text-sm text-primary/80 font-semibold">
                 {MENU_ITEMS.map((item) => (
-                  <a className="py-2 border-b" key={item.label} href="#">
+                  <NavLink className="py-2 border-b" key={item.label} to="/">
                     {item.label}
-                  </a>
+                  </NavLink>
                 ))}
                 <li></li>
               </ul>
@@ -65,18 +68,24 @@ export default function Navbar({}: Props) {
         </div>
         <div className="hidden md:flex gap-4">
           {MENU_ITEMS_DESKTOP.map((item) => (
-            <a
+            <NavLink
+              preventScrollReset
               key={item.label}
-              className={cn(
-                buttonVariants({
-                  variant: 'link',
-                }),
-                'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline'
-              )}
-              href={'#'}
+              className={({ isActive }) =>
+                cn(
+                  buttonVariants({
+                    variant: 'link',
+                  }),
+                  'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline',
+                  {
+                    'text-neutral-900 underline': isActive,
+                  }
+                )
+              }
+              to={item.href}
             >
               {item.label}
-            </a>
+            </NavLink>
           ))}
         </div>
       </div>
