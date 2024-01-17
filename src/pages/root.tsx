@@ -1,6 +1,6 @@
 import Footer from '@/components/ui/shared/footer'
 import Navbar from '@/components/ui/shared/navbar'
-import { Outlet, ScrollRestoration, useNavigation } from 'react-router-dom'
+import { Outlet, ScrollRestoration } from 'react-router-dom'
 
 function RootLayout() {
   return (
