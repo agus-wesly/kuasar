@@ -1,6 +1,7 @@
 import { HambergerMenu } from 'iconsax-react'
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -13,10 +14,10 @@ import useScroll from '@/hooks/use-scroll'
 import { Link, NavLink } from 'react-router-dom'
 
 const MENU_ITEMS = [
-  { label: 'For Creator' },
-  { label: 'Reach Beyond Borders' },
-  { label: 'For Business' },
-  { label: 'Page Explore More' },
+  { label: 'For Business', href: '/for-business' },
+  { label: 'For Creators', href: '/for-creators' },
+  { label: 'Reach Beyond Borders', href: '/' },
+  { label: 'Page Explore More', href: '/' },
 ] as const
 
 const MENU_ITEMS_DESKTOP = [
@@ -57,15 +58,22 @@ export default function Navbar({}: Props) {
               </SheetHeader>
               <ul className="pt-10 px-4 flex flex-col gap-2 text-sm text-primary/80 font-semibold">
                 {MENU_ITEMS.map((item) => (
-                  <NavLink className="py-2 border-b" key={item.label} to="/">
-                    {item.label}
-                  </NavLink>
+                  <SheetClose asChild>
+                    <NavLink
+                      className="py-2 border-b"
+                      key={item.label}
+                      to={item.href}
+                    >
+                      {item.label}
+                    </NavLink>
+                  </SheetClose>
                 ))}
                 <li></li>
               </ul>
             </SheetContent>
           </Sheet>
         </div>
+
         <div className="hidden md:flex gap-4">
           {MENU_ITEMS_DESKTOP.map((item) => (
             <NavLink
