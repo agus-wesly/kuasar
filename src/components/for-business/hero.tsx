@@ -6,18 +6,18 @@ type Props = {}
 
 export default function Hero({}: Props) {
   return (
-    <main className="flex flex-col gap-5 __gradient">
-      <div className="text-background text-center flex flex-col gap-12 pt-8 pb-16 container">
-        <div className="flex flex-col items-center">
-          <h1 className="text-4xl font-bold">
+    <section className="flex flex-col gap-5 __gradient">
+      <div className="text-background text-center gap-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-6 container">
+        <div className="flex flex-col items-center border border-muted/30 rounded-lg py-10 md:col-span-3">
+          <h1 className="text-4xl md:text-5xl font-bold">
             Elevate Your <br /> Brand
           </h1>
-          <div className="flex gap-5 pt-4">
-            <img src="/idea.svg" className="size-8 object-cover" />
-            <img src="/social.png" className="size-8 object-cover" />
-            <img src="/brain.png" className="size-8 object-cover" />
+          <div className="flex gap-5 py-4">
+            <img src="/idea.svg" className="size-8 md:size-9 object-cover" />
+            <img src="/social.png" className="size-8 md:size-9 object-cover" />
+            <img src="/brain.png" className="size-8 md:size-9 object-cover" />
           </div>
-          <p className="text-neutral-200 font-light text-md">
+          <p className="text-neutral-200 font-light text-md md:text-xl">
             Innovative, Engaging, Memorable
           </p>
           <a
@@ -30,7 +30,8 @@ export default function Hero({}: Props) {
             Learn More
           </a>
         </div>
-        <div className="flex flex-col gap-1 items-center">
+
+        <div className="flex flex-col items-center border border-muted/30 rounded-lg p-10 gap-2 lg:gap-3">
           <h3 className="text-xl font-semibold">
             Want to bring AR in your marketing strategy but don't know where to
             start?
@@ -49,7 +50,8 @@ export default function Hero({}: Props) {
             Learn More
           </a>
         </div>
-        <div className="flex flex-col gap-1 items-center">
+
+        <div className="flex flex-col items-center border border-muted/30 rounded-lg p-10 md:col-span-2 gap-2 lg:gap-3">
           <h3 className="text-xl font-semibold">
             Already have an idea on how to implement AR for business in your
             next campaign ?
@@ -69,6 +71,6 @@ export default function Hero({}: Props) {
           </a>
         </div>
       </div>
-    </main>
+    </section>
   )
 }
