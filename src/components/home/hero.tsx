@@ -12,10 +12,10 @@ export default function Hero({}: Props) {
           Build, Show, Earn
         </h1>
 
-        <p className="text-2xl font-medium text-accent-foreground/60">
+        <p className="text-2xl font-medium text-muted-foreground">
           Creator of the Future
         </p>
-        <p className="text-2xl font-medium text-accent-foreground/60">
+        <p className="text-2xl font-medium text-muted-foreground">
           Let's Augment the world !
         </p>
 
