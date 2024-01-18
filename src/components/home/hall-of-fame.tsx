@@ -36,7 +36,7 @@ function ProjectShowcaseSection() {
   const projects = data?.data || []
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-10 place-items-center md:place-items-center">
+    <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-10 place-items-center md:place-items-center overflow-hidden">
       {isLoading
         ? Array(8)
             .fill(0)
