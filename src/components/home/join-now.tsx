@@ -1,17 +1,18 @@
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '../ui/button'
+import './style.css'
 
 type Props = {}
 
 export default function JoinNow({}: Props) {
   return (
-    <section className="container my-10 mt-20">
-      <div className="bg-[#ab0ddf]/35 rounded-xl flex flex-col p-8 gap-8 shadow-md">
-        <div className="space-y-2">
-          <p className="text-center text-lg md:text-xl lg:text-2xl font-bold">
+    <section className="container my-10 mt-20 ">
+      <div className="bg-[#35004F] rounded-xl flex flex-col p-8 md:p-16 gap-8 shadow-md text-muted relative overflow-hidden">
+        <div className="space-y-6">
+          <p className="text-center text-2xl md:text-4xl font-bold">
             Join the Next Wave of the Future of Creative XR Innovators
           </p>
-          <p className="text-sm md:text-base lg:text-lg text-center leading-relaxed">
+          <p className="text-sm text-center max-w-xl mx-auto leading-relaxed">
             Apply as an AR/MR/VR creator and get a chance to be featured on
             Kuasar
           </p>
@@ -22,7 +23,7 @@ export default function JoinNow({}: Props) {
             href="#"
             className={cn(
               buttonVariants({ variant: 'default' }),
-              'rounded-full z-[3]  bg-purple-700 hover:bg-purple-800 flex-1 mx-auto md:text-base'
+              'rounded-full z-[3]  bg-[#471062] hover:bg-[#471062]/90 shadow-md flex-1 mx-auto md:text-base'
             )}
           >
             Apply Now
@@ -31,12 +32,16 @@ export default function JoinNow({}: Props) {
             href="#"
             className={cn(
               buttonVariants({ variant: 'link' }),
-              'rounded-full z-[3]  flex-1 mx-auto md:text-base'
+              'text-muted rounded-full z-[3]  flex-1 mx-auto md:text-base'
             )}
           >
             Join Community
           </a>
         </div>
+
+        <div className="bg-purple-600/70 absolute size-[90px] md:size-[160px] pointer-events-none left-6 top-0 -rotate-45 blur-2xl opacity-20 z-[1]" />
+
+        <div className="bg-purple-600/70 absolute size-[90px] md:size-[200px] pointer-events-none right-6 bottom-0 -rotate-45 blur-2xl opacity-20 z-[1]" />
       </div>
     </section>
   )
