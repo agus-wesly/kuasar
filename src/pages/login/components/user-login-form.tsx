@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
 import { axios } from '@/plugin/axios'
 import { useAuth } from '@/features/auth/use-auth'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -71,6 +71,13 @@ export default function UserLoginForm({
           </Button>
         </div>
       </form>
+
+      <p className="text-xs bg-background text-muted-foreground py-2">
+        Don't have account yet ? Try{' '}
+        <Link className="font-bold text-primary" to={'/register'}>
+          Register
+        </Link>
+      </p>
       {/* <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />

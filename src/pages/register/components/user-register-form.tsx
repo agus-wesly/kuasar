@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -72,10 +73,17 @@ export default function UserRegisterForm({
 
           <Button disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Register
+            Register Now
           </Button>
         </div>
       </form>
+
+      <p className="text-xs bg-background text-muted-foreground py-2">
+        Already have account ? Try{' '}
+        <Link className="font-bold text-primary" to={'/login'}>
+          Login
+        </Link>
+      </p>
       {/* <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />

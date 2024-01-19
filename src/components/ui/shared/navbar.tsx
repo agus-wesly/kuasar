@@ -26,6 +26,11 @@ const MENU_ITEMS_DESKTOP = [
   { label: 'Schedule a Meeting', href: '/meet' },
 ] as const
 
+const MENU_AUTH = [
+  { label: 'Login', href: '/meet' },
+  { label: 'Register', href: '/meet' },
+] as const
+
 type Props = {}
 
 export default function Navbar({}: Props) {
@@ -77,7 +82,6 @@ export default function Navbar({}: Props) {
         <div className="hidden md:flex gap-4">
           {MENU_ITEMS_DESKTOP.map((item) => (
             <NavLink
-              preventScrollReset
               key={item.label}
               className={({ isActive }) =>
                 cn(
@@ -86,7 +90,7 @@ export default function Navbar({}: Props) {
                   }),
                   'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline',
                   {
-                    'text-neutral-900 underline': isActive,
+                    'text-primary font-semibold hover:text-primary': isActive,
                   }
                 )
               }
@@ -95,6 +99,42 @@ export default function Navbar({}: Props) {
               {item.label}
             </NavLink>
           ))}
+        </div>
+
+        <div className="hidden md:flex gap-4">
+          <NavLink
+            className={({ isActive }) =>
+              cn(
+                buttonVariants({
+                  variant: 'link',
+                }),
+                'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline',
+                {
+                  'text-primary font-semibold hover:text-primary': isActive,
+                }
+              )
+            }
+            to={'/login'}
+          >
+            Login
+          </NavLink>
+
+          <NavLink
+            className={({ isActive }) =>
+              cn(
+                buttonVariants({
+                  variant: 'link',
+                }),
+                'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline',
+                {
+                  'text-primary font-semibold hover:text-primary': isActive,
+                }
+              )
+            }
+            to={'/register'}
+          >
+            Register
+          </NavLink>
         </div>
       </div>
     </nav>
