@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils'
 // import { Card, CardContent, CardFooter } from '../ui/card'
-import { buttonVariants } from '../ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { useProjectsQuery } from '@/features/projects/query'
-import { Skeleton } from '../ui/skeleton'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type Props = {}
 

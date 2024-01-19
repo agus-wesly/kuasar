@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { buttonVariants } from '../ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import GradientHome from './gradient-home'
 
 type Props = {}
