@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '../ui/button'
-import './style.css'
 
 type Props = {}
 
