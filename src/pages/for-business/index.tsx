@@ -4,11 +4,11 @@ import withPageTransition from '@/components/hoc/with-page-transition'
 
 function ForBusinessPage() {
   return (
-    <>
+    <main>
       <HeroForBusiness />
 
       <Collaborate />
-    </>
+    </main>
   )
 }
 export default withPageTransition(ForBusinessPage)

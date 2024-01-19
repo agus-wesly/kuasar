@@ -7,6 +7,8 @@ import RootLayout from './pages/root'
 import App from './pages/index'
 import ForBusinessPage from './pages/for-business'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import LoginPage from './pages/login'
+import RegisterPage from './pages/register'
 
 const queryClient = new QueryClient()
 
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
       {
         path: '/for-business',
         element: <ForBusinessPage />,
+      },
+      {
+        path: '/login',
+        element: <LoginPage />,
+      },
+      {
+        path: '/register',
+        element: <RegisterPage />,
       },
     ],
   },

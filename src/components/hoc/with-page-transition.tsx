@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 
-export default function withPageTransition(Component: () => JSX.Element) {
+export default function withPageTransition(
+  Component: (props: any) => JSX.Element
+) {
   return function ComponentWithTransition() {
     return (
       <motion.div
