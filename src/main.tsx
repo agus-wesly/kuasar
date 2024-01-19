@@ -9,6 +9,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import LoginPage from './pages/login'
 import RegisterPage from './pages/register'
 import HomePage from './pages/home'
+import RequireUnAuth from './layouts/require-unauth'
+import RequireAuth from './layouts/require-auth'
 
 const queryClient = new QueryClient()
 
@@ -26,16 +28,34 @@ const router = createBrowserRouter([
         element: <ForBusinessPage />,
       },
       {
-        path: '/login',
-        element: <LoginPage />,
+        element: <RequireUnAuth />,
+        children: [
+          {
+            path: '/login',
+            element: <LoginPage />,
+          },
+          {
+            path: '/register',
+            element: <RegisterPage />,
+          },
+        ],
       },
       {
-        path: '/register',
-        element: <RegisterPage />,
+        element: <RequireAuth />,
+        children: [
+          {
+            path: '/protected',
+            element: <ProtectedPage />,
+          },
+        ],
       },
     ],
   },
 ])
+
+function ProtectedPage() {
+  return <div>Protectd page</div>
+}
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

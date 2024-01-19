@@ -3,6 +3,9 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
+import { axios } from '@/plugin/axios'
+import { useAuth } from '@/features/auth/use-auth'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -11,14 +14,28 @@ export default function UserLoginForm({
   ...props
 }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const setAccessToken = useAuth((state) => state.setAccessToken)
 
-  async function onSubmit(event: React.SyntheticEvent) {
+  const from = location.state?.from?.pathname || '/'
+
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsLoading(true)
 
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+    const formData = new FormData(event.currentTarget)
+
+    try {
+      const response = await axios.post('/auth/login', {
+        email: formData.get('email') || '',
+        password: formData.get('password') || '',
+      })
+      setAccessToken(response.data.access_token)
+      navigate(from)
+    } catch (error) {
+      alert('Error')
+    }
   }
 
   return (
