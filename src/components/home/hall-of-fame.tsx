@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { Card, CardContent, CardFooter } from '../ui/card'
+// import { Card, CardContent, CardFooter } from '../ui/card'
 import { buttonVariants } from '../ui/button'
 import { useProjectsQuery } from '@/features/projects/query'
 import { Skeleton } from '../ui/skeleton'
@@ -34,6 +34,8 @@ function ProjectShowcaseSection() {
   const { isLoading, data } = useProjectsQuery()
 
   const projects = data?.data || []
+  // const projects = []
+  // const url = data?.data[0].video
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-10 place-items-center md:place-items-center overflow-hidden">
@@ -67,8 +69,8 @@ function CardARCreation(
   props: Pick<Project, 'created_by' | 'video' | 'title'>
 ) {
   return (
-    <Card className="w-60 rounded-lg overflow-hidden shadow-md">
-      <CardContent className="flex w-full bg-purple-100 aspect-[9/16] items-center justify-center p-0">
+    <div className="w-full rounded-lg overflow-hidden shadow-md relative">
+      <div className="flex w-full bg-purple-100 aspect-[9/16] items-center justify-center p-0">
         {/* PLAYER HERE */}
         <video
           preload="none"
@@ -79,12 +81,11 @@ function CardARCreation(
           src={props.video}
           muted
           crossOrigin="anonymous"
-          className="w-full h-full"
         ></video>
-      </CardContent>
-      <CardFooter className="p-4 text-xs text-center flex items-center justify-center">
+      </div>
+      <div className="p-4 text-xs text-center flex items-center justify-center">
         Created by {props.created_by}
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   )
 }
