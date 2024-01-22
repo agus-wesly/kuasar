@@ -9,7 +9,7 @@ export interface InputProps
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
     if (type === 'password') {
-      return <InputPassword />
+      return <InputPassword ref={ref} {...props} />
     }
 
     return (
