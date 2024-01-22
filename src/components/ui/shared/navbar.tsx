@@ -59,14 +59,13 @@ export default function Navbar({}: Props) {
               </SheetHeader>
               <div className="pt-10 px-4 flex flex-col gap-2 text-sm text-neutral-900/80">
                 {MENU_ITEMS.map((item) => (
-                  <SheetClose asChild>
+                  <SheetClose asChild key={item.label}>
                     <NavLink
                       className={`py-2 border-b ${
                         location.pathname === item.href
                           ? 'text-black font-semibold'
                           : ''
                       }`}
-                      key={item.label}
                       to={item.href}
                     >
                       {item.label}
