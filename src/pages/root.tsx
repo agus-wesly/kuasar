@@ -2,6 +2,7 @@ import Footer from '@/components/ui/shared/footer'
 import Navbar from '@/components/ui/shared/navbar'
 import { useAccessToken, useUser } from '@/features/auth/use-auth'
 import useRefreshToken from '@/features/auth/use-refresh-token'
+import { Loader } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Outlet, ScrollRestoration } from 'react-router-dom'
 
@@ -26,7 +27,7 @@ function RootLayout() {
   return (
     <>
       <Navbar />
-      {isLoadingApp ? <p>Loading...</p> : <Outlet />}
+      {isLoadingApp ? <LoadingAppComponent /> : <Outlet />}
       <ScrollRestoration
         getKey={(location) => {
           return location.pathname
@@ -34,6 +35,14 @@ function RootLayout() {
       />
       <Footer />
     </>
+  )
+}
+
+function LoadingAppComponent() {
+  return (
+    <div className="min-h-[80vh] container flex items-center justify-center">
+      <Loader className="w-8 h-8 animate-spin text-primary" />
+    </div>
   )
 }
 
