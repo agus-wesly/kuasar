@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import { useProjectsQuery } from '@/features/projects/query'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Project } from '@/types/project'
 
 type Props = {}
 

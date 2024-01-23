@@ -1,17 +1,39 @@
 import { axios } from '@/plugin/axios'
-import { useAuth } from './use-auth'
+import { useAccessToken, useUser } from './use-auth'
+import { useShallow } from 'zustand/react/shallow'
 
 export default function useRefreshToken() {
-  const setAccessToken = useAuth((state) => state.setAccessToken)
+  const { accessToken, setAccessToken } = useAccessToken()
+  const setUser = useUser(useShallow((val) => val.setUser))
 
   const refresh = async () => {
-    const response = await axios.get('/refresh', {
-      withCredentials: true,
-    })
+    try {
+      const response = await axios.post(
+        '/auth/refresh-token',
+        {
+          withCredentials: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      const userDataResponse = await axios.get('/users/me', {
+        headers: {
+          Authorization: `Bearer ${response.data.data.access_token}`,
+        },
+      })
 
-    setAccessToken(response.data.access_token)
-    return response.data.access_token
+      setUser(userDataResponse.data.data)
+      setAccessToken(response.data.data.access_token)
+      return response.data.access_token
+    } catch (error) {
+      return null
+    }
   }
 
-  return refresh
+  return {
+    refresh,
+  }
 }

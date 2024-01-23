@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils'
 
 import useScroll from '@/hooks/use-scroll'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useUser } from '@/features/auth/use-auth'
 
 const MENU_ITEMS = [
   { label: 'For Business', href: '/for-business' },
@@ -31,6 +32,7 @@ type Props = {}
 export default function Navbar({}: Props) {
   const scrolled = useScroll(20)
   const location = useLocation()
+  const user = useUser((state) => state.user)
 
   return (
     <nav
@@ -73,23 +75,27 @@ export default function Navbar({}: Props) {
                   </SheetClose>
                 ))}
 
-                <SheetClose asChild>
-                  <NavLink
-                    className="py-2 mt-5 text-center text-primary font-bold"
-                    to={'/login'}
-                  >
-                    Login
-                  </NavLink>
-                </SheetClose>
+                {!user ? (
+                  <>
+                    <SheetClose asChild>
+                      <NavLink
+                        className="py-2 mt-5 text-center text-primary font-bold"
+                        to={'/login'}
+                      >
+                        Login
+                      </NavLink>
+                    </SheetClose>
 
-                <SheetClose asChild>
-                  <NavLink
-                    className="py-2 text-center font-semibold bg-primary text-background rounded-full"
-                    to={'/register'}
-                  >
-                    Register
-                  </NavLink>
-                </SheetClose>
+                    <SheetClose asChild>
+                      <NavLink
+                        className="py-2 text-center font-semibold bg-primary text-background rounded-full"
+                        to={'/register'}
+                      >
+                        Register
+                      </NavLink>
+                    </SheetClose>
+                  </>
+                ) : null}
               </div>
             </SheetContent>
           </Sheet>

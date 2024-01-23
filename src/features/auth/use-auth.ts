@@ -1,19 +1,28 @@
-import { create } from 'zustand'
-
-type User = Record<string, any>
+import { UserData } from '@/types/user'
+import { StateCreator, create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 type AuthState = {
-  user: User | null
-  accessToken: string | null
-  signIn: (payload: User) => void
-  signOut: (payload: User) => void
-  setAccessToken: (payload: string) => void
+  user: UserData | null
+  setUser: (user: UserData | null) => void
 }
 
-export const useAuth = create<AuthState>((set) => ({
+type AccessTokenState = {
+  accessToken: string | null
+  setAccessToken: (newToken: string) => void
+}
+
+export const useUser = create<AuthState>((set) => ({
   user: null,
-  accessToken: '',
-  signIn: (payLoad) => set({ user: payLoad }),
-  signOut: () => set({ user: null }),
-  setAccessToken: (payload) => set({ accessToken: payload }),
+  setUser: (newVal) => set({ user: newVal }),
 }))
+
+const persistMiddleware = (f: StateCreator<AccessTokenState, [], []>) =>
+  persist<AccessTokenState>(f, { name: 'accessToken' })
+
+export const useAccessToken = create<AccessTokenState>()(
+  persistMiddleware((set) => ({
+    accessToken: null,
+    setAccessToken: (val) => set({ accessToken: val }),
+  }))
+)

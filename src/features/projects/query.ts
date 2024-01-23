@@ -1,4 +1,5 @@
 import { axios } from '@/plugin/axios'
+import { Project } from '@/types/project'
 import { useQuery } from '@tanstack/react-query'
 
 export function useProjectsQuery() {
