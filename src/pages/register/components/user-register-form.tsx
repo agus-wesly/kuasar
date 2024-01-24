@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { useRegister } from '@/features/auth/use-register'
+import { useRegister } from '@/features/auth/hooks/use-register'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { AlertTriangle } from 'lucide-react'

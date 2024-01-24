@@ -1,4 +1,4 @@
-import { useUser } from '@/features/auth/use-auth'
+import { useUser } from '@/features/auth/hooks/use-auth'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
 type Props = {}

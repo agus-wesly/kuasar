@@ -20,7 +20,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { NavLink, useLocation } from 'react-router-dom'
-import { useUser } from '@/features/auth/use-auth'
+import { useUser } from '@/features/auth/hooks/use-auth'
 import { Button } from '../../button'
 
 const MENU_ITEMS = [

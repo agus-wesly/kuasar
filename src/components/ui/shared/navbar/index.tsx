@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 
 import useScroll from '@/hooks/use-scroll'
 import { Link, NavLink } from 'react-router-dom'
-import { useUser } from '@/features/auth/use-auth'
+import { useUser } from '@/features/auth/hooks/use-auth'
 import { useShallow } from 'zustand/react/shallow'
 
 import { Suspense, lazy } from 'react'

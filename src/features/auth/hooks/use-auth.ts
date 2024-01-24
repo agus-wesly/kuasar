@@ -1,4 +1,4 @@
-import { UserData } from '@/types/user'
+import { UserData } from '@/features/user/types/user'
 import { StateCreator, create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
