@@ -39,7 +39,7 @@ function RootLayout() {
 
 function LoadingAppComponent() {
   return (
-    <div className="min-h-[80vh] container flex items-center justify-center">
+    <div className="min-h-[80vh] md:min-h-screen container flex items-center justify-center">
       <Loader className="w-8 h-8 animate-spin text-primary" />
     </div>
   )

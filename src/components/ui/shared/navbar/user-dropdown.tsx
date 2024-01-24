@@ -19,9 +19,12 @@ import {
 
 import { ChevronDown, LogOut } from 'lucide-react'
 import { useLogout } from '@/features/auth/hooks/use-logout'
+import { useUser } from '@/features/auth/hooks/use-auth'
+import { useShallow } from 'zustand/react/shallow'
 
 export default function UserDropdown() {
   const { logOut } = useLogout()
+  const user = useUser(useShallow((state) => state.user))
 
   return (
     <>
@@ -29,7 +32,7 @@ export default function UserDropdown() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex gap-2 items-center text-muted-foreground font-semibold text-sm">
-              <span className="flex-1">User 1</span>
+              <span className="flex-1">{user?.username}</span>
               <span>
                 <ChevronDown className="size-4" />
               </span>
@@ -59,7 +62,10 @@ export default function UserDropdown() {
             <AlertDialogCancel className="border-none text-foreground">
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction onClick={() => logOut()} className="bg-red-700">
+            <AlertDialogAction
+              onClick={() => logOut()}
+              className="bg-red-700 hover:bg-red-700"
+            >
               Signout
             </AlertDialogAction>
           </AlertDialogFooter>
