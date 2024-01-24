@@ -36,7 +36,7 @@ function ProjectShowcaseSection() {
 
   let projects: Array<Project> = []
   // I NEED THIS BECAUSE IN DEV MODE MY COMPUTER IS SO SLOWWWWWW 😂
-  if (import.meta.env.mode === 'PRODUCTION') {
+  if (import.meta.env.MODE === 'production') {
     projects = data?.data || []
   }
 
