@@ -29,10 +29,10 @@ export function useLogin() {
         {
           email: formData.get('email') || '',
           password: formData.get('password') || '',
-        },
-        {
-          withCredentials: true,
         }
+        // {
+        //   withCredentials: true,
+        // }
       )
       const accesTokenRetrieved = loginResponse.data.data.access_token
       const userDataResponse = await axios.get('/users/me', {

@@ -7,6 +7,7 @@ import { useUser } from '@/features/auth/hooks/use-auth'
 import { useShallow } from 'zustand/react/shallow'
 
 import { Suspense, lazy } from 'react'
+import { Skeleton } from '../../skeleton'
 const SidebarMobile = lazy(() => import('./sidebar-mobile'))
 const UserDropdown = lazy(() => import('./user-dropdown'))
 
@@ -16,9 +17,11 @@ const MENU_ITEMS_DESKTOP = [
   { label: 'Schedule a Meeting', href: '/' },
 ] as const
 
-type Props = {}
+type Props = {
+  isLoading: boolean
+}
 
-export default function Navbar({}: Props) {
+export default function Navbar({ isLoading }: Props) {
   const scrolled = useScroll(20)
   const user = useUser(useShallow((state) => state.user))
 
@@ -63,49 +66,57 @@ export default function Navbar({}: Props) {
         </div>
 
         <div className="hidden md:flex gap-4">
-          {user ? (
+          {isLoading ? (
+            <Skeleton className="w-28 h-8" />
+          ) : user ? (
             <Suspense fallback={null}>
               <UserDropdown />
             </Suspense>
           ) : (
-            <>
-              <NavLink
-                className={({ isActive }) =>
-                  cn(
-                    buttonVariants({
-                      variant: 'link',
-                    }),
-                    'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline',
-                    {
-                      'text-primary font-semibold hover:text-primary': isActive,
-                    }
-                  )
-                }
-                to={'/login'}
-              >
-                Login
-              </NavLink>
-
-              <NavLink
-                className={({ isActive }) =>
-                  cn(
-                    buttonVariants({
-                      variant: 'link',
-                    }),
-                    'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline',
-                    {
-                      'text-primary font-semibold hover:text-primary': isActive,
-                    }
-                  )
-                }
-                to={'/register'}
-              >
-                Register
-              </NavLink>
-            </>
+            <NavLinkAuthentication />
           )}
         </div>
       </div>
     </nav>
+  )
+}
+
+function NavLinkAuthentication() {
+  return (
+    <>
+      <NavLink
+        className={({ isActive }) =>
+          cn(
+            buttonVariants({
+              variant: 'link',
+            }),
+            'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline',
+            {
+              'text-primary font-semibold hover:text-primary': isActive,
+            }
+          )
+        }
+        to={'/login'}
+      >
+        Login
+      </NavLink>
+
+      <NavLink
+        className={({ isActive }) =>
+          cn(
+            buttonVariants({
+              variant: 'link',
+            }),
+            'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline',
+            {
+              'text-primary font-semibold hover:text-primary': isActive,
+            }
+          )
+        }
+        to={'/register'}
+      >
+        Register
+      </NavLink>
+    </>
   )
 }

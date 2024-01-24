@@ -1,6 +1,6 @@
 import Footer from '@/components/ui/shared/footer'
 import Navbar from '@/components/ui/shared/navbar'
-import { useAccessToken, useUser } from '@/features/auth/hooks/use-auth'
+import { useUser } from '@/features/auth/hooks/use-auth'
 import useRefreshToken from '@/features/auth/hooks/use-refresh-token'
 import { Loader } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -8,8 +8,7 @@ import { Outlet, ScrollRestoration } from 'react-router-dom'
 
 function RootLayout() {
   const { refresh } = useRefreshToken()
-  const accessToken = useAccessToken((val) => val.accessToken)
-  const user = useUser((val) => val.user)
+  const user = useUser((state) => state.user)
   const [isLoadingApp, setIsLoadingApp] = useState(true)
 
   useEffect(() => {
@@ -21,12 +20,12 @@ function RootLayout() {
         setIsLoadingApp(false)
       }
     }
-    !accessToken || !user ? verifyRefreshToken() : setIsLoadingApp(false)
+    !user ? verifyRefreshToken() : setIsLoadingApp(false)
   }, [])
 
   return (
     <>
-      <Navbar />
+      <Navbar isLoading={isLoadingApp} />
       {isLoadingApp ? <LoadingAppComponent /> : <Outlet />}
       <ScrollRestoration
         getKey={(location) => {

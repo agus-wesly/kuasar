@@ -22,6 +22,8 @@ import {
 import { NavLink, useLocation } from 'react-router-dom'
 import { useUser } from '@/features/auth/hooks/use-auth'
 import { Button } from '../../button'
+import { useShallow } from 'zustand/react/shallow'
+import { useLogout } from '@/features/auth/hooks/use-logout'
 
 const MENU_ITEMS = [
   { label: 'For Business', href: '/for-business' },
@@ -32,7 +34,8 @@ const MENU_ITEMS = [
 
 export default function SidebarMobile() {
   const location = useLocation()
-  const user = useUser((state) => state.user)
+  const user = useUser(useShallow((state) => state.user))
+  const { logOut } = useLogout()
 
   return (
     <div className="md:hidden">
@@ -82,9 +85,9 @@ export default function SidebarMobile() {
                   </SheetClose>
                 </>
               ) : (
-                <AlertDialogTrigger>
-                  <div className="flex flex-col mt-5 gap-3">
-                    <p className="text-center">Username</p>
+                <div className="flex flex-col mt-5 gap-3">
+                  <p className="text-center">{user.username}</p>
+                  <AlertDialogTrigger asChild>
                     <Button
                       className="rounded-full"
                       size={'sm'}
@@ -92,29 +95,34 @@ export default function SidebarMobile() {
                     >
                       Signout
                     </Button>
-                  </div>
-                </AlertDialogTrigger>
+                  </AlertDialogTrigger>
+                </div>
               )}
             </div>
           </SheetContent>
-        </Sheet>
 
-        <AlertDialogContent className="max-w-sm rounded-xl">
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure to signout ?</AlertDialogTitle>
-            <AlertDialogDescription>
-              You need to sign in back later.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="border-none text-foreground">
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction className="bg-red-700 hover:bg-red-700">
-              Signout
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+          <AlertDialogContent className="max-w-sm rounded-xl">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure to signout ?</AlertDialogTitle>
+              <AlertDialogDescription>
+                You need to sign in back later.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="border-none text-foreground">
+                Cancel
+              </AlertDialogCancel>
+              <SheetClose asChild>
+                <AlertDialogAction
+                  onClick={() => logOut()}
+                  className="bg-red-700 hover:bg-red-700"
+                >
+                  Signout
+                </AlertDialogAction>
+              </SheetClose>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </Sheet>
       </AlertDialog>
     </div>
   )

@@ -18,8 +18,11 @@ import {
 } from '@/components/ui/alert-dialog'
 
 import { ChevronDown, LogOut } from 'lucide-react'
+import { useLogout } from '@/features/auth/hooks/use-logout'
 
 export default function UserDropdown() {
+  const { logOut } = useLogout()
+
   return (
     <>
       <AlertDialog>
@@ -56,7 +59,7 @@ export default function UserDropdown() {
             <AlertDialogCancel className="border-none text-foreground">
               Cancel
             </AlertDialogCancel>
-            <AlertDialogAction className="bg-red-700">
+            <AlertDialogAction onClick={() => logOut()} className="bg-red-700">
               Signout
             </AlertDialogAction>
           </AlertDialogFooter>

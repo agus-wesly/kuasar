@@ -9,7 +9,7 @@ type AuthState = {
 
 type AccessTokenState = {
   accessToken: string | null
-  setAccessToken: (newToken: string) => void
+  setAccessToken: (newToken: string | null) => void
 }
 
 export const useUser = create<AuthState>((set) => ({
