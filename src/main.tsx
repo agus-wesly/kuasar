@@ -11,6 +11,9 @@ import RegisterPage from './pages/register'
 import HomePage from './pages/home'
 import RequireUnAuth from './layouts/require-unauth'
 import RequireAuth from './layouts/require-auth'
+import VerifyAccount, {
+  loader as VerifyAccountLoader,
+} from './pages/verify-account'
 
 const queryClient = new QueryClient()
 
@@ -37,6 +40,11 @@ const router = createBrowserRouter([
           {
             path: '/register',
             element: <RegisterPage />,
+          },
+          {
+            path: '/verify-account',
+            element: <VerifyAccount />,
+            loader: VerifyAccountLoader,
           },
         ],
       },
