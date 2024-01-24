@@ -25,12 +25,12 @@ export function useRegister() {
   }: z.infer<typeof userRegisterSchema>) {
     try {
       setIsSubmitting(true)
-      await axios.post('/auth/create/client', {
+      const response = await axios.post('/auth/create/client', {
         username,
         email,
         password,
       })
-      navigate('/login')
+      navigate(`/verify-account?email=${response.data.email}`)
     } catch (error) {
       if (error instanceof AxiosError) {
         setErrorRegister(error)

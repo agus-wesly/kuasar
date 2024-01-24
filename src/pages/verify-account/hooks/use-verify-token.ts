@@ -10,16 +10,16 @@ export function useVerifyToken() {
 
   const email = searchParam.get('email')
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    const code = formData.get('code')
+    const token = formData.get('token')
 
     try {
       setIsSubmitting(true)
-      axios.post('/auth/activate-account', {
+      await axios.post('/auth/activate-account', {
         email,
-        code,
+        token,
       })
     } catch (e) {
       if (e instanceof AxiosError) {

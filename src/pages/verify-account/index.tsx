@@ -18,18 +18,19 @@ export default function VerifyAccount({}: Props) {
   const { email, handleSubmit, isSubmitting, error } = useVerifyToken()
 
   return (
-    <main className="container my-10 min-h-[80vh] flex flex-col items-center">
+    <main className="container my-10 min-h-[80vh] flex flex-col items-center max-w-2xl">
       <div className="text-center space-y-2 mb-5">
         <h1 className="text-2xl font-bold">
-          We have sent verification token to{' '}
+          We have sent verification token to {''}
           <span className="text-primary">{email || ''}</span>{' '}
         </h1>
         <p className="text-sm text-muted-foreground">
           Please kindly check it & input it below !
         </p>
       </div>
+
       {error ? (
-        <Alert variant={'destructive'} className="my-5">
+        <Alert variant={'destructive'} className="my-5 w-fit">
           <AlertTitle>Ooopss!</AlertTitle>
           <AlertDescription className="text-xs">
             The code you provide is invalid. Please check again.
@@ -48,8 +49,8 @@ export default function VerifyAccount({}: Props) {
           <Input
             type="text"
             required
-            id="code"
-            name="code"
+            id="token"
+            name="token"
             className="w-48 mx-auto border-[1.5px] text-lg text-center"
           />
           <Button className="mt-5" type="submit">
