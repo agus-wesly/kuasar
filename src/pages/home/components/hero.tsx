@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import GradientHome from './gradient-home'
+import { ReactNode } from 'react'
 
 type Props = {}
 
@@ -19,15 +20,14 @@ export default function Hero({}: Props) {
           Let's Augment the world !
         </p>
 
-        <a
-          href="#"
+        <ExploreMoreButon
           className={cn(
             buttonVariants({ variant: 'default' }),
             'mt-5 rounded-full z-[3] px-7 '
           )}
         >
           Explore more
-        </a>
+        </ExploreMoreButon>
       </div>
 
       <img
@@ -37,5 +37,21 @@ export default function Hero({}: Props) {
 
       <GradientHome />
     </section>
+  )
+}
+
+function ExploreMoreButon(props: { className: string; children: ReactNode }) {
+  return (
+    <button
+      className={cn(
+        'group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-6 font-medium text-neutral-200 transition hover:scale-110 duration-200',
+        props.className
+      )}
+    >
+      {props.children}
+      <div className="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]">
+        <div className="relative h-full w-8 bg-white/20"></div>
+      </div>
+    </button>
   )
 }
