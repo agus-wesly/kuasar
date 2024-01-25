@@ -5,6 +5,7 @@ import useRefreshToken from '@/features/auth/hooks/use-refresh-token'
 import { Loader } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Outlet, ScrollRestoration } from 'react-router-dom'
+import { Toaster } from '@/components/ui/sonner'
 
 function RootLayout() {
   const { refresh } = useRefreshToken()
@@ -27,6 +28,7 @@ function RootLayout() {
     <>
       <Navbar isLoading={isLoadingApp} />
       {isLoadingApp ? <LoadingAppComponent /> : <Outlet />}
+      <Toaster />
       <ScrollRestoration
         getKey={(location) => {
           return location.pathname

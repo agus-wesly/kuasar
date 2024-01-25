@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { LoaderFunctionArgs, redirect } from 'react-router-dom'
-import { useVerifyToken } from './hooks/use-verify-token'
+import { useVerifyCode } from './hooks/use-verify-code'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
 
 type Props = {}
@@ -15,7 +15,7 @@ export function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function VerifyAccount({}: Props) {
-  const { email, handleSubmit, isSubmitting, error } = useVerifyToken()
+  const { email, handleSubmit, isSubmitting, error } = useVerifyCode()
 
   return (
     <main className="container my-10 min-h-[80vh] flex flex-col items-center max-w-2xl">
@@ -25,7 +25,8 @@ export default function VerifyAccount({}: Props) {
           <span className="text-primary">{email || ''}</span>{' '}
         </h1>
         <p className="text-sm text-muted-foreground">
-          Please kindly check it & input it below !
+          Please kindly check it & input it below. Make sure to also check your
+          spam folder!
         </p>
       </div>
 
