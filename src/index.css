@@ -70,4 +70,5 @@
 html {
   min-width: 0;
   min-height: 100vh;
+  scroll-behavior: smooth;
 }

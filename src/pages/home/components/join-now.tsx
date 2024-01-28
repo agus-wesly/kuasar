@@ -19,7 +19,8 @@ export default function JoinNow({}: Props) {
 
         <div className="flex flex-col gap-4">
           <a
-            href="#"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSftVdIwmCgbL1f7VTy01Zpr9kZTJqgJ2MqVs49z46uSZcVN5w/viewform?usp=send_form"
+            target="_blank"
             className={cn(
               buttonVariants({ variant: 'default' }),
               'rounded-full z-[3]  bg-[#471062] hover:bg-[#471062]/90 shadow-md flex-1 mx-auto md:text-base'
@@ -28,7 +29,8 @@ export default function JoinNow({}: Props) {
             Apply Now
           </a>
           <a
-            href="#"
+            href="https://www.tiktok.com/@kuasar.emea"
+            target="_blank"
             className={cn(
               buttonVariants({ variant: 'link' }),
               'text-muted rounded-full z-[3]  flex-1 mx-auto md:text-base'

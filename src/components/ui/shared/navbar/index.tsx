@@ -13,8 +13,7 @@ const UserDropdown = lazy(() => import('./user-dropdown'))
 
 const MENU_ITEMS_DESKTOP = [
   { label: 'For Business', href: '/for-business' },
-  { label: 'For Creators', href: '/' },
-  { label: 'Schedule a Meeting', href: '/' },
+  { label: 'For Creators', href: '/for-creator' },
 ] as const
 
 type Props = {
@@ -63,6 +62,18 @@ export default function Navbar({ isLoading }: Props) {
               {item.label}
             </NavLink>
           ))}
+          <a
+            target="_blank"
+            className={cn(
+              buttonVariants({
+                variant: 'link',
+              }),
+              'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline'
+            )}
+            href="https://calendly.com/kuasar-michaela/30min"
+          >
+            Schedule a meeting
+          </a>
         </div>
 
         <div className="hidden md:flex gap-4">

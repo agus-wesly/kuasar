@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils'
-// import { Card, CardContent, CardFooter } from '../ui/card'
 import { buttonVariants } from '@/components/ui/button'
 import { useProjectsQuery } from '@/features/projects/query'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -9,7 +8,10 @@ type Props = {}
 
 export default function HallOfFame({}: Props) {
   return (
-    <section className="container flex flex-col my-10 mt-20 text-center gap-2">
+    <section
+      id="showcase"
+      className="container flex flex-col my-10 mt-20 text-center gap-2"
+    >
       <h2 className="text-2xl md:text-3xl font-extrabold text-primary">
         AR Hall of Fame
       </h2>
