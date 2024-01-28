@@ -14,6 +14,7 @@ import RequireAuth from './layouts/require-auth'
 import VerifyAccount, {
   loader as VerifyAccountLoader,
 } from './pages/verify-account'
+import NotFoundPage from './pages/not-found'
 
 const queryClient = new QueryClient()
 
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
             element: <ProtectedPage />,
           },
         ],
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },
