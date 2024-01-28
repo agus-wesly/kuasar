@@ -6,7 +6,7 @@ type Props = {}
 function LoginPage({}: Props) {
   return (
     <main className="mb-10 mt-5">
-      <div className="container relative h-[600px] flex-col items-center justify-center md:grid pt-20 md:pt-0 lg:max-w-none lg:grid-cols-2 lg:px-0 md:shadow-md">
+      <div className="container relative h-[600px] flex-col items-center justify-center md:grid pt-20 md:pt-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
         <div className="relative hidden h-full flex-col bg-muted text-white lg:flex overflow-hidden shadow-lg border">
           <img src="/man-with-vr.jpg" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black/30 pointer-events-none" />
