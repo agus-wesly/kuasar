@@ -9,7 +9,7 @@ type Props = {}
 
 export default function ExploreMorePage({}: Props) {
   const query = useInfiniteQuery({
-    queryKey: ['projects'],
+    queryKey: ['infinite', 'projects'],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await axios.get<ProjectResponse>('/projects', {
         params: {
@@ -23,7 +23,7 @@ export default function ExploreMorePage({}: Props) {
     refetchInterval: Infinity,
     refetchOnWindowFocus: false,
     getNextPageParam: (currentProject) => {
-      return currentProject.meta.next ?? undefined
+      return currentProject.meta.next
     },
     initialPageParam: 1,
   })
@@ -36,7 +36,7 @@ export default function ExploreMorePage({}: Props) {
         AR Hall of Fame
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-10 place-items-center md:place-items-center overflow-hidden">
-        {true ? (
+        {query.isLoading ? (
           Array(8)
             .fill(0)
             .map((_, i) => (
