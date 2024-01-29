@@ -1,6 +1,6 @@
 import './index.css'
 
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import RootLayout from './pages/root'
@@ -15,7 +15,7 @@ import VerifyAccount, {
   loader as VerifyAccountLoader,
 } from './pages/verify-account'
 import NotFoundPage from './pages/not-found'
-import ExploreMorePage from './pages/explore-more'
+const ExploreMorePage = lazy(() => import('./pages/explore-more'))
 
 const queryClient = new QueryClient()
 
@@ -34,7 +34,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/explore-more',
-        element: <ExploreMorePage />,
+        element: (
+          <Suspense fallback={null}>
+            <ExploreMorePage />
+          </Suspense>
+        ),
       },
       {
         element: <RequireUnAuth />,
