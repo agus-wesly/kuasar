@@ -23,7 +23,7 @@ export default function HallOfFame({}: Props) {
       <ProjectShowcaseSection />
 
       <Link
-        to="/hall-of-fame"
+        to="/explore-more"
         className={cn(
           buttonVariants({ variant: 'outline' }),
           'mt-5 rounded-full z-[3] px-7 w-fit mx-auto'

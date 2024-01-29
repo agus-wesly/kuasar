@@ -7,7 +7,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 
 type Props = {}
 
-export default function HallOfFamePage({}: Props) {
+export default function ExploreMorePage({}: Props) {
   const query = useInfiniteQuery({
     queryKey: ['projects'],
     queryFn: async ({ pageParam = 1 }) => {
