@@ -3,6 +3,8 @@ import { buttonVariants } from '@/components/ui/button'
 import { useProjectsQuery } from '@/features/projects/query'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Project } from '@/features/projects/types/project'
+import { Link } from 'react-router-dom'
+import { CardARCreation } from '@/features/projects/components/card-ar-creation'
 
 type Props = {}
 
@@ -20,15 +22,15 @@ export default function HallOfFame({}: Props) {
 
       <ProjectShowcaseSection />
 
-      <a
-        href="#"
+      <Link
+        to="/hall-of-fame"
         className={cn(
           buttonVariants({ variant: 'outline' }),
           'mt-5 rounded-full z-[3] px-7 w-fit mx-auto'
         )}
       >
         Explore more
-      </a>
+      </Link>
     </section>
   )
 }
@@ -66,31 +68,6 @@ function ProjectShowcaseSection() {
             )
           })
         : null}
-    </div>
-  )
-}
-
-function CardARCreation(
-  props: Pick<Project, 'created_by' | 'video' | 'title'>
-) {
-  return (
-    <div className="w-full max-w-60 md:max-w-none rounded-lg overflow-hidden shadow-md relative">
-      <div className="flex w-full bg-purple-100 aspect-[9/16] items-center justify-center p-0">
-        {/* PLAYER HERE */}
-        <video
-          preload="none"
-          controls
-          autoPlay={true}
-          loop={false}
-          playsInline={true}
-          src={props.video}
-          muted
-          crossOrigin="anonymous"
-        ></video>
-      </div>
-      <div className="p-4 text-xs text-center flex items-center justify-center">
-        Created by {props.created_by}
-      </div>
     </div>
   )
 }

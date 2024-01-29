@@ -15,6 +15,7 @@ import VerifyAccount, {
   loader as VerifyAccountLoader,
 } from './pages/verify-account'
 import NotFoundPage from './pages/not-found'
+import HallOfFamePage from './pages/hall-of-fame'
 
 const queryClient = new QueryClient()
 
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: '/for-business',
         element: <ForBusinessPage />,
+      },
+      {
+        path: '/hall-of-fame',
+        element: <HallOfFamePage />,
       },
       {
         element: <RequireUnAuth />,
