@@ -4,7 +4,6 @@ import React, { Suspense, lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import RootLayout from './pages/root'
-import ForBusinessPage from './pages/for-business'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import LoginPage from './pages/login'
 import RegisterPage from './pages/register'
@@ -15,7 +14,9 @@ import VerifyAccount, {
   loader as VerifyAccountLoader,
 } from './pages/verify-account'
 import NotFoundPage from './pages/not-found'
+
 const ExploreMorePage = lazy(() => import('./pages/explore-more'))
+const ForBusinessPage = lazy(() => import('./pages/for-business'))
 
 const queryClient = new QueryClient()
 
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/for-business',
-        element: <ForBusinessPage />,
+        element: (
+          <Suspense fallback={null}>
+            <ForBusinessPage />
+          </Suspense>
+        ),
       },
       {
         path: '/explore-more',
