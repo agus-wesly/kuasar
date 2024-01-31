@@ -1,7 +1,9 @@
 import withPageTransition from '@/components/hoc/with-page-transition'
 import HallOfFame from './components/hall-of-fame'
 import Hero from './components/hero'
-import JoinNow from './components/join-now'
+import { lazy } from 'react'
+
+const JoinNow = lazy(() => import('./components/join-now'))
 
 function App() {
   return (
