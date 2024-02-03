@@ -14,6 +14,9 @@ import VerifyAccount, {
   loader as VerifyAccountLoader,
 } from './pages/verify-account'
 import NotFoundPage from './pages/not-found'
+import DashboardPageLayout from './layouts/dashboard-layout'
+import LandingPageLayout from './layouts/landing-page-layout'
+import DashboardPage, { DashboardIndexPage } from './pages/dashboard'
 
 const ExploreMorePage = lazy(() => import('./pages/explore-more'))
 const ForBusinessPage = lazy(() => import('./pages/for-business'))
@@ -26,40 +29,45 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: '/for-business',
-        element: (
-          <Suspense fallback={null}>
-            <ForBusinessPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: '/explore-more',
-        element: (
-          <Suspense fallback={null}>
-            <ExploreMorePage />
-          </Suspense>
-        ),
-      },
-      {
-        element: <RequireUnAuth />,
+        element: <LandingPageLayout />,
         children: [
           {
-            path: '/login',
-            element: <LoginPage />,
+            index: true,
+            element: <HomePage />,
           },
           {
-            path: '/register',
-            element: <RegisterPage />,
+            path: '/for-business',
+            element: (
+              <Suspense fallback={null}>
+                <ForBusinessPage />
+              </Suspense>
+            ),
           },
           {
-            path: '/verify-account',
-            element: <VerifyAccount />,
-            loader: VerifyAccountLoader,
+            path: '/explore-more',
+            element: (
+              <Suspense fallback={null}>
+                <ExploreMorePage />
+              </Suspense>
+            ),
+          },
+          {
+            element: <RequireUnAuth />,
+            children: [
+              {
+                path: '/login',
+                element: <LoginPage />,
+              },
+              {
+                path: '/register',
+                element: <RegisterPage />,
+              },
+              {
+                path: '/verify-account',
+                element: <VerifyAccount />,
+                loader: VerifyAccountLoader,
+              },
+            ],
           },
         ],
       },
@@ -67,8 +75,19 @@ const router = createBrowserRouter([
         element: <RequireAuth />,
         children: [
           {
-            path: '/protected',
-            element: <ProtectedPage />,
+            element: <DashboardPageLayout />,
+            children: [
+              {
+                path: '/dashboard',
+                element: <DashboardPage />,
+                children: [
+                  {
+                    index: true,
+                    element: <DashboardIndexPage />,
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
@@ -79,10 +98,6 @@ const router = createBrowserRouter([
     ],
   },
 ])
-
-function ProtectedPage() {
-  return <div>Protectd page</div>
-}
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

@@ -7,7 +7,6 @@ import { useUser } from '@/features/auth/hooks/use-auth'
 import { useShallow } from 'zustand/react/shallow'
 
 import { Suspense, lazy } from 'react'
-import { Skeleton } from '../../skeleton'
 const SidebarMobile = lazy(() => import('./sidebar-mobile'))
 const UserDropdown = lazy(() => import('./user-dropdown'))
 
@@ -16,11 +15,7 @@ const MENU_ITEMS_DESKTOP = [
   { label: 'For Creators', href: '/for-creator' },
 ] as const
 
-type Props = {
-  isLoading: boolean
-}
-
-export default function Navbar({ isLoading }: Props) {
+export default function NavbarLandingPage() {
   const scrolled = useScroll(20)
   const user = useUser(useShallow((state) => state.user))
 
@@ -77,9 +72,7 @@ export default function Navbar({ isLoading }: Props) {
         </div>
 
         <div className="hidden md:flex gap-4">
-          {isLoading ? (
-            <Skeleton className="w-28 h-8" />
-          ) : user ? (
+          {user ? (
             <Suspense fallback={null}>
               <UserDropdown />
             </Suspense>

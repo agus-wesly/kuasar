@@ -17,10 +17,11 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 
-import { ChevronDown, LogOut } from 'lucide-react'
+import { ChevronDown, LayoutDashboard, LogOut } from 'lucide-react'
 import { useLogout } from '@/features/auth/hooks/use-logout'
 import { useUser } from '@/features/auth/hooks/use-auth'
 import { useShallow } from 'zustand/react/shallow'
+import { Link } from 'react-router-dom'
 
 export default function UserDropdown() {
   const { logOut } = useLogout()
@@ -39,6 +40,20 @@ export default function UserDropdown() {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <AlertDialogTrigger asChild>
+              <DropdownMenuItem asChild>
+                <Link
+                  to={'/dashboard'}
+                  className="flex gap-2 w-full cursor-pointer"
+                >
+                  <span>
+                    <LayoutDashboard width={16} height={16} />
+                  </span>
+                  <span>Dashboard</span>
+                </Link>
+              </DropdownMenuItem>
+            </AlertDialogTrigger>
+
             <AlertDialogTrigger asChild>
               <DropdownMenuItem asChild>
                 <button className="flex gap-2 w-full cursor-pointer">

@@ -1,5 +1,4 @@
 import Footer from '@/components/ui/shared/footer'
-import Navbar from '@/components/ui/shared/navbar'
 import { useUser } from '@/features/auth/hooks/use-auth'
 import useRefreshToken from '@/features/auth/hooks/use-refresh-token'
 import { Loader } from 'lucide-react'
@@ -26,7 +25,6 @@ function RootLayout() {
 
   return (
     <>
-      <Navbar isLoading={isLoadingApp} />
       {isLoadingApp ? <LoadingAppComponent /> : <Outlet />}
       <Toaster />
       <ScrollRestoration
