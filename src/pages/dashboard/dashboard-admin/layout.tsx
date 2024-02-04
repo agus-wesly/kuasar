@@ -7,7 +7,7 @@ type Props = {}
 
 export default function DashboardAdmin({}: Props) {
   return (
-    <main className="container flex flex-col md:flex-row min-h-screen py-2 gap-5 md:gap-20">
+    <main className="container flex flex-col md:flex-row min-h-screen py-2 gap-5 md:gap-10">
       <ul className="flex flex-row md:gap-5 md:flex-col justify-between md:justify-start text-sm">
         <li>
           <NavLink
