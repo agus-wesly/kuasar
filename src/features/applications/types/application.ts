@@ -1,1 +1,18 @@
-export type Application = any
+export type Application = {
+  name: string
+  email: string
+  phone_number: string
+  address: string
+  linkedin: string
+  instagram: string
+  type_creator: string
+  AR_publications_count: number
+  AR_monetize: boolean
+  AR_publication_platform: string
+  AR_tools: string
+  AR_type: string
+  AR_asset: boolean
+  AR_3D_asset: number
+  AR_Skills: string
+  jod_id: number
+}

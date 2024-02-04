@@ -16,7 +16,13 @@ import VerifyAccount, {
 import NotFoundPage from './pages/not-found'
 import DashboardPageLayout from './layouts/dashboard-layout'
 import LandingPageLayout from './layouts/landing-page-layout'
-import DashboardPage, { DashboardIndexPage } from './pages/dashboard'
+import DashboardPage, {
+  DashboardApplicationsPage,
+  DashboardIndexPage,
+  DashboardJobsPage,
+  DashboardProjectsPage,
+} from './pages/dashboard'
+import DashboardAdminApplicationCreate from './pages/dashboard/dashboard-admin/applications/create'
 
 const ExploreMorePage = lazy(() => import('./pages/explore-more'))
 const ForBusinessPage = lazy(() => import('./pages/for-business'))
@@ -85,6 +91,24 @@ const router = createBrowserRouter([
                     index: true,
                     element: <DashboardIndexPage />,
                   },
+                  {
+                    path: 'projects',
+                    element: <DashboardProjectsPage />,
+                  },
+                  {
+                    path: 'applications',
+                    children: [
+                      { index: true, element: <DashboardApplicationsPage /> },
+                      {
+                        path: 'create',
+                        element: <DashboardAdminApplicationCreate />,
+                      },
+                    ],
+                  },
+                  {
+                    path: 'jobs',
+                    element: <DashboardJobsPage />,
+                  },
                 ],
               },
             ],
@@ -98,6 +122,10 @@ const router = createBrowserRouter([
     ],
   },
 ])
+
+function TesEl() {
+  return <p>Hi</p>
+}
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

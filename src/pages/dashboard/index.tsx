@@ -3,6 +3,9 @@ import DashboardAdmin from './dashboard-admin/layout'
 import DashboardFreelancerIndexPage from './dashboard-freelancer'
 import DashboardAdminIndexPage from './dashboard-admin'
 import DashboardFreelancer from './dashboard-freelancer/layout'
+import DashboardAdminProjectsPage from './dashboard-admin/projects'
+import DashboardAdminApplicationsPage from './dashboard-admin/applications'
+import DashboardAdminJobsPage from './dashboard-admin/jobs'
 
 type Props = {}
 
@@ -22,6 +25,36 @@ export function DashboardIndexPage() {
 
   if (role === 'ADMIN') return <DashboardAdminIndexPage />
   if (role === 'FREELANCER') return <DashboardFreelancerIndexPage />
+
+  return null
+}
+
+export function DashboardProjectsPage() {
+  const role = useUser((state) => state.user?.role)
+  if (!role) return null
+
+  if (role === 'ADMIN') return <DashboardAdminProjectsPage />
+  // if (role === 'FREELANCER') return <DashboardFreelancerIndexPage />
+
+  return null
+}
+
+export function DashboardApplicationsPage() {
+  const role = useUser((state) => state.user?.role)
+  if (!role) return null
+
+  if (role === 'ADMIN') return <DashboardAdminApplicationsPage />
+  // if (role === 'FREELANCER') return <DashboardFreelancerIndexPage />
+
+  return null
+}
+
+export function DashboardJobsPage() {
+  const role = useUser((state) => state.user?.role)
+  if (!role) return null
+
+  if (role === 'ADMIN') return <DashboardAdminJobsPage />
+  // if (role === 'FREELANCER') return <DashboardFreelancerIndexPage />
 
   return null
 }

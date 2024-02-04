@@ -1,6 +1,6 @@
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { Briefcase, HomeIcon, PieChart } from 'lucide-react'
+import { AppWindow, Briefcase, HomeIcon, PieChart } from 'lucide-react'
 import { NavLink, Outlet } from 'react-router-dom'
 
 type Props = {}
@@ -21,11 +21,31 @@ export default function DashboardAdmin({}: Props) {
               )
             }
             to="/dashboard"
+            end
           >
             <span>
               <HomeIcon className="text-current size-4" />
             </span>
             Overview
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={({ isActive }) =>
+              cn(
+                buttonVariants({ variant: 'ghost' }),
+                'flex flex-col justify-center hover:bg-neutral-200 text-neutral-700 hover:text-foreground py-6 text-xs md:py-8 md:text-sm',
+                {
+                  'bg-muted text-black': isActive,
+                }
+              )
+            }
+            to="/dashboard/applications"
+          >
+            <span>
+              <AppWindow className="text-current size-4" />
+            </span>
+            Applications
           </NavLink>
         </li>
         <li>
