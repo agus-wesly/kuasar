@@ -123,10 +123,6 @@ const router = createBrowserRouter([
   },
 ])
 
-function TesEl() {
-  return <p>Hi</p>
-}
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
