@@ -1,7 +1,4 @@
-import { buttonVariants } from '@/components/ui/button'
 // import { useApplicationsQuery } from '@/features/applications/query'
-import { cn } from '@/lib/utils'
-import { Link } from 'react-router-dom'
 
 type Props = {}
 
@@ -18,9 +15,9 @@ export default function DashboardAdminApplicationsPage({}: Props) {
           </p>
         </div>
 
-        <Link to={'create'} className={cn(buttonVariants({}))}>
+        {/* <Link to={'create'} className={cn(buttonVariants({}))}>
           Create
-        </Link>
+        </Link> */}
       </div>
 
       <ApplicationList />

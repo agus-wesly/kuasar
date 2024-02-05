@@ -4,7 +4,7 @@ import { applicationsSchema } from '@/features/applications/schema/applications'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AxiosError } from 'axios'
 import { axios } from '@/plugin/axios'
 import {
@@ -16,9 +16,24 @@ import {
 } from '@/components/ui/select'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
+import { useUser } from '@/features/auth/hooks/use-auth'
+import { useNavigate } from 'react-router-dom'
+
 type Props = {}
 
 export default function DashboardAdminApplicationCreate({}: Props) {
+  const role = useUser((state) => state.user?.role) ?? ''
+  const navigate = useNavigate()
+
+  useEffect(
+    function checkUserRole() {
+      if (role !== 'FREELANCER') {
+        navigate('/dashboard')
+      }
+    },
+    [role]
+  )
+
   return (
     <div className="w-full">
       <div className="flex items-center justify-between">
@@ -131,12 +146,12 @@ function NewApplicationForm() {
         <div className="grid gap-1">
           <label htmlFor="creatorType">Creator Type</label>
 
-          <Select {...form.register('type_creator')}>
+          <Select>
             <SelectTrigger>
               <SelectValue placeholder="AR Monetize"></SelectValue>
             </SelectTrigger>
 
-            <SelectContent id="creatorType">
+            <SelectContent {...form.register('type_creator')} id="creatorType">
               {(['Professional', 'SideHustle', 'Hobby'] as const).map(
                 (item) => (
                   <SelectItem key={item} value={item}>
@@ -172,12 +187,12 @@ function NewApplicationForm() {
         <div className="grid gap-1">
           <label htmlFor="arMonetize">AR Monetize</label>
 
-          <Select {...form.register('AR_monetize')}>
+          <Select>
             <SelectTrigger>
               <SelectValue placeholder="AR Monetize"></SelectValue>
             </SelectTrigger>
 
-            <SelectContent id="arMonetize">
+            <SelectContent {...form.register('AR_monetize')} id="arMonetize">
               <SelectItem value="true">Yes</SelectItem>
               <SelectItem value="false">No</SelectItem>
             </SelectContent>
