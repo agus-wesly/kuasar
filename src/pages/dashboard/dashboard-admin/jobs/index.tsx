@@ -68,7 +68,6 @@ function JobList() {
   const { data: dataJobs, isLoading: isLoadingJob } = useJobsQuery()
   const { data: dataJobTypes, isLoading: isLoadingJobType } = useJobTypesQuery()
 
-  // if (isLoadingJob || isLoadingJobType) return <p>Loading...</p>
   if (isLoadingJob || isLoadingJobType) return <LoadingJobSkeleton />
 
   const jobs = dataJobs?.data ?? []
@@ -76,7 +75,7 @@ function JobList() {
 
   return (
     <div className="border rounded-xl divide-y-[1px] h-fit flex flex-col gap-5 max-h-full overflow-y-scroll pb-20">
-      {jobs.map((job) => {
+      {[...jobs].reverse().map((job) => {
         const jobType =
           jobTypes.find((item) => item.id === job.type_id)?.type || ''
         return <JobItemCard key={job.id} {...job} jobType={jobType} />

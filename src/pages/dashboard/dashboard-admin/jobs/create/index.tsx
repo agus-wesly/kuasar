@@ -14,10 +14,12 @@ import { useJobTypesQuery } from '@/features/jobs/query'
 import { jobCreateSchema } from '@/features/jobs/schema/job'
 import { axios } from '@/plugin/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -146,7 +148,8 @@ function useCreateNewJob() {
     }> | null>(null)
 
   const accessToken = useAccessToken((state) => state.accessToken)
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const handleCreateNewJob = form.handleSubmit(async (data) => {
     try {
@@ -165,11 +168,13 @@ function useCreateNewJob() {
       toast('Successfully created  ✅', {
         description: 'New job has been created !',
       })
+      navigate('/dashboard/jobs')
     } catch (error) {
       if (error instanceof AxiosError) {
         setErrorCreateNewApplication(error)
       }
     } finally {
+      queryClient.invalidateQueries({ queryKey: ['jobs'] })
       setIsSubmitting(false)
     }
   })
