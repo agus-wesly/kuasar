@@ -25,7 +25,6 @@
     "iconsax-react": "^0.0.8",
     "lucide-react": "^0.309.0",
     "react": "^18.2.0",
-    "react-day-picker": "^8.10.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.3",
     "react-parallax-tilt": "^1.7.209",
