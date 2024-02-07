@@ -1,10 +1,10 @@
-import { buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useJobTypesQuery, useJobsQuery } from '@/features/jobs/query'
 import { Job } from '@/features/jobs/types/job'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/utils/formatDate'
-import { SearchIcon } from 'lucide-react'
+import { PencilLine, SearchIcon, Trash, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 type Props = {}
@@ -89,15 +89,23 @@ function JobItemCard(props: Job & { jobType: string }) {
     <div className=" p-4">
       <div className="flex justify-between items-center mb-3">
         <p className="text-primary md:text-lg font-semibold">{props.title}</p>
-        <Link
-          className={cn(
-            buttonVariants({ variant: 'outline' }),
-            'text-xs md:text-sm py-2 h-min border-muted'
-          )}
-          to={'/job/edit'}
-        >
-          Edit Job
-        </Link>
+        <div className="space-x-2">
+          <Link
+            className={cn(
+              buttonVariants({ variant: 'outline' }),
+              'text-xs md:text-sm py-2 h-min border-muted'
+            )}
+            to={'/job/edit'}
+          >
+            <PencilLine className="w-5 h-5" />
+          </Link>
+          <Button
+            variant={'destructive'}
+            className={cn('text-xs md:text-sm py-2 h-min border-muted')}
+          >
+            <Trash2 className="w-5 h-5" />
+          </Button>
+        </div>
       </div>
 
       <div className="text-xs md:text-sm text-muted-foreground flex flex-col gap-2">
