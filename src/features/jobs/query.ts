@@ -25,3 +25,16 @@ export function useJobTypesQuery() {
     },
   })
 }
+
+export function useJobDetailQuery({ id }: { id: string | undefined }) {
+  return useQuery({
+    queryKey: ['jobs', id],
+    queryFn: async () => {
+      const response = await axios.get<{
+        data: Job
+      }>(`/jobs/${id}/detail`)
+      return response.data
+    },
+    enabled: !!id,
+  })
+}

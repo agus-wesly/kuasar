@@ -95,7 +95,7 @@ function JobItemCard(props: Job & { jobType: string }) {
               buttonVariants({ variant: 'outline' }),
               'text-xs md:text-sm py-2 h-min border-muted'
             )}
-            to={'/job/edit'}
+            to={`/dashboard/jobs/update/${props.id}`}
           >
             <PencilLine className="size-4 md:size-5" />
           </Link>

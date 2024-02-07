@@ -13,6 +13,7 @@ import { useAccessToken } from '@/features/auth/hooks/use-auth'
 import { useJobTypesQuery } from '@/features/jobs/query'
 import { jobCreateSchema } from '@/features/jobs/schema/job'
 import { axios } from '@/plugin/axios'
+import { transformDateToYMD } from '@/utils/formatDate'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -188,13 +189,4 @@ function useCreateNewJob() {
     form,
     errorCreateNewApplication,
   }
-}
-
-function transformDateToYMD(date: Date) {
-  const year = date.getFullYear()
-  let month: string | number = date.getMonth() + 1
-  month = month < 10 ? '0' + month : month
-  let day: string | number = date.getDate()
-  day = day < 10 ? '0' + day : day
-  return `${year}-${month}-${day}`
 }
