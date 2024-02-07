@@ -75,21 +75,19 @@ function JobList() {
   const jobTypes = dataJobTypes?.data ?? []
 
   return (
-    <div className="border rounded-xl p-4 h-fit max-h-full">
-      <div className="flex flex-col gap-5 h-full overflow-y-scroll pb-20">
-        {jobs.map((job) => {
-          const jobType =
-            jobTypes.find((item) => item.id === job.type_id)?.type || ''
-          return <JobItemCard key={job.id} {...job} jobType={jobType} />
-        })}
-      </div>
+    <div className="border rounded-xl divide-y-[1px] h-fit flex flex-col gap-5 max-h-full overflow-y-scroll pb-20">
+      {jobs.map((job) => {
+        const jobType =
+          jobTypes.find((item) => item.id === job.type_id)?.type || ''
+        return <JobItemCard key={job.id} {...job} jobType={jobType} />
+      })}
     </div>
   )
 }
 
 function JobItemCard(props: Job & { jobType: string }) {
   return (
-    <div>
+    <div className=" p-4">
       <div className="flex justify-between items-center mb-3">
         <p className="text-primary md:text-lg font-semibold">{props.title}</p>
         <Link
