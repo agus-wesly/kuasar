@@ -311,7 +311,7 @@ function NewApplicationForm() {
           )}
         </div>
 
-        <Button className="w-fit px-8">
+        <Button className="px-8">
           {/* {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} */}
           Register Now
         </Button>

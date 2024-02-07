@@ -24,6 +24,7 @@ import DashboardPage, {
 } from './pages/dashboard'
 
 import DashboardAdminApplicationCreate from './pages/dashboard/dashboard-admin/applications/create'
+import DashboardJobCreatePage from './pages/dashboard/dashboard-admin/jobs/create'
 
 const ExploreMorePage = lazy(() => import('./pages/explore-more'))
 const ForBusinessPage = lazy(() => import('./pages/for-business'))
@@ -108,7 +109,16 @@ const router = createBrowserRouter([
                   },
                   {
                     path: 'jobs',
-                    element: <DashboardJobsPage />,
+                    children: [
+                      {
+                        index: true,
+                        element: <DashboardJobsPage />,
+                      },
+                      {
+                        path: 'create',
+                        element: <DashboardJobCreatePage />,
+                      },
+                    ],
                   },
                 ],
               },
