@@ -4,14 +4,14 @@ import { useJobTypesQuery, useJobsQuery } from '@/features/jobs/query'
 import { Job } from '@/features/jobs/types/job'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/utils/formatDate'
-import { PencilLine, SearchIcon, Trash, Trash2 } from 'lucide-react'
+import { PencilLine, SearchIcon, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 type Props = {}
 
 export default function DashboardAdminJobsPage({}: Props) {
   return (
-    <div className="max-h-[80vh] w-full">
+    <div className="max-h-full md:max-h-[80vh] w-full">
       <div className="w-full flex items-center justify-between">
         <div>
           <h3 className="font-semibold text-lg md:text-2xl text-primary">
@@ -74,7 +74,7 @@ function JobList() {
   const jobTypes = dataJobTypes?.data ?? []
 
   return (
-    <div className="border rounded-xl divide-y-[1px] h-fit flex flex-col gap-5 max-h-full overflow-y-scroll pb-20">
+    <div className="border rounded-xl divide-y-[1px] h-fit flex flex-col gap-5 max-h-full overflow-y-scroll md:pb-20">
       {[...jobs].reverse().map((job) => {
         const jobType =
           jobTypes.find((item) => item.id === job.type_id)?.type || ''
@@ -97,13 +97,13 @@ function JobItemCard(props: Job & { jobType: string }) {
             )}
             to={'/job/edit'}
           >
-            <PencilLine className="w-5 h-5" />
+            <PencilLine className="size-4 md:size-5" />
           </Link>
           <Button
             variant={'destructive'}
             className={cn('text-xs md:text-sm py-2 h-min border-muted')}
           >
-            <Trash2 className="w-5 h-5" />
+            <Trash2 className="size-4 md:size-5" />
           </Button>
         </div>
       </div>

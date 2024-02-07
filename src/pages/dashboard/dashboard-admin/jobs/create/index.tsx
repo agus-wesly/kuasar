@@ -43,7 +43,7 @@ export default function DashboardJobCreatePage({}: Props) {
         </div>
       </div>
 
-      <div className="p-5 rounded-xl shadow-sm mb-5">
+      <div className="p-0 rounded-xl shadow-sm mb-5">
         <form onSubmit={handleCreateNewJob} className="w-full max-w-lg my-5">
           <fieldset disabled={isSubmitting} className="grid gap-4 text-sm">
             <div className="grid gap-1">
