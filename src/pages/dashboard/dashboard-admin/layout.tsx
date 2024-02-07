@@ -40,6 +40,25 @@ export default function DashboardAdmin({}: Props) {
                 }
               )
             }
+            to="/dashboard/jobs"
+          >
+            <span>
+              <Briefcase className="text-current size-4" />
+            </span>
+            Jobs
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={({ isActive }) =>
+              cn(
+                buttonVariants({ variant: 'ghost' }),
+                'flex flex-col justify-center hover:bg-neutral-200 text-neutral-700 hover:text-foreground py-6 text-xs md:py-8 md:text-sm',
+                {
+                  'bg-muted text-black': isActive,
+                }
+              )
+            }
             to="/dashboard/applications"
           >
             <span>
@@ -65,25 +84,6 @@ export default function DashboardAdmin({}: Props) {
               <PieChart className="text-current size-4" />
             </span>
             Projects
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className={({ isActive }) =>
-              cn(
-                buttonVariants({ variant: 'ghost' }),
-                'flex flex-col justify-center hover:bg-neutral-200 text-neutral-700 hover:text-foreground py-6 text-xs md:py-8 md:text-sm',
-                {
-                  'bg-muted text-black': isActive,
-                }
-              )
-            }
-            to="/dashboard/jobs"
-          >
-            <span>
-              <Briefcase className="text-current size-4" />
-            </span>
-            Jobs
           </NavLink>
         </li>
       </ul>

@@ -1,5 +1,5 @@
 import { axios } from '@/plugin/axios'
-import { Job } from './types/job'
+import { Job, JobType } from './types/job'
 import { useQuery } from '@tanstack/react-query'
 
 export function useJobsQuery() {
@@ -9,6 +9,18 @@ export function useJobsQuery() {
       const response = await axios.get<{
         data: Array<Job>
       }>('/jobs')
+      return response.data
+    },
+  })
+}
+
+export function useJobTypesQuery() {
+  return useQuery({
+    queryKey: ['jobs/types'],
+    queryFn: async () => {
+      const response = await axios.get<{
+        data: Array<JobType>
+      }>('/jobs/types')
       return response.data
     },
   })
