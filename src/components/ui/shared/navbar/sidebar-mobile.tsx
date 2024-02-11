@@ -1,4 +1,4 @@
-import { HambergerMenu } from 'iconsax-react'
+import { Menu } from 'lucide-react'
 import {
   Sheet,
   SheetClose,
@@ -43,7 +43,7 @@ export default function SidebarMobile() {
         <Sheet>
           <SheetTrigger asChild>
             <button>
-              <HambergerMenu size="24" color="purple" />
+              <Menu className="size-6 text-purple-600" size="24" />
             </button>
           </SheetTrigger>
           <SheetContent>
