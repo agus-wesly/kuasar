@@ -10,18 +10,13 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import { useAccessToken } from '@/features/auth/hooks/use-auth'
+import { useCreateJobMutation } from '@/features/jobs/mutation'
 import { useJobTypesQuery } from '@/features/jobs/query'
 import { jobCreateSchema } from '@/features/jobs/schema/job'
-import { axios } from '@/plugin/axios'
 import { transformDateToYMD } from '@/utils/formatDate'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
 import { Loader2 } from 'lucide-react'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 type Props = {}
@@ -141,50 +136,26 @@ function useCreateNewJob() {
   const form = useForm<z.infer<typeof jobCreateSchema>>({
     resolver: zodResolver(jobCreateSchema),
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [errorCreateNewApplication, setErrorCreateNewApplication] =
-    useState<AxiosError<{
-      message: string
-      statusCode: number
-    }> | null>(null)
 
   const accessToken = useAccessToken((state) => state.accessToken)
-  const navigate = useNavigate()
-  const queryClient = useQueryClient()
+  const {
+    mutateAsync,
+    isPending,
+    error: errorCreateNewApplication,
+  } = useCreateJobMutation()
 
   const handleCreateNewJob = form.handleSubmit(async (data) => {
-    try {
-      setIsSubmitting(true)
-      await axios.post(
-        '/jobs/create',
-        {
-          ...data,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      toast('Successfully created  ✅', {
-        description: 'New job has been created !',
-      })
-      navigate('/dashboard/jobs')
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setErrorCreateNewApplication(error)
-      }
-    } finally {
-      queryClient.invalidateQueries({ queryKey: ['jobs'] })
-      setIsSubmitting(false)
-    }
+    await mutateAsync({
+      accessToken,
+      newJob: data,
+    })
   })
 
   const errors = form.formState.errors
 
   return {
     handleCreateNewJob,
-    isSubmitting,
+    isSubmitting: isPending,
     errors,
     form,
     errorCreateNewApplication,
