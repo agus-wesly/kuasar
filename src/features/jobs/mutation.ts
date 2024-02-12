@@ -49,6 +49,43 @@ export function useCreateJobMutation() {
   })
 }
 
+export function useUpdateJobMutation() {
+  const queryClient = useQueryClient()
+  const navigate = useNavigate()
+  const accessToken = useAccessToken((state) => state.accessToken)
+
+  return useMutation({
+    mutationFn: async (
+      newJob: Pick<Job, 'title' | 'description' | 'deadline' | 'type_id' | 'id'>
+    ) => {
+      return await axios.patch(`/jobs/${newJob.id}/update`, newJob, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['jobs'] })
+    },
+    onSuccess: () => {
+      toast('Successfully updated ✅', {
+        description: 'Job has been updated!',
+      })
+      navigate('/dashboard/jobs')
+    },
+    onError: (error) => {
+      console.log('e', error)
+      let message = 'Unknown error. Please try again later'
+      if (error instanceof AxiosError) {
+        message = error.response?.data.message
+      }
+      toast.error('Failed to create new Job ❌', {
+        description: message,
+      })
+    },
+  })
+}
+
 export function useDeleteJobMutation() {
   const queryClient = useQueryClient()
   const accessToken = useAccessToken((state) => state.accessToken)
@@ -65,7 +102,7 @@ export function useDeleteJobMutation() {
       queryClient.invalidateQueries({ queryKey: ['jobs'] })
     },
     onSuccess: () => {
-      toast('Successfully deleted ✅', {
+      toast('Successfully deleted  ✅', {
         description: 'Job has been deleted !',
       })
     },

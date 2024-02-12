@@ -9,20 +9,15 @@ import {
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
-import { useAccessToken } from '@/features/auth/hooks/use-auth'
+import { useUpdateJobMutation } from '@/features/jobs/mutation'
 import { useJobDetailQuery, useJobTypesQuery } from '@/features/jobs/query'
 import { jobCreateSchema } from '@/features/jobs/schema/job'
 import { Job } from '@/features/jobs/types/job'
-import { axios } from '@/plugin/axios'
 import { transformDateToYMD } from '@/utils/formatDate'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
 import { Loader2 } from 'lucide-react'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate, useParams } from 'react-router-dom'
-import { toast } from 'sonner'
+import { useParams } from 'react-router-dom'
 import { z } from 'zod'
 
 type Props = {}
@@ -57,6 +52,8 @@ function UpdateJobForm({ initialJobDetail }: { initialJobDetail: Job }) {
   const { form, handleUpdateJob, isSubmitting, errors } =
     useUpdateJob(initialJobDetail)
   const { data, isLoading: isLoadingJobType } = useJobTypesQuery()
+
+  console.log('rerender')
 
   const jobTypes = data?.data ?? []
 
@@ -94,13 +91,17 @@ function UpdateJobForm({ initialJobDetail }: { initialJobDetail: Job }) {
         <div className="grid gap-1">
           <label htmlFor="deadline">Deadline</label>
           <Input
-            id="title"
+            id="deadline"
             placeholder="Job deadline..."
             type="date"
             min={transformDateToYMD(new Date())}
-            {...form.register('deadline')}
+            value={transformDateToYMD(new Date(form.getValues('deadline')))}
+            onChange={(e) => {
+              form.setValue('deadline', e.target.value, {
+                shouldValidate: true,
+              })
+            }}
           />
-
           {errors.deadline && (
             <p className="text-xs text-destructive">
               {errors.deadline.message}
@@ -116,6 +117,7 @@ function UpdateJobForm({ initialJobDetail }: { initialJobDetail: Job }) {
               <label htmlFor="jobtype">Job Type</label>
               <Select
                 onValueChange={(e) => form.setValue('type_id', Number(e))}
+                defaultValue={String(form.getValues('type_id'))}
               >
                 <SelectTrigger id="jobtype">
                   <SelectValue placeholder="Select job type"></SelectValue>
@@ -153,47 +155,22 @@ function useUpdateJob(jobDetail: Job) {
     },
   })
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const accessToken = useAccessToken((state) => state.accessToken)
-  const navigate = useNavigate()
-  const queryClient = useQueryClient()
+  const { mutate, isPending: isUpdatingJob } = useUpdateJobMutation()
+  const params = useParams()
 
   const handleUpdateJob = form.handleSubmit(async (data) => {
-    try {
-      setIsSubmitting(true)
-      await axios.post(
-        '/jobs/create',
-        {
-          ...data,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      toast('Successfully updated  ✅', {
-        description: 'Job has been updated !',
-      })
-      navigate('/dashboard/jobs')
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast.error('Update failed  ❌', {
-          description: 'An unexpected error ocured. Please try again later !',
-        })
-      }
-    } finally {
-      queryClient.invalidateQueries({ queryKey: ['jobs', jobDetail.id] })
-      setIsSubmitting(false)
-    }
+    if (!params.id) return
+    mutate({
+      ...data,
+      id: Number(params.id),
+    })
   })
 
   const errors = form.formState.errors
 
   return {
     handleUpdateJob,
-    isSubmitting,
+    isSubmitting: isUpdatingJob,
     errors,
     form,
   }
