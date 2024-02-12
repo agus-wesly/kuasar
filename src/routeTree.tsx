@@ -23,6 +23,7 @@ import DashboardJobUpdatePage from './pages/dashboard/dashboard-admin/jobs/updat
 import RootLayout from './pages/root'
 import { createBrowserRouter } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
+import DashboardJobDetailPage from './pages/dashboard/dashboard-admin/jobs/[id]'
 
 const ExploreMorePage = lazy(() => import('./pages/explore-more'))
 const ForBusinessPage = lazy(() => import('./pages/for-business'))
@@ -117,6 +118,10 @@ export const router = createBrowserRouter([
                       {
                         path: 'update/:id',
                         element: <DashboardJobUpdatePage />,
+                      },
+                      {
+                        path: ':id',
+                        element: <DashboardJobDetailPage />,
                       },
                     ],
                   },

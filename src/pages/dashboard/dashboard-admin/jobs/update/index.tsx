@@ -53,8 +53,6 @@ function UpdateJobForm({ initialJobDetail }: { initialJobDetail: Job }) {
     useUpdateJob(initialJobDetail)
   const { data, isLoading: isLoadingJobType } = useJobTypesQuery()
 
-  console.log('rerender')
-
   const jobTypes = data?.data ?? []
 
   return (
