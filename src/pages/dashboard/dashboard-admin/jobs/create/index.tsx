@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
-import { useAccessToken } from '@/features/auth/hooks/use-auth'
 import { useCreateJobMutation } from '@/features/jobs/mutation'
 import { useJobTypesQuery } from '@/features/jobs/query'
 import { jobCreateSchema } from '@/features/jobs/schema/job'
@@ -137,18 +136,14 @@ function useCreateNewJob() {
     resolver: zodResolver(jobCreateSchema),
   })
 
-  const accessToken = useAccessToken((state) => state.accessToken)
   const {
-    mutateAsync,
+    mutate,
     isPending,
     error: errorCreateNewApplication,
   } = useCreateJobMutation()
 
   const handleCreateNewJob = form.handleSubmit(async (data) => {
-    await mutateAsync({
-      accessToken,
-      newJob: data,
-    })
+    mutate({ newJob: data })
   })
 
   const errors = form.formState.errors

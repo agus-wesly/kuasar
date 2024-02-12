@@ -9,20 +9,17 @@ import { useAccessToken } from '../auth/hooks/use-auth'
 export function useCreateJobMutation() {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
+  const accessToken = useAccessToken((state) => state.accessToken)
 
   return useMutation({
     mutationFn: async ({
       newJob,
-      accessToken,
     }: {
       newJob: Pick<Job, 'title' | 'description' | 'deadline' | 'type_id'>
-      accessToken: string | null
     }) => {
       return await axios.post(
         '/jobs/create',
-        {
-          ...newJob,
-        },
+        { ...newJob },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
