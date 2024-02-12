@@ -4,8 +4,20 @@ import { useJobTypesQuery, useJobsQuery } from '@/features/jobs/query'
 import { Job } from '@/features/jobs/types/job'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/utils/formatDate'
-import { PencilLine, SearchIcon, Trash2 } from 'lucide-react'
+import { PencilLine, PlusIcon, SearchIcon, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import { useDeleteJobMutation } from '@/features/jobs/mutation'
 
 type Props = {}
 
@@ -19,8 +31,19 @@ export default function DashboardAdminJobsPage({}: Props) {
           </h3>
         </div>
 
-        <Link to={'create'} className={cn(buttonVariants({}))}>
+        <Link
+          to={'create'}
+          className={cn(
+            buttonVariants({
+              variant: 'outline',
+            }),
+            'gap-2 px-2'
+          )}
+        >
           Create job
+          <span>
+            <PlusIcon />
+          </span>
         </Link>
       </div>
 
@@ -67,24 +90,73 @@ function LoadingJobSkeleton() {
 function JobList() {
   const { data: dataJobs, isLoading: isLoadingJob } = useJobsQuery()
   const { data: dataJobTypes, isLoading: isLoadingJobType } = useJobTypesQuery()
+  const { mutateAsync, isPending: isDeletingJob } = useDeleteJobMutation()
+
+  const [activeDialogDeleteId, setActiveDialogDeleteId] = useState<
+    number | null
+  >(null)
 
   if (isLoadingJob || isLoadingJobType) return <LoadingJobSkeleton />
 
   const jobs = dataJobs?.data ?? []
   const jobTypes = dataJobTypes?.data ?? []
 
+  function showDialogDelete(id: number) {
+    setActiveDialogDeleteId(id)
+  }
+
   return (
     <div className="border rounded-xl divide-y-[1px] h-fit flex flex-col gap-5 max-h-full overflow-y-scroll md:pb-20">
       {[...jobs].reverse().map((job) => {
         const jobType =
           jobTypes.find((item) => item.id === job.type_id)?.type || ''
-        return <JobItemCard key={job.id} {...job} jobType={jobType} />
+        return (
+          <JobItemCard
+            key={job.id}
+            {...job}
+            jobType={jobType}
+            onClickDeleteButton={showDialogDelete}
+          />
+        )
       })}
+
+      {/* DELETE ALERT DIALOG */}
+      <AlertDialog
+        open={activeDialogDeleteId !== null}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) setActiveDialogDeleteId(null)
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete this job ?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently remove the job
+              from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                if (activeDialogDeleteId === null) return
+                await mutateAsync(activeDialogDeleteId)
+                setActiveDialogDeleteId(null)
+              }}
+              className="bg-red-800 hover:bg-red-800"
+            >
+              {isDeletingJob ? 'Deleting...' : 'Continue'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
 
-function JobItemCard(props: Job & { jobType: string }) {
+function JobItemCard(
+  props: Job & { jobType: string; onClickDeleteButton: (id: number) => void }
+) {
   return (
     <div className=" p-4">
       <div className="flex justify-between items-center mb-3">
@@ -100,6 +172,7 @@ function JobItemCard(props: Job & { jobType: string }) {
             <PencilLine className="size-4 md:size-5" />
           </Link>
           <Button
+            onClick={() => props.onClickDeleteButton(props.id)}
             variant={'destructive'}
             className={cn('text-xs md:text-sm py-2 h-min border-muted')}
           >
