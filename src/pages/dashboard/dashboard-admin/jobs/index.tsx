@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { formatDate } from '@/utils/formatDate'
 import { PencilLine, PlusIcon, SearchIcon, Trash2 } from 'lucide-react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,6 +22,10 @@ import { useDeleteJobMutation } from '@/features/jobs/mutation'
 type Props = {}
 
 export default function DashboardAdminJobsPage({}: Props) {
+  const navigate = useNavigate()
+  const [searchParam] = useSearchParams()
+  const searchQuery = searchParam.get('q') ?? ''
+
   return (
     <div className="max-h-full md:max-h-[80vh] w-full">
       <div className="w-full flex items-center justify-between">
@@ -48,15 +52,20 @@ export default function DashboardAdminJobsPage({}: Props) {
       </div>
 
       <form
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={(e) => {
+          e.preventDefault()
+          navigate(`?q=${e.currentTarget.q.value}`)
+        }}
         className="my-3 w-full flex items-center justify-between border rounded-lg p-2 gap-2 text-xs md:text-sm"
       >
         <input
           type="text"
-          name="search"
+          name="q"
           id="search"
           className="w-full flex-1 outline-none"
           placeholder="Search job..."
+          key={searchQuery}
+          defaultValue={searchQuery}
         />
 
         <button type="submit">
@@ -92,18 +101,31 @@ function JobList() {
   const { data: dataJobTypes, isLoading: isLoadingJobType } = useJobTypesQuery()
   const { mutateAsync, isPending: isDeletingJob } = useDeleteJobMutation()
 
+  const [searchParam] = useSearchParams()
+
   const [activeDialogDeleteId, setActiveDialogDeleteId] = useState<
     number | null
   >(null)
 
   if (isLoadingJob || isLoadingJobType) return <LoadingJobSkeleton />
 
-  const jobs = dataJobs?.data ?? []
+  let jobs = dataJobs?.data ?? []
   const jobTypes = dataJobTypes?.data ?? []
+
+  const searchQuery = (searchParam.get('q') ?? '').toLowerCase()
+  if (jobs.length) {
+    jobs = jobs.filter(
+      (item) =>
+        item.title.toLowerCase().includes(searchQuery) ||
+        item.description.toLowerCase().includes(searchQuery)
+    )
+  }
 
   function showDialogDelete(id: number) {
     setActiveDialogDeleteId(id)
   }
+
+  if (!jobs.length) return <p className="my-5 font-semibold">No job found.</p>
 
   return (
     <div className="border rounded-xl divide-y-[1px] h-fit flex flex-col gap-5 max-h-full overflow-y-scroll md:pb-20">
