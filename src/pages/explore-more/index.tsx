@@ -1,33 +1,12 @@
 import InfiniteScroll from '@/components/infinite-scroll'
 import { Skeleton } from '@/components/ui/skeleton'
 import { CardARCreation } from '@/features/projects/components/card-ar-creation'
-import { ProjectResponse } from '@/features/projects/types/project'
-import { axios } from '@/plugin/axios'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteProjectQuery } from '@/features/projects/query'
 
 type Props = {}
 
 export default function ExploreMorePage({}: Props) {
-  const query = useInfiniteQuery({
-    queryKey: ['infinite', 'projects'],
-    queryFn: async ({ pageParam = 1 }) => {
-      const response = await axios.get<ProjectResponse>('/projects', {
-        params: {
-          page: pageParam,
-          perPage: 10,
-        },
-      })
-      return response.data
-    },
-    staleTime: 0,
-    refetchInterval: Infinity,
-    refetchOnWindowFocus: false,
-    getNextPageParam: (currentProject) => {
-      return currentProject.meta.next
-    },
-    initialPageParam: 1,
-  })
-
+  const query = useInfiniteProjectQuery()
   const projects = query.data?.pages?.flatMap((item) => item.data) ?? []
 
   return (

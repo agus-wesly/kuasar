@@ -24,6 +24,7 @@ import RootLayout from './pages/root'
 import { createBrowserRouter } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
 import DashboardJobDetailPage from './pages/dashboard/dashboard-admin/jobs/[id]'
+import DashboardProjectUpdatePage from './pages/dashboard/dashboard-admin/projects/update'
 
 const ExploreMorePage = lazy(() => import('./pages/explore-more'))
 const ForBusinessPage = lazy(() => import('./pages/for-business'))
@@ -92,7 +93,16 @@ export const router = createBrowserRouter([
                   },
                   {
                     path: 'projects',
-                    element: <DashboardProjectsPage />,
+                    children: [
+                      {
+                        index: true,
+                        element: <DashboardProjectsPage />,
+                      },
+                      {
+                        path: 'update/:id',
+                        element: <DashboardProjectUpdatePage />,
+                      },
+                    ],
                   },
                   {
                     path: 'applications',

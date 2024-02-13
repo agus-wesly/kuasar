@@ -1,6 +1,6 @@
 import { axios } from '@/plugin/axios'
-import { Project } from './types/project'
-import { useQuery } from '@tanstack/react-query'
+import { Project, ProjectResponse } from './types/project'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 
 export function useProjectsQuery() {
   return useQuery({
@@ -16,5 +16,27 @@ export function useProjectsQuery() {
       })
       return response.data
     },
+  })
+}
+
+export function useInfiniteProjectQuery() {
+  return useInfiniteQuery({
+    queryKey: ['infinite', 'projects'],
+    queryFn: async ({ pageParam = 1 }) => {
+      const response = await axios.get<ProjectResponse>('/projects', {
+        params: {
+          page: pageParam,
+          perPage: 10,
+        },
+      })
+      return response.data
+    },
+    staleTime: 0,
+    refetchInterval: Infinity,
+    refetchOnWindowFocus: false,
+    getNextPageParam: (currentProject) => {
+      return currentProject.meta.next
+    },
+    initialPageParam: 1,
   })
 }
