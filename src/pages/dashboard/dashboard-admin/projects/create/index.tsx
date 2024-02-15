@@ -262,7 +262,6 @@ function useCreateNewProject() {
 
   const handleCreateNewJob = form.handleSubmit(async (data) => {
     mutate({ newProject: data })
-    console.log('v', data)
   })
 
   const errors = form.formState.errors
