@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { useCreateProjectMutation } from '@/features/projects/mutation'
 import { ProjectCreate, projectCreateSchema } from '@/features/projects/schema'
@@ -17,39 +17,48 @@ function HighlightSection({
   form: UseFormReturn<ProjectCreate>
   errors: FieldErrors<ProjectCreate>
 }) {
+  const isHighlight = form.getValues('highlight')
+
   return (
     <>
       <div className="grid gap-1">
         <label htmlFor="highlight">Highlight</label>
 
-        <RadioGroup className="flex items-center gap-4 mt-1" defaultValue="No">
-          <RadioGroupItem value="Yes" id="yes" />
-          <label htmlFor="yes">Yes</label>
-          <RadioGroupItem value="No" id="no" />
-          <label htmlFor="no">No</label>
-        </RadioGroup>
+        <Switch
+          checked={isHighlight}
+          onCheckedChange={(e) => {
+            form.setValue('highlight', e, {
+              shouldValidate: true,
+            })
+            if (!e) {
+              form.setValue('highlight_until', undefined)
+            }
+          }}
+        />
 
         {errors.highlight && (
           <p className="text-xs text-destructive">{errors.highlight.message}</p>
         )}
       </div>
 
-      <div className="grid gap-1">
-        <label htmlFor="highlight_until">Highlight until</label>
-        <Input
-          id="highlight_until"
-          placeholder="Highlight until"
-          type="date"
-          min={transformDateToYMD(new Date())}
-          {...form.register('highlight_until')}
-        />
+      {isHighlight ? (
+        <div className="grid gap-1">
+          <label htmlFor="highlight_until">Highlight until</label>
+          <Input
+            id="highlight_until"
+            placeholder="Highlight until"
+            type="date"
+            min={transformDateToYMD(new Date())}
+            {...form.register('highlight_until')}
+          />
 
-        {errors.highlight_until && (
-          <p className="text-xs text-destructive">
-            {errors.highlight_until.message}
-          </p>
-        )}
-      </div>
+          {errors.highlight_until && (
+            <p className="text-xs text-destructive">
+              {errors.highlight_until.message}
+            </p>
+          )}
+        </div>
+      ) : null}
     </>
   )
 }
@@ -91,7 +100,7 @@ function MediaSection({
                     shouldValidate: true,
                   })
                 }
-                className="absolute rounded-full bg-red-500 z-[5] right-1 top-1 p-1"
+                className="absolute rounded-full bg-red-500 z-[1] right-1 top-1 p-1"
               >
                 <X className="text-neutral-50 size-4" />
               </button>
@@ -122,7 +131,7 @@ function MediaSection({
 
       <div className="grid gap-1">
         <label htmlFor="highlight">Image</label>
-        <label className="bg-blue-50 h-56 md:h-64 w-full rounded-lg border-2 border-blue-200 border-dashed flex flex-col items-center justify-center text-neutral-500 gap-1 relative">
+        <div className="bg-blue-50 h-56 md:h-64 w-full rounded-lg border-2 border-blue-200 border-dashed flex flex-col items-center justify-center text-neutral-500 gap-1 relative">
           {imagePreview ? (
             <>
               <img
@@ -148,7 +157,7 @@ function MediaSection({
               <input
                 type="file"
                 id="image-file"
-                className="hidden"
+                className="opacity-0 absolute inset-0 z-[5] w-full cursor-pointer"
                 accept="image/*"
                 onChange={(e) =>
                   form.setValue('image', e.target.files![0], {
@@ -161,7 +170,7 @@ function MediaSection({
               <p className="text-xs font-medium">Upload image</p>
             </>
           )}
-        </label>
+        </div>
 
         {errors.image && (
           <p className="text-xs text-destructive">{errors.image.message}</p>
@@ -172,7 +181,7 @@ function MediaSection({
 }
 
 export default function DashboardProjectCreatePage() {
-  const { form, handleCreateNewJob, isSubmitting, errors } =
+  const { form, handleCreateNewProject, isSubmitting, errors } =
     useCreateNewProject()
 
   return (
@@ -189,7 +198,10 @@ export default function DashboardProjectCreatePage() {
       </div>
 
       <div className="p-0 rounded-xl shadow-sm mb-5">
-        <form onSubmit={handleCreateNewJob} className="w-full max-w-lg my-5">
+        <form
+          onSubmit={handleCreateNewProject}
+          className="w-full max-w-lg my-5"
+        >
           <fieldset disabled={isSubmitting} className="grid gap-4 text-sm">
             <div className="grid gap-1">
               <label htmlFor="title">Title</label>
@@ -260,11 +272,19 @@ function useCreateNewProject() {
 
   const { mutate, isPending } = useCreateProjectMutation()
 
-  const handleCreateNewJob = form.handleSubmit(async (data) => {
-    mutate({ newProject: data })
+  const handleCreateNewProject = form.handleSubmit(async (data) => {
+    const formData = new FormData()
+    for (const key of Object.keys(data)) {
+      let value = data[key as keyof typeof data]
+      if (!!value) {
+        if (typeof value === 'boolean') value = String(value)
+        formData.set(key, value)
+      }
+    }
+    mutate({ newProject: formData })
   })
 
   const errors = form.formState.errors
 
-  return { form, handleCreateNewJob, isSubmitting: isPending, errors }
+  return { form, handleCreateNewProject, isSubmitting: isPending, errors }
 }

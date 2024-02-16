@@ -5,7 +5,6 @@ import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import { AxiosError } from 'axios'
 import { useAccessToken } from '../auth/hooks/use-auth'
-import { ProjectCreate } from './schema'
 
 export function useCreateProjectMutation() {
   const queryClient = useQueryClient()
@@ -13,16 +12,13 @@ export function useCreateProjectMutation() {
   const accessToken = useAccessToken((state) => state.accessToken)
 
   return useMutation({
-    mutationFn: async ({ newProject }: { newProject: ProjectCreate }) => {
-      return await axios.post(
-        '/projects/create',
-        { ...newProject },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
+    mutationFn: async ({ newProject }: { newProject: FormData }) => {
+      return await axios.post('/projects/create', newProject, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
