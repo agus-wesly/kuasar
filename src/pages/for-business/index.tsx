@@ -11,4 +11,7 @@ function ForBusinessPage() {
     </main>
   )
 }
-export default withPageTransition(ForBusinessPage)
+const Page = withPageTransition(ForBusinessPage)
+export function Component() {
+  return <Page />
+}

@@ -5,7 +5,7 @@ import { useInfiniteProjectQuery } from '@/features/projects/query'
 
 type Props = {}
 
-export default function ExploreMorePage({}: Props) {
+export function Component({}: Props) {
   const query = useInfiniteProjectQuery()
   const projects = query.data?.pages?.flatMap((item) => item.data) ?? []
 

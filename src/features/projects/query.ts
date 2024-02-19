@@ -19,6 +19,19 @@ export function useProjectsQuery() {
   })
 }
 
+export function useProjectDetailQuery({ id }: { id: string | undefined }) {
+  return useQuery({
+    queryKey: ['projects', id],
+    queryFn: async () => {
+      const response = await axios.get<{
+        data: Project
+      }>(`/projects/detail/${id}`)
+      return response.data
+    },
+    enabled: !!id,
+  })
+}
+
 export function useInfiniteProjectQuery() {
   return useInfiniteQuery({
     queryKey: ['infinite', 'projects'],

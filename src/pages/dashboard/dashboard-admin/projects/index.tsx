@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Project } from '@/features/projects/types/project'
 import InfiniteScroll from '@/components/infinite-scroll'
+import { useDeleteProjectMutation } from '@/features/projects/mutation'
 
 type Props = {}
 
@@ -75,6 +76,8 @@ function ProjectList() {
 }
 
 function ProjectItemCard(props: Project) {
+  const { mutate } = useDeleteProjectMutation()
+
   return (
     <div className="w-full max-w-60 md:max-w-none rounded-lg overflow-hidden shadow-md relative">
       <div className="flex w-full bg-purple-100 aspect-[9/10] items-center justify-center p-0">
@@ -98,7 +101,10 @@ function ProjectItemCard(props: Project) {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => mutate(props.id)}
+              className="cursor-pointer"
+            >
               Delete
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
