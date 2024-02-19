@@ -301,8 +301,6 @@ function useUpdateProject(initialProjectDetail: Project) {
     },
   })
 
-  console.log('i', initialProjectDetail)
-
   const { mutate, isPending } = useCreateProjectMutation()
 
   const handleCreateNewProject = form.handleSubmit(async (data) => {
