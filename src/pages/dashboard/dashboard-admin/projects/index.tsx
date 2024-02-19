@@ -13,6 +13,7 @@ import {
 import { Project } from '@/features/projects/types/project'
 import InfiniteScroll from '@/components/infinite-scroll'
 import { useDeleteProjectMutation } from '@/features/projects/mutation'
+import { formatUrlLink } from '@/utils/formatUrl'
 
 type Props = {}
 
@@ -86,7 +87,7 @@ function ProjectItemCard(props: Project) {
           preload="none"
           controls
           loop={false}
-          src={props.video}
+          src={formatUrlLink(props.video)}
           muted
           crossOrigin="anonymous"
           className="h-full w-full"

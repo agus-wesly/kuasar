@@ -4,9 +4,10 @@ import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { useCreateProjectMutation } from '@/features/projects/mutation'
 import { useProjectDetailQuery } from '@/features/projects/query'
-import { ProjectCreate, projectCreateSchema } from '@/features/projects/schema'
+import { ProjectUpdate, projectUpdateSchema } from '@/features/projects/schema'
 import { Project } from '@/features/projects/types/project'
 import { transformDateToYMD } from '@/utils/formatDate'
+import { formatUrlLink } from '@/utils/formatUrl'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, UploadCloud, X } from 'lucide-react'
 import { FieldErrors, UseFormReturn, useForm } from 'react-hook-form'
@@ -17,8 +18,8 @@ function HighlightSection({
   form,
   errors,
 }: {
-  form: UseFormReturn<ProjectCreate>
-  errors: FieldErrors<ProjectCreate>
+  form: UseFormReturn<ProjectUpdate>
+  errors: FieldErrors<ProjectUpdate>
 }) {
   const isHighlight = form.getValues('highlight')
 
@@ -78,14 +79,26 @@ function MediaSection({
   form,
   errors,
 }: {
-  form: UseFormReturn<ProjectCreate>
-  errors: FieldErrors<ProjectCreate>
+  form: UseFormReturn<ProjectUpdate>
+  errors: FieldErrors<ProjectUpdate>
 }) {
-  const videoValue: File | null = form.getValues('video')
-  const videoPreview = videoValue && URL.createObjectURL(videoValue)
+  const videoValue = form.getValues('video')
+  let videoPreview
+  if (videoValue && typeof videoValue !== 'string') {
+    videoPreview = URL.createObjectURL(videoValue)
+  } else {
+    videoPreview = videoValue
+  }
+
+  console.log('v', videoPreview)
 
   const imageValue = form.getValues('image')
-  const imagePreview = imageValue && URL.createObjectURL(imageValue)
+  let imagePreview
+  if (imageValue && typeof imageValue !== 'string') {
+    imagePreview = URL.createObjectURL(imageValue)
+  } else {
+    imagePreview = imageValue
+  }
 
   return (
     <>
@@ -153,7 +166,6 @@ function MediaSection({
 
               <button
                 onClick={() =>
-                  // @ts-expect-error
                   form.setValue('image', null, {
                     shouldValidate: true,
                   })
@@ -196,10 +208,10 @@ function UpdateProjectForm({
 }: {
   initialProjectDetail: Project
 }) {
-  const { form, handleCreateNewProject, isSubmitting, errors } =
+  const { form, handleUpdateProject, isSubmitting, errors } =
     useUpdateProject(initialProjectDetail)
   return (
-    <form onSubmit={handleCreateNewProject} className="w-full max-w-lg my-5">
+    <form onSubmit={handleUpdateProject} className="w-full max-w-lg my-5">
       <fieldset disabled={isSubmitting} className="grid gap-4 text-sm">
         <div className="grid gap-1">
           <label htmlFor="title">Title</label>
@@ -250,7 +262,7 @@ function UpdateProjectForm({
 
         <Button className=" px-8">
           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Create Job
+          Update Job
         </Button>
       </fieldset>
     </form>
@@ -277,7 +289,7 @@ export default function DashboardProjectUpdatePage() {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="font-semibold text-lg md:text-2xl text-primary">
-            New Project
+            Update Project
           </h3>
         </div>
       </div>
@@ -290,20 +302,23 @@ export default function DashboardProjectUpdatePage() {
 }
 
 function useUpdateProject(initialProjectDetail: Project) {
-  const form = useForm<z.infer<typeof projectCreateSchema>>({
-    resolver: zodResolver(projectCreateSchema),
+  const form = useForm<z.infer<typeof projectUpdateSchema>>({
+    resolver: zodResolver(projectUpdateSchema),
     defaultValues: {
       title: initialProjectDetail.title,
       description: initialProjectDetail.title,
       created_by: initialProjectDetail.created_by,
       highlight: initialProjectDetail.highlight,
       highlight_until: initialProjectDetail.highlight_until,
+      image: formatUrlLink(initialProjectDetail.image),
+      video: formatUrlLink(initialProjectDetail.video)!,
     },
   })
 
   const { mutate, isPending } = useCreateProjectMutation()
 
-  const handleCreateNewProject = form.handleSubmit(async (data) => {
+  const handleUpdateProject = form.handleSubmit(async (data) => {
+    // @ts-expect-error
     const formData = new FormData()
     for (const key of Object.keys(data)) {
       let value = data[key as keyof typeof data]
@@ -317,5 +332,5 @@ function useUpdateProject(initialProjectDetail: Project) {
 
   const errors = form.formState.errors
 
-  return { form, handleCreateNewProject, isSubmitting: isPending, errors }
+  return { form, handleUpdateProject, isSubmitting: isPending, errors }
 }
