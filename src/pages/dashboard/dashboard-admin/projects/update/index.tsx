@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
-import { useCreateProjectMutation } from '@/features/projects/mutation'
+import { useUpdateProjectMutation } from '@/features/projects/mutation'
 import { useProjectDetailQuery } from '@/features/projects/query'
 import { ProjectUpdate, projectUpdateSchema } from '@/features/projects/schema'
 import { Project } from '@/features/projects/types/project'
@@ -22,6 +22,7 @@ function HighlightSection({
   errors: FieldErrors<ProjectUpdate>
 }) {
   const isHighlight = form.getValues('highlight')
+  const highlightUntil = form.getValues('highlight_until')
 
   return (
     <>
@@ -46,14 +47,13 @@ function HighlightSection({
       </div>
 
       {isHighlight ? (
-        <div className="grid gap-1">
+        <div className="grid gap-1" key={highlightUntil}>
           <label htmlFor="highlight_until">Highlight until</label>
           <Input
             id="highlight_until"
             placeholder="Highlight until"
             type="date"
             min={transformDateToYMD(new Date())}
-            {...form.register('highlight_until')}
             value={transformDateToYMD(
               new Date(form.getValues('highlight_until') ?? '')
             )}
@@ -89,8 +89,6 @@ function MediaSection({
   } else {
     videoPreview = videoValue
   }
-
-  console.log('v', videoPreview)
 
   const imageValue = form.getValues('image')
   let imagePreview
@@ -302,32 +300,40 @@ export default function DashboardProjectUpdatePage() {
 }
 
 function useUpdateProject(initialProjectDetail: Project) {
+  const { id: projectId } = useParams()
+
+  const defaultValues = {
+    title: initialProjectDetail.title,
+    description: initialProjectDetail.description,
+    created_by: initialProjectDetail.created_by,
+    highlight: initialProjectDetail.highlight,
+    highlight_until: initialProjectDetail.highlight_until,
+    image: formatUrlLink(initialProjectDetail.image),
+    video: formatUrlLink(initialProjectDetail.video)!,
+  }
   const form = useForm<z.infer<typeof projectUpdateSchema>>({
     resolver: zodResolver(projectUpdateSchema),
-    defaultValues: {
-      title: initialProjectDetail.title,
-      description: initialProjectDetail.title,
-      created_by: initialProjectDetail.created_by,
-      highlight: initialProjectDetail.highlight,
-      highlight_until: initialProjectDetail.highlight_until,
-      image: formatUrlLink(initialProjectDetail.image),
-      video: formatUrlLink(initialProjectDetail.video)!,
-    },
+    defaultValues,
   })
 
-  const { mutate, isPending } = useCreateProjectMutation()
+  const { mutate, isPending } = useUpdateProjectMutation()
 
   const handleUpdateProject = form.handleSubmit(async (data) => {
-    // @ts-expect-error
     const formData = new FormData()
     for (const key of Object.keys(data)) {
-      let value = data[key as keyof typeof data]
-      if (!!value) {
-        if (typeof value === 'boolean') value = String(value)
-        formData.set(key, value)
+      let valueNewData = data[key as keyof typeof data]
+      let valueOldData = defaultValues[key as keyof typeof defaultValues]
+
+      //Compare old data & new data, if different include it in formData object
+      if (valueNewData !== valueOldData) {
+        if (typeof valueNewData === 'boolean')
+          valueNewData = String(valueNewData)
+        else if (!valueNewData) valueNewData = ''
+
+        formData.set(key, valueNewData)
       }
     }
-    mutate({ newProject: formData })
+    mutate({ newProject: formData, id: projectId ?? '' })
   })
 
   const errors = form.formState.errors

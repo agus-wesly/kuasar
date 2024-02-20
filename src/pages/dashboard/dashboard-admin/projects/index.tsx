@@ -87,7 +87,7 @@ function ProjectItemCard(props: Project) {
           preload="none"
           controls
           loop={false}
-          src={formatUrlLink(props.video)}
+          src={formatUrlLink(props.video) ?? undefined}
           muted
           crossOrigin="anonymous"
           className="h-full w-full"

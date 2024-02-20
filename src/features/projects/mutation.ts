@@ -50,16 +50,18 @@ export function useUpdateProjectMutation() {
   const accessToken = useAccessToken((state) => state.accessToken)
 
   return useMutation({
-    mutationFn: async (newProject: Partial<Project>) => {
-      return await axios.patch(
-        `/projects/${newProject.id}/update`,
-        newProject,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
+    mutationFn: async ({
+      newProject,
+      id,
+    }: {
+      newProject: FormData
+      id: string
+    }) => {
+      return await axios.patch(`/projects/${id}`, newProject, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
