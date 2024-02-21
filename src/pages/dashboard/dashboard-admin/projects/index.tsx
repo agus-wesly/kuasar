@@ -2,7 +2,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useInfiniteProjectQuery } from '@/features/projects/query'
 import { cn } from '@/lib/utils'
-import { MoreVertical, PlusIcon } from 'lucide-react'
+import { Info, MoreVertical, Pencil, PlusIcon, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import {
   DropdownMenu,
@@ -102,16 +102,30 @@ function ProjectItemCard(props: Project) {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem
-              onClick={() => mutate(props.id)}
-              className="cursor-pointer"
-            >
-              Delete
+            <DropdownMenuItem asChild>
+              <Link
+                className="cursor-pointer text-xs flex gap-3 items-center"
+                to={`${props.id}`}
+              >
+                <Info className="size-4" />
+                Detail
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link className="cursor-pointer" to={`update/${props.id}`}>
+              <Link
+                className="cursor-pointer text-xs flex gap-3 items-center"
+                to={`update/${props.id}`}
+              >
+                <Pencil className="size-4" />
                 Edit
               </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => mutate(props.id)}
+              className="cursor-pointer text-xs flex gap-3 items-center"
+            >
+              <Trash2 className="size-4" />
+              Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -25,6 +25,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import DashboardJobDetailPage from './pages/dashboard/dashboard-admin/jobs/[id]'
 import DashboardProjectUpdatePage from './pages/dashboard/dashboard-admin/projects/update'
 import DashboardProjectCreatePage from './pages/dashboard/dashboard-admin/projects/create'
+import DashboardProjectDetailPage from './pages/dashboard/dashboard-admin/projects/detail'
 
 export const router = createBrowserRouter([
   {
@@ -94,6 +95,10 @@ export const router = createBrowserRouter([
                       {
                         path: 'create',
                         element: <DashboardProjectCreatePage />,
+                      },
+                      {
+                        path: ':id',
+                        element: <DashboardProjectDetailPage />,
                       },
                     ],
                   },
