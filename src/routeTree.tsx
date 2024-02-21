@@ -1,3 +1,5 @@
+import { createBrowserRouter } from 'react-router-dom'
+import RootLayout from './pages/root'
 import LoginPage from './pages/login'
 import RegisterPage from './pages/register'
 import HomePage from './pages/home'
@@ -9,23 +11,20 @@ import VerifyAccount, {
 import NotFoundPage from './pages/not-found'
 import DashboardPageLayout from './layouts/dashboard-layout'
 import LandingPageLayout from './layouts/landing-page-layout'
-
-import DashboardPage, {
-  DashboardApplicationsPage,
-  DashboardIndexPage,
-  DashboardJobsPage,
-  DashboardProjectsPage,
-} from './pages/dashboard'
-import DashboardAdminApplicationCreate from './pages/dashboard/dashboard-admin/applications/create'
-import DashboardJobCreatePage from './pages/dashboard/dashboard-admin/jobs/create'
-import DashboardJobUpdatePage from './pages/dashboard/dashboard-admin/jobs/update'
-
-import RootLayout from './pages/root'
-import { createBrowserRouter } from 'react-router-dom'
-import DashboardJobDetailPage from './pages/dashboard/dashboard-admin/jobs/[id]'
-import DashboardProjectUpdatePage from './pages/dashboard/dashboard-admin/projects/update'
-import DashboardProjectCreatePage from './pages/dashboard/dashboard-admin/projects/create'
-import DashboardProjectDetailPage from './pages/dashboard/dashboard-admin/projects/detail'
+import Dashboard from './pages/dashboard/layout'
+import DashboardIndexPage from './pages/dashboard'
+import DashboardProjectsPage from './pages/dashboard/projects'
+import DashboardProjectCreatePage from './pages/dashboard/projects/create'
+import DashboardProjectUpdatePage from './pages/dashboard/projects/update'
+import DashboardProjectDetailPage from './pages/dashboard/projects/detail'
+import DashboardApplicationsPage from './pages/dashboard/applications'
+import DashboardApplicationCreate from './pages/dashboard/applications/create'
+import DashboardApplicationUpdatePage from './pages/dashboard/applications/update'
+import DashboardApplicationDetailPage from './pages/dashboard/applications/detail'
+import DashboardJobsPage from './pages/dashboard/jobs'
+import DashboardJobCreatePage from './pages/dashboard/jobs/create'
+import DashboardJobUpdatePage from './pages/dashboard/jobs/update'
+import DashboardJobDetailPage from './pages/dashboard/jobs/detail'
 
 export const router = createBrowserRouter([
   {
@@ -75,7 +74,7 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: '/dashboard',
-                element: <DashboardPage />,
+                element: <Dashboard />,
                 children: [
                   {
                     index: true,
@@ -105,10 +104,21 @@ export const router = createBrowserRouter([
                   {
                     path: 'applications',
                     children: [
-                      { index: true, element: <DashboardApplicationsPage /> },
+                      {
+                        index: true,
+                        element: <DashboardApplicationsPage />,
+                      },
                       {
                         path: 'create',
-                        element: <DashboardAdminApplicationCreate />,
+                        element: <DashboardApplicationCreate />,
+                      },
+                      {
+                        path: ':id/update',
+                        element: <DashboardApplicationUpdatePage />,
+                      },
+                      {
+                        path: ':id',
+                        element: <DashboardApplicationDetailPage />,
                       },
                     ],
                   },

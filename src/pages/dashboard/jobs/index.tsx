@@ -21,7 +21,7 @@ import { useDeleteJobMutation } from '@/features/jobs/mutation'
 
 type Props = {}
 
-export default function DashboardAdminJobsPage({}: Props) {
+export default function DashboardJobsPage({}: Props) {
   const navigate = useNavigate()
   const [searchParam] = useSearchParams()
   const searchQuery = searchParam.get('q') ?? ''

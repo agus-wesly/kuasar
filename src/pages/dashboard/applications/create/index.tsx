@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom'
 
 type Props = {}
 
-export default function DashboardAdminApplicationCreate({}: Props) {
+export default function DashboardApplicationCreate({}: Props) {
   const role = useUser((state) => state.user?.role) ?? ''
   const navigate = useNavigate()
 

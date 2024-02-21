@@ -1,60 +1,97 @@
+import { useApplicationsQuery } from '@/features/applications/query'
 import { useUser } from '@/features/auth/hooks/use-auth'
-import DashboardAdmin from './dashboard-admin/layout'
-import DashboardFreelancerIndexPage from './dashboard-freelancer'
-import DashboardAdminIndexPage from './dashboard-admin'
-import DashboardFreelancer from './dashboard-freelancer/layout'
-import DashboardAdminProjectsPage from './dashboard-admin/projects'
-import DashboardAdminApplicationsPage from './dashboard-admin/applications'
-import DashboardAdminJobsPage from './dashboard-admin/jobs'
+import { useJobsQuery } from '@/features/jobs/query'
+import { useProjectsQuery } from '@/features/projects/query'
+import { Link } from 'react-router-dom'
 
 type Props = {}
 
-export default function DashboardPage({}: Props) {
-  const role = useUser((state) => state.user?.role)
-  if (!role) return null
+function ProjectSection() {
+  const { data, isLoading } = useProjectsQuery()
+  const projects = data?.data || []
 
-  if (role === 'ADMIN') return <DashboardAdmin />
-  if (role === 'FREELANCER') return <DashboardFreelancer />
+  return (
+    <div className="shadow-md border rounded-xl p-5 flex flex-col justify-between md:col-span-2 gap-2 md:gap-3">
+      <div className="">
+        <p className="font-bold">Total Projects</p>
+        <p className="text-sm text-muted-foreground">All time</p>
+      </div>
 
-  return null
+      <p className="text-sm font-semibold">
+        {isLoading ? 'Loading' : projects.length}
+      </p>
+
+      <Link className="text-xs md:text-sm text-primary font-bold" to="projects">
+        See more →
+      </Link>
+    </div>
+  )
 }
 
-export function DashboardIndexPage() {
-  const role = useUser((state) => state.user?.role)
-  if (!role) return null
+function JobSection() {
+  const { data, isLoading } = useJobsQuery()
+  const jobs = data?.data || []
 
-  if (role === 'ADMIN') return <DashboardAdminIndexPage />
-  if (role === 'FREELANCER') return <DashboardFreelancerIndexPage />
+  return (
+    <div className="shadow-md border rounded-xl justify-between p-5 flex flex-col md:col-span-1 gap-2 md:gap-3">
+      <div className="">
+        <p className="font-bold">Total Jobs</p>
+        <p className="text-sm text-muted-foreground">All time</p>
+      </div>
 
-  return null
+      <p className="text-sm font-semibold">
+        {isLoading ? 'Loading' : jobs.length}
+      </p>
+
+      <Link className="text-xs md:text-sm text-primary font-bold" to="jobs">
+        See more →
+      </Link>
+    </div>
+  )
 }
 
-export function DashboardProjectsPage() {
-  const role = useUser((state) => state.user?.role)
-  if (!role) return null
+function ApplicationSection() {
+  const { data, isLoading } = useApplicationsQuery()
+  const applications = data?.data || []
 
-  if (role === 'ADMIN') return <DashboardAdminProjectsPage />
-  // if (role === 'FREELANCER') return <DashboardFreelancerIndexPage />
+  return (
+    <div className="shadow-md border rounded-xl justify-between p-5 flex flex-col md:col-span-2 gap-2 md:gap-3">
+      <div className="">
+        <p className="font-bold">Total Applications</p>
+        <p className="text-sm text-muted-foreground">All time</p>
+      </div>
 
-  return null
+      <p className="text-sm font-semibold">
+        {isLoading ? 'Loading' : applications.length}
+      </p>
+      <Link
+        className="text-xs md:text-sm text-primary font-bold"
+        to="applications"
+      >
+        See more →
+      </Link>
+    </div>
+  )
 }
 
-export function DashboardApplicationsPage() {
-  const role = useUser((state) => state.user?.role)
-  if (!role) return null
+export default function DashboardIndexPage({}: Props) {
+  const username = useUser((state) => state.user?.username)
+  return (
+    <div className="w-full">
+      <h3 className="font-semibold text-lg md:text-2xl text-primary">
+        Hello, {username}!
+      </h3>
+      <p className="text-sm md:text-base mb-3 text-muted-foreground">
+        Here's all the app overview
+      </p>
 
-  if (role === 'ADMIN') return <DashboardAdminApplicationsPage />
-  // if (role === 'FREELANCER') return <DashboardFreelancerIndexPage />
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+        <ApplicationSection />
 
-  return null
-}
+        <ProjectSection />
 
-export function DashboardJobsPage() {
-  const role = useUser((state) => state.user?.role)
-  if (!role) return null
-
-  if (role === 'ADMIN') return <DashboardAdminJobsPage />
-  // if (role === 'FREELANCER') return <DashboardFreelancerIndexPage />
-
-  return null
+        <JobSection />
+      </div>
+    </div>
+  )
 }

@@ -2,7 +2,7 @@
 
 type Props = {}
 
-export default function DashboardAdminApplicationsPage({}: Props) {
+export default function DashboardApplicationsPage({}: Props) {
   return (
     <div>
       <div className="w-full flex items-center justify-between">

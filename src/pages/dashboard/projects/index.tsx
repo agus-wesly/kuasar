@@ -17,7 +17,7 @@ import { formatUrlLink } from '@/utils/formatUrl'
 
 type Props = {}
 
-export default function DashboardAdminProjectsPage({}: Props) {
+export default function DashboardProjectsPage({}: Props) {
   return (
     <div className="max-h-full md:max-h-[80vh] w-full">
       <div className="w-full flex items-center justify-between">
