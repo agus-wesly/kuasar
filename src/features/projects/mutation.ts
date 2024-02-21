@@ -92,7 +92,7 @@ export function useDeleteProjectMutation() {
 
   return useMutation({
     mutationFn: async (id: Project['id']) => {
-      return await axios.delete(`/projects/${id}`, {
+      return await axios.delete(`/projects/gcp/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

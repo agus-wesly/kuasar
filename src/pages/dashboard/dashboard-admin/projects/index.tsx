@@ -114,7 +114,7 @@ function ProjectItemCard(props: Project) {
             <DropdownMenuItem asChild>
               <Link
                 className="cursor-pointer text-xs flex gap-3 items-center"
-                to={`update/${props.id}`}
+                to={`${props.id}/update`}
               >
                 <Pencil className="size-4" />
                 Edit

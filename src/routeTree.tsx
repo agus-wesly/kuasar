@@ -89,12 +89,12 @@ export const router = createBrowserRouter([
                         element: <DashboardProjectsPage />,
                       },
                       {
-                        path: 'update/:id',
-                        element: <DashboardProjectUpdatePage />,
-                      },
-                      {
                         path: 'create',
                         element: <DashboardProjectCreatePage />,
+                      },
+                      {
+                        path: ':id/update',
+                        element: <DashboardProjectUpdatePage />,
                       },
                       {
                         path: ':id',
