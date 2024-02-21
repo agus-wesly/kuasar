@@ -21,7 +21,7 @@ function ProjectSection() {
         {isLoading ? 'Loading' : projects.length}
       </p>
 
-      <Link className="text-xs md:text-sm text-accent font-bold" to="projects">
+      <Link className="text-xs md:text-sm text-primary font-bold" to="projects">
         See more →
       </Link>
     </div>
@@ -43,7 +43,7 @@ function JobSection() {
         {isLoading ? 'Loading' : jobs.length}
       </p>
 
-      <Link className="text-xs md:text-sm text-accent font-bold" to="jobs">
+      <Link className="text-xs md:text-sm text-primary font-bold" to="jobs">
         See more →
       </Link>
     </div>
@@ -65,7 +65,7 @@ function ApplicationSection() {
         {isLoading ? 'Loading' : applications.length}
       </p>
       <Link
-        className="text-xs md:text-sm text-accent font-bold"
+        className="text-xs md:text-sm text-primary font-bold"
         to="applications"
       >
         See more →
