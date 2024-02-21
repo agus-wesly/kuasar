@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
-import RootLayout from './pages/root'
+import RootLayout, { ErrorBoundary } from './pages/root'
 import LoginPage from './pages/login'
 import RegisterPage from './pages/register'
 import HomePage from './pages/home'
@@ -30,6 +30,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         element: <LandingPageLayout />,
