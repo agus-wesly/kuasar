@@ -13,7 +13,7 @@ export default function DashboardApplicationsPage({}: Props) {
   const applications = data?.data
 
   return (
-    <>
+    <div className="w-full">
       <div className="w-full flex items-center justify-between">
         <div>
           <h3 className="font-semibold text-lg md:text-2xl text-primary">
@@ -32,7 +32,7 @@ export default function DashboardApplicationsPage({}: Props) {
       {!applications?.length ? (
         <p>No application</p>
       ) : (
-        <div className="border rounded-xl divide-y-[1px] h-fit flex flex-col gap-5 max-h-full overflow-y-scroll md:pb-20">
+        <div className="border rounded-xl divide-[1px] h-fit flex-col gap-5 max-h-full overflow-y-scroll md:pb-20 grid grid-cols-1 md:grid-cols-2 p-2 md:max-h-[80vh]">
           {applications.map((item) => (
             <ApplicationItemCard
               name={item.name}
@@ -43,18 +43,16 @@ export default function DashboardApplicationsPage({}: Props) {
           ))}
         </div>
       )}
-    </>
+    </div>
   )
 }
 
 function ApplicationItemCard(
   props: Pick<Application, 'name' | 'address' | 'AR_tools' | 'email'>
 ) {
-  if (false) return <p>Loading...</p>
-
   return (
-    <div className="text-xs p-4 space-y-2">
-      <p className="capitalize text-lg text-primary font-semibold">
+    <div className="text-xs md:text-sm p-4 space-y-2">
+      <p className="capitalize text-lg md:text-xl text-primary font-semibold">
         {props.name}
       </p>
       <p className="text-sm font-medium">{props.email}</p>
