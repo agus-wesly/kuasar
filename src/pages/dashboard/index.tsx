@@ -56,7 +56,7 @@ function ApplicationSection() {
 
   return (
     <div className="shadow-md border rounded-xl justify-between p-5 flex flex-col md:col-span-2 gap-2 md:gap-3">
-      <div className="">
+      <div>
         <p className="font-bold">Total Applications</p>
         <p className="text-sm text-muted-foreground">All time</p>
       </div>
@@ -76,6 +76,8 @@ function ApplicationSection() {
 
 export default function DashboardIndexPage({}: Props) {
   const username = useUser((state) => state.user?.username)
+  const role = useUser((state) => state.user?.role)
+
   return (
     <div className="w-full">
       <h3 className="font-semibold text-lg md:text-2xl text-primary">
@@ -86,7 +88,7 @@ export default function DashboardIndexPage({}: Props) {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-        <ApplicationSection />
+        {role === 'FREELANCER' && <ApplicationSection />}
 
         <ProjectSection />
 

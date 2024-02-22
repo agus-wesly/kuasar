@@ -33,8 +33,9 @@ export default function DashboardApplicationsPage({}: Props) {
         <p>No application</p>
       ) : (
         <div className="border rounded-xl divide-[1px] h-fit flex-col gap-5 max-h-full overflow-y-scroll md:pb-20 grid grid-cols-1 md:grid-cols-2 p-2 md:max-h-[80vh]">
-          {applications.map((item) => (
+          {applications.map((item, i) => (
             <ApplicationItemCard
+              key={i}
               name={item.name}
               address={item.address}
               AR_tools={item.AR_tools}
