@@ -16,3 +16,10 @@ export type Application = {
   AR_Skills: string
   jod_id: number
 }
+
+export type ApplicationResponse = Application & {
+  createdAt: string
+  updatedAt: string
+  user_id: string
+  deletedAt?: string | null
+}

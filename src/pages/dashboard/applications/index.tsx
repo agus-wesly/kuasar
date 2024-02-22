@@ -1,10 +1,19 @@
-// import { useApplicationsQuery } from '@/features/applications/query'
+import { useApplicationsQuery } from '@/features/applications/query'
+import { Application } from '@/features/applications/types/application'
+import { Link } from 'react-router-dom'
 
 type Props = {}
 
 export default function DashboardApplicationsPage({}: Props) {
+  const { data, isLoading, isError } = useApplicationsQuery()
+
+  if (isLoading) return <p>Loading...</p>
+  if (isError) return <p>Error</p>
+
+  const applications = data?.data
+
   return (
-    <div>
+    <>
       <div className="w-full flex items-center justify-between">
         <div>
           <h3 className="font-semibold text-lg md:text-2xl text-primary">
@@ -20,17 +29,41 @@ export default function DashboardApplicationsPage({}: Props) {
         </Link> */}
       </div>
 
-      <ApplicationList />
-    </div>
+      {!applications?.length ? (
+        <p>No application</p>
+      ) : (
+        <div className="border rounded-xl divide-y-[1px] h-fit flex flex-col gap-5 max-h-full overflow-y-scroll md:pb-20">
+          {applications.map((item) => (
+            <ApplicationItemCard
+              name={item.name}
+              address={item.address}
+              AR_tools={item.AR_tools}
+              email={item.email}
+            />
+          ))}
+        </div>
+      )}
+    </>
   )
 }
 
-function ApplicationList() {
-  // const { data, isLoading } = useApplicationsQuery()
+function ApplicationItemCard(
+  props: Pick<Application, 'name' | 'address' | 'AR_tools' | 'email'>
+) {
+  if (false) return <p>Loading...</p>
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-      Application List here
+    <div className="text-xs p-4 space-y-2">
+      <p className="capitalize text-lg text-primary font-semibold">
+        {props.name}
+      </p>
+      <p className="text-sm font-medium">{props.email}</p>
+      <p>{props.address}</p>
+      <p>AR Skill : {props.AR_tools}</p>
+
+      <Link className="inline-block text-primary font-semibold" to={`/`}>
+        See more...
+      </Link>
     </div>
   )
 }
