@@ -1,3 +1,4 @@
+import { formatUrlLink } from '@/utils/formatUrl'
 import { Project } from '../types/project'
 
 export function CardARCreation(
@@ -13,7 +14,7 @@ export function CardARCreation(
           autoPlay={true}
           loop={false}
           playsInline={true}
-          src={props.video}
+          src={formatUrlLink(props.video) ?? undefined}
           muted
           crossOrigin="anonymous"
         ></video>
