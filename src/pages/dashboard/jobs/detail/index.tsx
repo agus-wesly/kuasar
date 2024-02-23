@@ -29,7 +29,7 @@ export default function DashboardJobDetailPage({}: Props) {
           <span>
             <ArrowLeft />
           </span>
-          <span>All Jobs</span>
+          <span>Back to all Jobs</span>
         </Link>
       </div>
 
@@ -42,9 +42,11 @@ export default function DashboardJobDetailPage({}: Props) {
           culpa beatae nesciunt laboriosam! Cumque delectus voluptates ratione!
         </p>
         <p className="font-semibold text-primary">
-          {formatDate(jobDetail.deadline)}
+          Deadline : {formatDate(jobDetail.deadline)}
         </p>
-        <p className="text-neutral-800 font-semibold">{jobType?.type}</p>
+        <p className="text-neutral-800 font-semibold">
+          Job type : {jobType?.type}
+        </p>
       </div>
     </div>
   )
