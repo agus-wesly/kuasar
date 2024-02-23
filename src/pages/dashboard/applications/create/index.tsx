@@ -4,7 +4,7 @@ import { applicationsSchema } from '@/features/applications/schema/applications'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AxiosError } from 'axios'
 import { axios } from '@/plugin/axios'
 import {
@@ -17,7 +17,7 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 import { useUser } from '@/features/auth/hooks/use-auth'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 type Props = {}
 
