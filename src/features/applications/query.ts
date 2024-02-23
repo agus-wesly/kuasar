@@ -5,6 +5,7 @@ import { useAccessToken } from '../auth/hooks/use-auth'
 
 export function useApplicationsQuery() {
   const accessToken = useAccessToken((state) => state.accessToken)
+
   return useQuery({
     queryKey: ['applications'],
     queryFn: async () => {
@@ -17,5 +18,24 @@ export function useApplicationsQuery() {
       })
       return response.data
     },
+  })
+}
+
+export function useApplicationDetailQuery({ id }: { id: string | undefined }) {
+  const accessToken = useAccessToken((state) => state.accessToken)
+
+  return useQuery({
+    queryKey: ['applications', id],
+    queryFn: async () => {
+      const response = await axios.get<{
+        data: ApplicationResponse
+      }>(`/applications/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      return response.data
+    },
+    enabled: !!id,
   })
 }

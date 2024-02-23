@@ -17,22 +17,16 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 import { useUser } from '@/features/auth/hooks/use-auth'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 type Props = {}
 
 export default function DashboardApplicationCreate({}: Props) {
   const role = useUser((state) => state.user?.role) ?? ''
-  const navigate = useNavigate()
 
-  useEffect(
-    function checkUserRole() {
-      if (role !== 'FREELANCER') {
-        navigate('/dashboard')
-      }
-    },
-    [role]
-  )
+  if (role !== 'FREELANCER') {
+    return <Navigate to={'/dashboard/applications'} />
+  }
 
   return (
     <div className="w-full">

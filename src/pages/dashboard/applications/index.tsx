@@ -1,11 +1,15 @@
+import { buttonVariants } from '@/components/ui/button'
 import { useApplicationsQuery } from '@/features/applications/query'
 import { Application } from '@/features/applications/types/application'
+import { useUser } from '@/features/auth/hooks/use-auth'
+import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 
 type Props = {}
 
 export default function DashboardApplicationsPage({}: Props) {
   const { data, isLoading, isError } = useApplicationsQuery()
+  const role = useUser((state) => state.user?.role)
 
   if (isLoading) return <p>Loading...</p>
   if (isError) return <p>Error</p>
@@ -24,18 +28,21 @@ export default function DashboardApplicationsPage({}: Props) {
           </p>
         </div>
 
-        {/* <Link to={'create'} className={cn(buttonVariants({}))}>
-          Create
-        </Link> */}
+        {role === 'FREELANCER' && (
+          <Link to={'create'} className={cn(buttonVariants({}))}>
+            Create
+          </Link>
+        )}
       </div>
 
       {!applications?.length ? (
         <p>No application</p>
       ) : (
-        <div className="border rounded-xl divide-[1px] h-fit flex-col gap-5 max-h-full overflow-y-scroll md:pb-20 grid grid-cols-1 md:grid-cols-2 p-2 md:max-h-[80vh]">
-          {applications.map((item, i) => (
+        <div className="border rounded-xl h-fit flex-col max-h-full overflow-y-scroll grid grid-cols-1 md:grid-cols-2 md:max-h-[80vh]">
+          {applications.map((item) => (
             <ApplicationItemCard
-              key={i}
+              key={item.id}
+              id={item.id}
               name={item.name}
               address={item.address}
               AR_tools={item.AR_tools}
@@ -49,10 +56,10 @@ export default function DashboardApplicationsPage({}: Props) {
 }
 
 function ApplicationItemCard(
-  props: Pick<Application, 'name' | 'address' | 'AR_tools' | 'email'>
+  props: Pick<Application, 'name' | 'address' | 'AR_tools' | 'email' | 'id'>
 ) {
   return (
-    <div className="text-xs md:text-sm p-4 space-y-2">
+    <div className="text-xs md:text-sm p-4 space-y-2 border">
       <p className="capitalize text-lg md:text-xl text-primary font-semibold">
         {props.name}
       </p>
@@ -60,7 +67,10 @@ function ApplicationItemCard(
       <p>{props.address}</p>
       <p>AR Skill : {props.AR_tools}</p>
 
-      <Link className="inline-block text-primary font-semibold" to={`/`}>
+      <Link
+        className="inline-block text-primary font-semibold"
+        to={`${props.id}`}
+      >
         See more...
       </Link>
     </div>
