@@ -1,12 +1,9 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { applicationsSchema } from '@/features/applications/schema/applications'
+import { applicationSchema } from '@/features/applications/schema/applications'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
-import { AxiosError } from 'axios'
-import { axios } from '@/plugin/axios'
 import {
   Select,
   SelectContent,
@@ -14,16 +11,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 import { useUser } from '@/features/auth/hooks/use-auth'
 import { Navigate } from 'react-router-dom'
+import { useCreateApplicationMutation } from '@/features/applications/mutation'
+import { Loader2 } from 'lucide-react'
 
 type Props = {}
 
 export default function DashboardApplicationCreate({}: Props) {
   const role = useUser((state) => state.user?.role) ?? ''
-
   if (role !== 'FREELANCER') {
     return <Navigate to={'/dashboard/applications'} />
   }
@@ -49,11 +46,11 @@ export default function DashboardApplicationCreate({}: Props) {
 }
 
 function NewApplicationForm() {
-  const { form, handleRegister, isSubmitting, errors } =
+  const { form, handleCreateApplication, isSubmitting, errors } =
     useCreateNewApplication()
 
   return (
-    <form onSubmit={handleRegister} className="max-w-lg my-5">
+    <form onSubmit={handleCreateApplication} className="max-w-lg my-5">
       <fieldset disabled={isSubmitting} className="grid gap-4 text-sm">
         <div className="grid gap-1">
           <label htmlFor="name">Name</label>
@@ -76,8 +73,8 @@ function NewApplicationForm() {
             type="text"
             {...form.register('email')}
           />
-          {errors.name && (
-            <p className="text-xs text-destructive">{errors.name.message}</p>
+          {errors.email && (
+            <p className="text-xs text-destructive">{errors.email.message}</p>
           )}
         </div>
 
@@ -89,8 +86,10 @@ function NewApplicationForm() {
             type="text"
             {...form.register('phone_number')}
           />
-          {errors.name && (
-            <p className="text-xs text-destructive">{errors.name.message}</p>
+          {errors.phone_number && (
+            <p className="text-xs text-destructive">
+              {errors.phone_number.message}
+            </p>
           )}
         </div>
 
@@ -140,7 +139,13 @@ function NewApplicationForm() {
         <div className="grid gap-1">
           <label htmlFor="creatorType">Creator Type</label>
 
-          <Select>
+          <Select
+            onValueChange={(e: 'Professional' | 'SideHustle' | 'Hobby') =>
+              form.setValue('type_creator', e, {
+                shouldValidate: true,
+              })
+            }
+          >
             <SelectTrigger>
               <SelectValue placeholder="AR Monetize"></SelectValue>
             </SelectTrigger>
@@ -168,7 +173,6 @@ function NewApplicationForm() {
           <Input
             id="arPublications"
             placeholder="Number of the AR publications."
-            type="text"
             {...form.register('AR_publications_count')}
           />
           {errors.AR_publications_count && (
@@ -181,12 +185,17 @@ function NewApplicationForm() {
         <div className="grid gap-1">
           <label htmlFor="arMonetize">AR Monetize</label>
 
-          <Select>
+          <Select
+            defaultValue={'false'}
+            onValueChange={(e: 'true' | 'false') =>
+              form.setValue('AR_monetize', e === 'true')
+            }
+          >
             <SelectTrigger>
               <SelectValue placeholder="AR Monetize"></SelectValue>
             </SelectTrigger>
 
-            <SelectContent {...form.register('AR_monetize')} id="arMonetize">
+            <SelectContent id="arMonetize">
               <SelectItem value="true">Yes</SelectItem>
               <SelectItem value="false">No</SelectItem>
             </SelectContent>
@@ -245,15 +254,21 @@ function NewApplicationForm() {
         <div className="grid gap-1">
           <label htmlFor="arAsset">AR Asset</label>
 
-          <RadioGroup
-            className="flex items-center gap-4 mt-1"
-            defaultValue="Yes"
+          <Select
+            defaultValue={'false'}
+            onValueChange={(e: 'true' | 'false') =>
+              form.setValue('AR_asset', e === 'true')
+            }
           >
-            <RadioGroupItem value="Yes" id="yes" />
-            <label htmlFor="yes">Yes</label>
-            <RadioGroupItem value="No" id="no" />
-            <label htmlFor="no">No</label>
-          </RadioGroup>
+            <SelectTrigger>
+              <SelectValue placeholder="AR Asset"></SelectValue>
+            </SelectTrigger>
+
+            <SelectContent id="arAsset">
+              <SelectItem value="true">Yes</SelectItem>
+              <SelectItem value="false">No</SelectItem>
+            </SelectContent>
+          </Select>
 
           {errors.AR_asset && (
             <p className="text-xs text-destructive">
@@ -293,9 +308,10 @@ function NewApplicationForm() {
         </div>
 
         <div className="grid gap-1">
-          <label htmlFor="jobId">Job ID</label>
+          <label htmlFor="jodId">Jod ID</label>
+          {/* @ts-expect-error */}
           <Input
-            id="jobId"
+            id="jodId"
             placeholder="Number of the jobs"
             type="text"
             {...form.register('jod_id')}
@@ -306,8 +322,8 @@ function NewApplicationForm() {
         </div>
 
         <Button className="px-8">
-          {/* {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} */}
-          Register Now
+          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Create Application
         </Button>
       </fieldset>
     </form>
@@ -315,37 +331,31 @@ function NewApplicationForm() {
 }
 
 function useCreateNewApplication() {
-  const form = useForm<z.infer<typeof applicationsSchema>>({
-    resolver: zodResolver(applicationsSchema),
+  const form = useForm<z.infer<typeof applicationSchema>>({
+    resolver: zodResolver(applicationSchema),
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [errorCreateNewApplication, setErrorCreateNewApplication] =
-    useState<AxiosError<{
-      message: string
-      statusCode: number
-    }> | null>(null)
-  // const navigate = useNavigate()
 
-  const handleRegister = form.handleSubmit(async (data) => {
-    try {
-      setIsSubmitting(true)
-      await axios.post('/applications/create', {
+  const {
+    mutate,
+    isPending,
+    error: errorCreateNewApplication,
+  } = useCreateApplicationMutation()
+
+  const handleCreateApplication = form.handleSubmit(async (data) => {
+    mutate({
+      newApplication: {
         ...data,
-      })
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setErrorCreateNewApplication(error)
-      }
-    } finally {
-      setIsSubmitting(false)
-    }
+        AR_monetize: data.AR_monetize,
+        AR_asset: data.AR_asset,
+      },
+    })
   })
 
   const errors = form.formState.errors
 
   return {
-    handleRegister,
-    isSubmitting,
+    handleCreateApplication,
+    isSubmitting: isPending,
     errors,
     form,
     errorCreateNewApplication,
