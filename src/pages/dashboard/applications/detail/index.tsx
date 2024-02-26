@@ -120,7 +120,7 @@ export default function DashboardApplicationDetailPage() {
               </TableCell>
               <TableCell>
                 <p className="text-neutral-600">
-                  {applicationDetail.AR_monetize}
+                  {applicationDetail.AR_monetize ? 'Yes' : 'No'}
                 </p>
               </TableCell>
             </TableRow>
@@ -148,7 +148,9 @@ export default function DashboardApplicationDetailPage() {
                 <p className="text-neutral-600">AR Asset</p>
               </TableCell>
               <TableCell>
-                <p className="text-neutral-600">{applicationDetail.AR_asset}</p>
+                <p className="text-neutral-600">
+                  {applicationDetail.AR_asset ? 'Yes' : 'No'}
+                </p>
               </TableCell>
             </TableRow>
 

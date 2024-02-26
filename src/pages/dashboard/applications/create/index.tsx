@@ -16,6 +16,7 @@ import { useUser } from '@/features/auth/hooks/use-auth'
 import { Navigate } from 'react-router-dom'
 import { useCreateApplicationMutation } from '@/features/applications/mutation'
 import { Loader2 } from 'lucide-react'
+import { useJobsQuery } from '@/features/jobs/query'
 
 type Props = {}
 
@@ -48,6 +49,10 @@ export default function DashboardApplicationCreate({}: Props) {
 function NewApplicationForm() {
   const { form, handleCreateApplication, isSubmitting, errors } =
     useCreateNewApplication()
+
+  const { data, isLoading: isLoadingJobQuery } = useJobsQuery()
+
+  const jobs = data?.data
 
   return (
     <form onSubmit={handleCreateApplication} className="max-w-lg my-5">
@@ -137,8 +142,6 @@ function NewApplicationForm() {
         </div>
 
         <div className="grid gap-1">
-          <label htmlFor="creatorType">Creator Type</label>
-
           <Select
             onValueChange={(e: 'Professional' | 'SideHustle' | 'Hobby') =>
               form.setValue('type_creator', e, {
@@ -147,7 +150,7 @@ function NewApplicationForm() {
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="AR Monetize"></SelectValue>
+              <SelectValue placeholder="Creator type"></SelectValue>
             </SelectTrigger>
 
             <SelectContent {...form.register('type_creator')} id="creatorType">
@@ -188,7 +191,7 @@ function NewApplicationForm() {
           <Select
             defaultValue={'false'}
             onValueChange={(e: 'true' | 'false') =>
-              form.setValue('AR_monetize', e === 'true')
+              form.setValue('AR_monetize', e as any)
             }
           >
             <SelectTrigger>
@@ -308,14 +311,21 @@ function NewApplicationForm() {
         </div>
 
         <div className="grid gap-1">
-          <label htmlFor="jodId">Jod ID</label>
-          {/* @ts-expect-error */}
-          <Input
-            id="jodId"
-            placeholder="Number of the jobs"
-            type="text"
-            {...form.register('jod_id')}
-          />
+          {isLoadingJobQuery ? (
+            <p>Loading...</p>
+          ) : (
+            <Select onValueChange={(e) => form.setValue('jod_id', Number(e))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Job Type"></SelectValue>
+              </SelectTrigger>
+
+              <SelectContent id="arAsset">
+                {jobs?.map((item) => (
+                  <SelectItem value={String(item.id)}>{item.title}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
           {errors.jod_id && (
             <p className="text-xs text-destructive">{errors.jod_id.message}</p>
           )}

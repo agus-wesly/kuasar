@@ -24,7 +24,7 @@ export const applicationSchema = z.object({
   AR_asset: z.enum(['true', 'false']).default('false').transform(Boolean),
   AR_3D_asset: z.string().regex(/^\d+$/, 'Must be a number').transform(Number),
   AR_Skills: z.string().min(1, 'AR Skills platform is required'),
-  jod_id: z.string().regex(/^\d+$/, 'Must be a number').transform(Number),
+  jod_id: z.number({ required_error: 'Job Type is required' }),
 })
 
 export type ApplicationCreate = z.infer<typeof applicationSchema>
