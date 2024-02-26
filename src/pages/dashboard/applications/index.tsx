@@ -2,8 +2,10 @@ import { buttonVariants } from '@/components/ui/button'
 import { useApplicationsQuery } from '@/features/applications/query'
 import { Application } from '@/features/applications/types/application'
 import { useUser } from '@/features/auth/hooks/use-auth'
+import { useDeleteProjectMutation } from '@/features/projects/mutation'
 import { cn } from '@/lib/utils'
-import { Link } from 'react-router-dom'
+import { PencilIcon, TrashIcon } from 'lucide-react'
+import { Link, useParams } from 'react-router-dom'
 
 type Props = {}
 
@@ -58,11 +60,28 @@ export default function DashboardApplicationsPage({}: Props) {
 function ApplicationItemCard(
   props: Pick<Application, 'name' | 'address' | 'AR_tools' | 'email' | 'id'>
 ) {
+  const { id: applicationId } = useParams()
+  const { mutate } = useDeleteProjectMutation()
+  const role = useUser((state) => state.user?.role)
+
   return (
     <div className="text-xs md:text-sm p-4 space-y-2 border">
-      <p className="capitalize text-lg md:text-xl text-primary font-semibold">
-        {props.name}
-      </p>
+      <div className="flex justify-between items-center">
+        <p className="capitalize text-lg md:text-xl text-primary font-semibold">
+          {props.name}
+        </p>
+
+        {role === 'ADMIN' || true ? (
+          <div className="space-x-3">
+            <Link className="inline-block" to={`update/${props.id}`}>
+              <PencilIcon className="size-4 text-primary" />
+            </Link>
+            <button onClick={() => mutate(Number(applicationId))}>
+              <TrashIcon className="size-4 text-destructive" />
+            </button>
+          </div>
+        ) : null}
+      </div>
       <p className="text-sm font-medium">{props.email}</p>
       <p>{props.address}</p>
       <p>AR Skill : {props.AR_tools}</p>

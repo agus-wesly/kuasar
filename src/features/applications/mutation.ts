@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { AxiosError } from 'axios'
 import { useAccessToken } from '../auth/hooks/use-auth'
 import { ApplicationCreate } from './schema/applications'
+import { Project } from '../projects/types/project'
 
 export function useCreateApplicationMutation() {
   const queryClient = useQueryClient()
@@ -52,7 +53,7 @@ export function useCreateApplicationMutation() {
 
 //   return useMutation({
 //     mutationFn: async (
-//       newJob: Pick<Job, 'title' | 'description' | 'deadline' | 'type_id' | 'id'>
+//       newJob: Pick<ApplicationCreate, 'title' | 'description' | 'deadline' | 'type_id' | 'id'>
 //     ) => {
 //       return await axios.patch(`/applications/${newJob.id}/update`, newJob, {
 //         headers: {
@@ -82,37 +83,37 @@ export function useCreateApplicationMutation() {
 //   })
 // }
 
-// export function useDeleteJobMutation() {
-//   const queryClient = useQueryClient()
-//   const accessToken = useAccessToken((state) => state.accessToken)
+export function useDeleteProjectMutation() {
+  const queryClient = useQueryClient()
+  const accessToken = useAccessToken((state) => state.accessToken)
 
-//   return useMutation({
-//     mutationFn: async (id: Job['id']) => {
-//       return await axios.delete(`/applications/${id}`, {
-//         headers: {
-//           Authorization: `Bearer ${accessToken}`,
-//         },
-//       })
-//     },
-//     onSettled: () => {
-//       queryClient.invalidateQueries({ queryKey: ['jobs'] })
-//     },
-//     onSuccess: () => {
-//       toast('Successfully deleted  ✅', {
-//         description: 'Job has been deleted !',
-//       })
-//     },
-//     onError: (error) => {
-//       let message = 'Unknown error. Please try again later'
-//       if (error instanceof AxiosError) {
-//         const serverMessage = error.response?.data.message
-//         if (typeof serverMessage !== 'object') {
-//           message = serverMessage
-//         }
-//       }
-//       toast.error('Failed to delete Job ❌', {
-//         description: message,
-//       })
-//     },
-//   })
-// }
+  return useMutation({
+    mutationFn: async (id: Project['id']) => {
+      return await axios.delete(`/applications/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['applications'] })
+    },
+    onSuccess: () => {
+      toast('Successfully deleted  ✅', {
+        description: 'Application has been deleted !',
+      })
+    },
+    onError: (error) => {
+      let message = 'Unknown error. Please try again later'
+      if (error instanceof AxiosError) {
+        const serverMessage = error.response?.data.message
+        if (typeof serverMessage !== 'object') {
+          message = serverMessage
+        }
+      }
+      toast.error('Failed to delete Application ❌', {
+        description: message,
+      })
+    },
+  })
+}
