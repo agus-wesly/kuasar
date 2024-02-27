@@ -2,19 +2,37 @@ import { buttonVariants } from '@/components/ui/button'
 import { useApplicationsQuery } from '@/features/applications/query'
 import { Application } from '@/features/applications/types/application'
 import { useUser } from '@/features/auth/hooks/use-auth'
-import { useDeleteProjectMutation } from '@/features/projects/mutation'
+import { useState } from 'react'
+import { useDeleteApplicationMutation } from '@/features/applications/mutation'
 import { cn } from '@/lib/utils'
 import { PencilIcon, TrashIcon } from 'lucide-react'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 
-type Props = {}
-
-export default function DashboardApplicationsPage({}: Props) {
+export default function DashboardApplicationsPage() {
   const { data, isLoading, isError } = useApplicationsQuery()
+  const { mutateAsync, isPending: isDeletingApplication } =
+    useDeleteApplicationMutation()
+  const [activeDialogDeleteId, setActiveDialogDeleteId] = useState<
+    number | null
+  >(null)
   const role = useUser((state) => state.user?.role)
 
   if (isLoading) return <p>Loading...</p>
   if (isError) return <p>Error</p>
+
+  function showDialogDelete(id: number) {
+    setActiveDialogDeleteId(id)
+  }
 
   const applications = data?.data
 
@@ -49,19 +67,50 @@ export default function DashboardApplicationsPage({}: Props) {
               address={item.address}
               AR_tools={item.AR_tools}
               email={item.email}
+              onClickDeleteButton={showDialogDelete}
             />
           ))}
         </div>
       )}
+
+      <AlertDialog
+        open={activeDialogDeleteId !== null}
+        onOpenChange={(isOpen) => {
+          if (!isOpen) setActiveDialogDeleteId(null)
+        }}
+      >
+        <AlertDialogContent className="w-[80%] rounded-lg">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete this application?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently remove the
+              application from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                if (activeDialogDeleteId === null) return
+                await mutateAsync(activeDialogDeleteId)
+                setActiveDialogDeleteId(null)
+              }}
+              className="bg-red-800 hover:bg-red-800"
+            >
+              {isDeletingApplication ? 'Deleting...' : 'Continue'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
 
 function ApplicationItemCard(
-  props: Pick<Application, 'name' | 'address' | 'AR_tools' | 'email' | 'id'>
+  props: Pick<Application, 'name' | 'address' | 'AR_tools' | 'email' | 'id'> & {
+    onClickDeleteButton: (id: number) => void
+  }
 ) {
-  const { id: applicationId } = useParams()
-  const { mutate } = useDeleteProjectMutation()
   const role = useUser((state) => state.user?.role)
 
   return (
@@ -76,7 +125,7 @@ function ApplicationItemCard(
             <Link className="inline-block" to={`update/${props.id}`}>
               <PencilIcon className="size-4 text-primary" />
             </Link>
-            <button onClick={() => mutate(Number(applicationId))}>
+            <button onClick={() => props.onClickDeleteButton(Number(props.id))}>
               <TrashIcon className="size-4 text-destructive" />
             </button>
           </div>

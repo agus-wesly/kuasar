@@ -83,7 +83,7 @@ export function useCreateApplicationMutation() {
 //   })
 // }
 
-export function useDeleteProjectMutation() {
+export function useDeleteApplicationMutation() {
   const queryClient = useQueryClient()
   const accessToken = useAccessToken((state) => state.accessToken)
 
