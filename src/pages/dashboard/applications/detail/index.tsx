@@ -6,11 +6,9 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 
 export default function DashboardApplicationDetailPage() {
   const { id: applicationId } = useParams()
-  const { data: applicationDetailData, isLoading } = useApplicationDetailQuery({
+  const { data: applicationDetail, isLoading } = useApplicationDetailQuery({
     id: applicationId,
   })
-
-  const applicationDetail = applicationDetailData?.data
 
   if (isLoading) return <p>Loading....</p>
 
@@ -40,7 +38,7 @@ export default function DashboardApplicationDetailPage() {
             <TableRow>
               <TableCell className="text-neutral-600">Application ID</TableCell>
               <TableCell className="text-neutral-600">
-                {applicationDetail.id}
+                {applicationId}
               </TableCell>
             </TableRow>
             <TableRow>

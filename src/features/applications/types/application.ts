@@ -6,7 +6,7 @@ export type Application = {
   address: string
   linkedin: string
   instagram: string
-  type_creator: string
+  type_creator?: 'Professional' | 'SideHustle' | 'Hobby'
   AR_publications_count: number
   AR_monetize: boolean
   AR_publication_platform: string

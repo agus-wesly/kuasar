@@ -34,7 +34,7 @@ export function useApplicationDetailQuery({ id }: { id: string | undefined }) {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      return response.data
+      return response.data.data
     },
     enabled: !!id,
   })
