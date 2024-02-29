@@ -20,6 +20,7 @@ export const userRegisterSchema = z
     confirmPassword: z.string({
       required_error: 'Confirm password cannot be empty',
     }),
+    asCreator: z.boolean().default(false),
   })
   .superRefine(({ password, confirmPassword }, ctx) => {
     if (password !== confirmPassword) {

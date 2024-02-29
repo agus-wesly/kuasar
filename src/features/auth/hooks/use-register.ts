@@ -22,10 +22,16 @@ export function useRegister() {
     username,
     email,
     password,
+    asCreator,
   }: z.infer<typeof userRegisterSchema>) {
     try {
       setIsSubmitting(true)
-      const response = await axios.post('/auth/create/client', {
+      let registerUrl = '/auth/create/client'
+      if (asCreator) {
+        registerUrl = '/auth/create/freelancer'
+      }
+
+      const response = await axios.post(registerUrl, {
         username,
         email,
         password,

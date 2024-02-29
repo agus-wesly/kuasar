@@ -7,6 +7,7 @@ import { useRegister } from '@/features/auth/hooks/use-register'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { AlertTriangle } from 'lucide-react'
+import { Checkbox } from '@/components/ui/checkbox'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -92,6 +93,26 @@ export default function UserRegisterForm({
                 </p>
               )}
             </div>
+
+            <div className="flex gap-2 items-center text-sm">
+              <Checkbox
+                className="bg-neutral-50"
+                onCheckedChange={(val) =>
+                  form.setValue('asCreator', val as boolean)
+                }
+                id="as-creator"
+              />
+              <label className="select-none" htmlFor="as-creator">
+                Register as creator
+              </label>
+
+              {errors.asCreator && (
+                <p className="text-xs text-destructive">
+                  {errors.asCreator.message}
+                </p>
+              )}
+            </div>
+
             <Button>
               {isSubmitting && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
