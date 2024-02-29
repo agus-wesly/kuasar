@@ -25,6 +25,7 @@ import DashboardJobsPage from './pages/dashboard/jobs'
 import DashboardJobCreatePage from './pages/dashboard/jobs/create'
 import DashboardJobUpdatePage from './pages/dashboard/jobs/update'
 import DashboardJobDetailPage from './pages/dashboard/jobs/detail'
+import ApplicationLayout from './layouts/dashboard-layout/applications'
 
 export const router = createBrowserRouter([
   {
@@ -104,6 +105,7 @@ export const router = createBrowserRouter([
                   },
                   {
                     path: 'applications',
+                    element: <ApplicationLayout />,
                     children: [
                       {
                         index: true,

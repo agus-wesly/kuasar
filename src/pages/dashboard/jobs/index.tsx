@@ -18,6 +18,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { useDeleteJobMutation } from '@/features/jobs/mutation'
+import { useUser } from '@/features/auth/hooks/use-auth'
 
 type Props = {}
 
@@ -25,6 +26,7 @@ export default function DashboardJobsPage({}: Props) {
   const navigate = useNavigate()
   const [searchParam] = useSearchParams()
   const searchQuery = searchParam.get('q') ?? ''
+  const role = useUser((state) => state.user?.role)
 
   return (
     <div className="max-h-full md:max-h-[80vh] w-full">
@@ -35,20 +37,22 @@ export default function DashboardJobsPage({}: Props) {
           </h3>
         </div>
 
-        <Link
-          to={'create'}
-          className={cn(
-            buttonVariants({
-              variant: 'outline',
-            }),
-            'gap-2 px-2'
-          )}
-        >
-          Create job
-          <span>
-            <PlusIcon />
-          </span>
-        </Link>
+        {role === 'ADMIN' && (
+          <Link
+            to={'create'}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+              }),
+              'gap-2 px-2'
+            )}
+          >
+            Create job
+            <span>
+              <PlusIcon />
+            </span>
+          </Link>
+        )}
       </div>
 
       <form
@@ -179,28 +183,34 @@ function JobList() {
 function JobItemCard(
   props: Job & { jobType: string; onClickDeleteButton: (id: number) => void }
 ) {
+  const role = useUser((state) => state.user?.role)
+
   return (
     <div className=" p-4">
       <div className="flex justify-between items-center mb-3">
         <p className="text-primary md:text-lg font-semibold">{props.title}</p>
-        <div className="space-x-2">
-          <Link
-            className={cn(
-              buttonVariants({ variant: 'outline' }),
-              'text-xs md:text-sm py-2 h-min border-muted'
-            )}
-            to={`/dashboard/jobs/update/${props.id}`}
-          >
-            <PencilLine className="size-4 md:size-5" />
-          </Link>
-          <Button
-            onClick={() => props.onClickDeleteButton(props.id)}
-            variant={'destructive'}
-            className={cn('text-xs md:text-sm py-2 h-min border-muted')}
-          >
-            <Trash2 className="size-4 md:size-5" />
-          </Button>
-        </div>
+
+        {role === 'ADMIN' && (
+          <div className="space-x-2">
+            <Link
+              className={cn(
+                buttonVariants({ variant: 'outline' }),
+                'text-xs md:text-sm py-2 h-min border-muted'
+              )}
+              to={`/dashboard/jobs/update/${props.id}`}
+            >
+              <PencilLine className="size-4 md:size-5" />
+            </Link>
+            <Button
+              disabled={role !== 'ADMIN'}
+              onClick={() => props.onClickDeleteButton(props.id)}
+              variant={'destructive'}
+              className={cn('text-xs md:text-sm py-2 h-min border-muted')}
+            >
+              <Trash2 className="size-4 md:size-5" />
+            </Button>
+          </div>
+        )}
       </div>
 
       <div className="text-xs md:text-sm text-muted-foreground flex flex-col gap-2">

@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
+import { useUser } from '@/features/auth/hooks/use-auth'
 import { useCreateJobMutation } from '@/features/jobs/mutation'
 import { useJobTypesQuery } from '@/features/jobs/query'
 import { jobCreateSchema } from '@/features/jobs/schema/job'
@@ -16,6 +17,7 @@ import { transformDateToYMD } from '@/utils/formatDate'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { Navigate } from 'react-router-dom'
 import { z } from 'zod'
 
 type Props = {}
@@ -24,6 +26,9 @@ export default function DashboardJobCreatePage({}: Props) {
   const { form, handleCreateNewJob, isSubmitting, errors } = useCreateNewJob()
   const { data, isLoading: isLoadingJobType } = useJobTypesQuery()
   const jobTypes = data?.data ?? []
+
+  const role = useUser((state) => state.user?.role)
+  if (role !== 'ADMIN') return <Navigate to={'/dashboard/jobs'} />
 
   return (
     <div className="w-full">

@@ -120,7 +120,7 @@ function ApplicationItemCard(
           {props.name}
         </p>
 
-        {role === 'ADMIN' || true ? (
+        {role === 'ADMIN' ? (
           <div className="space-x-3">
             <Link className="inline-block" to={`${props.id}/update`}>
               <PencilIcon className="size-4 text-primary" />

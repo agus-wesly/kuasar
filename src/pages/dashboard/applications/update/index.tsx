@@ -211,8 +211,6 @@ function UpdateApplicationForm({
             </SelectContent>
           </Select>
 
-          {typeof form.getValues('AR_monetize')}
-
           {errors.AR_monetize && (
             <p className="text-xs text-destructive">
               {errors.AR_monetize.message}
