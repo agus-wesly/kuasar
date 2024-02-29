@@ -68,7 +68,6 @@ export default function DashboardJobsPage({}: Props) {
           id="search"
           className="w-full flex-1 outline-none"
           placeholder="Search job..."
-          key={searchQuery}
           defaultValue={searchQuery}
         />
 
