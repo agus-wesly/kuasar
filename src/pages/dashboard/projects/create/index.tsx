@@ -2,12 +2,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
+import { useUser } from '@/features/auth/hooks/use-auth'
 import { useCreateProjectMutation } from '@/features/projects/mutation'
 import { ProjectCreate, projectCreateSchema } from '@/features/projects/schema'
 import { transformDateToYMD } from '@/utils/formatDate'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, UploadCloud, X } from 'lucide-react'
 import { FieldErrors, UseFormReturn, useForm } from 'react-hook-form'
+import { Navigate } from 'react-router-dom'
 import { z } from 'zod'
 
 function HighlightSection({
@@ -183,6 +185,9 @@ function MediaSection({
 export default function DashboardProjectCreatePage() {
   const { form, handleCreateNewProject, isSubmitting, errors } =
     useCreateNewProject()
+  const role = useUser((state) => state.user?.role)
+
+  if (role !== 'ADMIN') return <Navigate to={'/dashboard/projects'} />
 
   return (
     <div className="w-full">

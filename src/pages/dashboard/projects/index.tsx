@@ -14,10 +14,13 @@ import { Project } from '@/features/projects/types/project'
 import InfiniteScroll from '@/components/infinite-scroll'
 import { useDeleteProjectMutation } from '@/features/projects/mutation'
 import { formatUrlLink } from '@/utils/formatUrl'
+import { useUser } from '@/features/auth/hooks/use-auth'
 
 type Props = {}
 
 export default function DashboardProjectsPage({}: Props) {
+  const role = useUser((state) => state.user?.role)
+
   return (
     <div className="max-h-full md:max-h-[80vh] w-full">
       <div className="w-full flex items-center justify-between">
@@ -27,20 +30,22 @@ export default function DashboardProjectsPage({}: Props) {
           </h3>
         </div>
 
-        <Link
-          to={'create'}
-          className={cn(
-            buttonVariants({
-              variant: 'outline',
-            }),
-            'gap-2 px-2'
-          )}
-        >
-          Create project
-          <span>
-            <PlusIcon />
-          </span>
-        </Link>
+        {role === 'ADMIN' && (
+          <Link
+            to={'create'}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+              }),
+              'gap-2 px-2'
+            )}
+          >
+            Create project
+            <span>
+              <PlusIcon />
+            </span>
+          </Link>
+        )}
       </div>
       <ProjectList />
     </div>
@@ -78,6 +83,7 @@ function ProjectList() {
 
 function ProjectItemCard(props: Project) {
   const { mutate } = useDeleteProjectMutation()
+  const role = useUser((state) => state.user?.role)
 
   return (
     <div className="w-full max-w-60 md:max-w-none rounded-lg overflow-hidden shadow-md relative">
@@ -111,22 +117,26 @@ function ProjectItemCard(props: Project) {
                 Detail
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link
-                className="cursor-pointer text-xs flex gap-3 items-center"
-                to={`${props.id}/update`}
-              >
-                <Pencil className="size-4" />
-                Edit
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => mutate(props.id)}
-              className="cursor-pointer text-xs flex gap-3 items-center"
-            >
-              <Trash2 className="size-4" />
-              Delete
-            </DropdownMenuItem>
+            {role === 'ADMIN' && (
+              <>
+                <DropdownMenuItem asChild>
+                  <Link
+                    className="cursor-pointer text-xs flex gap-3 items-center"
+                    to={`${props.id}/update`}
+                  >
+                    <Pencil className="size-4" />
+                    Edit
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => mutate(props.id)}
+                  className="cursor-pointer text-xs flex gap-3 items-center"
+                >
+                  <Trash2 className="size-4" />
+                  Delete
+                </DropdownMenuItem>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
