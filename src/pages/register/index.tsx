@@ -30,4 +30,7 @@ function RegisterPage({}: Props) {
   )
 }
 
-export default withPageTransition(RegisterPage)
+const Page = withPageTransition(RegisterPage)
+export function Component() {
+  return <Page />
+}

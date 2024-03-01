@@ -7,7 +7,7 @@ import { formatUrlLink } from '@/utils/formatUrl'
 import { ArrowLeft, Pencil, Trash2 } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
-export default function DashboardProjectDetailPage() {
+export function Component() {
   const { id: projectId } = useParams()
   const { data, isLoading } = useProjectDetailQuery({ id: projectId })
   const { mutateAsync, isPending: isDeleting } = useDeleteProjectMutation()

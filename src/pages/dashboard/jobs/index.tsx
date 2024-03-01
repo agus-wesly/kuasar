@@ -22,7 +22,7 @@ import { useUser } from '@/features/auth/hooks/use-auth'
 
 type Props = {}
 
-export default function DashboardJobsPage({}: Props) {
+export function Component({}: Props) {
   const navigate = useNavigate()
   const [searchParam] = useSearchParams()
   const searchQuery = searchParam.get('q') ?? ''

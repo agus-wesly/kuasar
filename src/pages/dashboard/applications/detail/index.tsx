@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 
-export default function DashboardApplicationDetailPage() {
+export function Component() {
   const { id: applicationId } = useParams()
   const { data: applicationDetail, isLoading } = useApplicationDetailQuery({
     id: applicationId,

@@ -22,7 +22,7 @@ import { z } from 'zod'
 
 type Props = {}
 
-export default function DashboardJobCreatePage({}: Props) {
+export function Component({}: Props) {
   const { form, handleCreateNewJob, isSubmitting, errors } = useCreateNewJob()
   const { data, isLoading: isLoadingJobType } = useJobTypesQuery()
   const jobTypes = data?.data ?? []

@@ -182,7 +182,7 @@ function MediaSection({
   )
 }
 
-export default function DashboardProjectCreatePage() {
+export function Component() {
   const { form, handleCreateNewProject, isSubmitting, errors } =
     useCreateNewProject()
   const role = useUser((state) => state.user?.role)

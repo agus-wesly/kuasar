@@ -30,4 +30,8 @@ function LoginPage({}: Props) {
   )
 }
 
-export default withPageTransition(LoginPage)
+const Page = withPageTransition(LoginPage)
+
+export function Component() {
+  return <Page />
+}

@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom'
 
 type Props = {}
 
-export default function DashboardJobDetailPage({}: Props) {
+export function Component({}: Props) {
   const params = useParams()
   const { data: jobDetailData, isLoading } = useJobDetailQuery({
     id: params.id,

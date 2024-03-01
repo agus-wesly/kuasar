@@ -14,7 +14,7 @@ export function loader({ request }: LoaderFunctionArgs) {
   return null
 }
 
-export default function VerifyAccount({}: Props) {
+export function Component({}: Props) {
   const { email, handleSubmit, isSubmitting, error } = useVerifyCode()
 
   return (

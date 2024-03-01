@@ -18,7 +18,7 @@ import { z } from 'zod'
 import { Loader2 } from 'lucide-react'
 import { ApplicationResponse } from '@/features/applications/types/application'
 
-export default function DashboardApplicationUpdatePage() {
+export function Component() {
   const { id: applicationId } = useParams()
   const {
     data: applicationDetail,

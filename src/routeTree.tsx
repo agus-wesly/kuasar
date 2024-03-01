@@ -1,30 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom'
 import RootLayout, { ErrorBoundary } from './pages/root'
-import LoginPage from './pages/login'
-import RegisterPage from './pages/register'
 import HomePage from './pages/home'
 import RequireUnAuth from './layouts/require-unauth'
 import RequireAuth from './layouts/require-auth'
-import VerifyAccount, {
-  loader as VerifyAccountLoader,
-} from './pages/verify-account'
 import NotFoundPage from './pages/not-found'
 import DashboardPageLayout from './layouts/dashboard-layout'
 import LandingPageLayout from './layouts/landing-page-layout'
-import Dashboard from './pages/dashboard/layout'
 import DashboardIndexPage from './pages/dashboard'
-import DashboardProjectsPage from './pages/dashboard/projects'
-import DashboardProjectCreatePage from './pages/dashboard/projects/create'
-import DashboardProjectUpdatePage from './pages/dashboard/projects/update'
-import DashboardProjectDetailPage from './pages/dashboard/projects/detail'
-import DashboardApplicationsPage from './pages/dashboard/applications'
-import DashboardApplicationCreate from './pages/dashboard/applications/create'
-import DashboardApplicationUpdatePage from './pages/dashboard/applications/update'
-import DashboardApplicationDetailPage from './pages/dashboard/applications/detail'
-import DashboardJobsPage from './pages/dashboard/jobs'
-import DashboardJobCreatePage from './pages/dashboard/jobs/create'
-import DashboardJobUpdatePage from './pages/dashboard/jobs/update'
-import DashboardJobDetailPage from './pages/dashboard/jobs/detail'
 import ApplicationLayout from './layouts/dashboard-layout/applications'
 
 export const router = createBrowserRouter([
@@ -53,16 +35,15 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: '/login',
-                element: <LoginPage />,
+                lazy: () => import('./pages/login'),
               },
               {
                 path: '/register',
-                element: <RegisterPage />,
+                lazy: () => import('./pages/register'),
               },
               {
                 path: '/verify-account',
-                element: <VerifyAccount />,
-                loader: VerifyAccountLoader,
+                lazy: () => import('./pages/verify-account'),
               },
             ],
           },
@@ -76,7 +57,7 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: '/dashboard',
-                element: <Dashboard />,
+                lazy: () => import('./pages/dashboard/layout'),
                 children: [
                   {
                     index: true,
@@ -87,19 +68,19 @@ export const router = createBrowserRouter([
                     children: [
                       {
                         index: true,
-                        element: <DashboardProjectsPage />,
+                        lazy: () => import('./pages/dashboard/projects'),
                       },
                       {
                         path: 'create',
-                        element: <DashboardProjectCreatePage />,
+                        lazy: () => import('./pages/dashboard/projects/create'),
                       },
                       {
                         path: ':id/update',
-                        element: <DashboardProjectUpdatePage />,
+                        lazy: () => import('./pages/dashboard/projects/update'),
                       },
                       {
                         path: ':id',
-                        element: <DashboardProjectDetailPage />,
+                        lazy: () => import('./pages/dashboard/projects/detail'),
                       },
                     ],
                   },
@@ -109,19 +90,22 @@ export const router = createBrowserRouter([
                     children: [
                       {
                         index: true,
-                        element: <DashboardApplicationsPage />,
+                        lazy: () => import('./pages/dashboard/applications'),
                       },
                       {
                         path: 'create',
-                        element: <DashboardApplicationCreate />,
+                        lazy: () =>
+                          import('./pages/dashboard/applications/create'),
                       },
                       {
                         path: ':id/update',
-                        element: <DashboardApplicationUpdatePage />,
+                        lazy: () =>
+                          import('./pages/dashboard/applications/update'),
                       },
                       {
                         path: ':id',
-                        element: <DashboardApplicationDetailPage />,
+                        lazy: () =>
+                          import('./pages/dashboard/applications/detail'),
                       },
                     ],
                   },
@@ -130,19 +114,19 @@ export const router = createBrowserRouter([
                     children: [
                       {
                         index: true,
-                        element: <DashboardJobsPage />,
+                        lazy: () => import('./pages/dashboard/jobs'),
                       },
                       {
                         path: 'create',
-                        element: <DashboardJobCreatePage />,
+                        lazy: () => import('./pages/dashboard/jobs/create'),
                       },
                       {
                         path: 'update/:id',
-                        element: <DashboardJobUpdatePage />,
+                        lazy: () => import('./pages/dashboard/jobs/update'),
                       },
                       {
                         path: ':id',
-                        element: <DashboardJobDetailPage />,
+                        lazy: () => import('./pages/dashboard/jobs/detail'),
                       },
                     ],
                   },

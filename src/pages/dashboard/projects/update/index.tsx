@@ -267,7 +267,7 @@ function UpdateProjectForm({
   )
 }
 
-export default function DashboardProjectUpdatePage() {
+export function Component() {
   const { id } = useParams()
   const {
     data: projectDetailData,

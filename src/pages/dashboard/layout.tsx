@@ -6,7 +6,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 
 type Props = {}
 
-export default function Dashboard({}: Props) {
+export function Component({}: Props) {
   const role = useUser((state) => state.user?.role)
 
   return (

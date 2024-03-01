@@ -18,7 +18,7 @@ import { useUser } from '@/features/auth/hooks/use-auth'
 
 type Props = {}
 
-export default function DashboardProjectsPage({}: Props) {
+export function Component({}: Props) {
   const role = useUser((state) => state.user?.role)
 
   return (

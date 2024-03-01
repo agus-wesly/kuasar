@@ -18,7 +18,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 
-export default function DashboardApplicationsPage() {
+export function Component() {
   const { data, isLoading, isError } = useApplicationsQuery()
   const { mutateAsync, isPending: isDeletingApplication } =
     useDeleteApplicationMutation()

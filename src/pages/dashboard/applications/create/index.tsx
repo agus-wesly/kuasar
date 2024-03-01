@@ -20,7 +20,7 @@ import { useJobsQuery } from '@/features/jobs/query'
 
 type Props = {}
 
-export default function DashboardApplicationCreate({}: Props) {
+export function Component({}: Props) {
   const role = useUser((state) => state.user?.role) ?? ''
   if (role !== 'FREELANCER') {
     return <Navigate to={'/dashboard/applications'} />

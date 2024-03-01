@@ -22,7 +22,7 @@ import { z } from 'zod'
 
 type Props = {}
 
-export default function DashboardJobUpdatePage({}: Props) {
+export function Component({}: Props) {
   const { id } = useParams()
   const { data: jobDetailData, isLoading: isLoadingJobDetail } =
     useJobDetailQuery({ id })
