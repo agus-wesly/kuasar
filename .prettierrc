@@ -2,10 +2,10 @@
 tabWidth: 2
 semi: false
 singleQuote: true
-arrowParens: "always"
-bracketSpacing: false
-endOfLine: "lf"
-ignorePath: ".prettierignore"
+arrowParens: 'always'
+bracketSpacing: true
+endOfLine: 'lf'
+ignorePath: '.prettierignore'
 printWidth: 80
-proseWrap: "preserve"
-quoteProps: "consistent"
+proseWrap: 'preserve'
+quoteProps: 'consistent'
