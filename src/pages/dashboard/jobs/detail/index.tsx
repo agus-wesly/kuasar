@@ -1,3 +1,4 @@
+import ErrorPage from '@/components/shared/error-page'
 import { useJobDetailQuery, useJobTypesQuery } from '@/features/jobs/query'
 import { formatDate } from '@/utils/formatDate'
 import { ArrowLeft } from 'lucide-react'
@@ -7,7 +8,11 @@ type Props = {}
 
 export function Component({}: Props) {
   const params = useParams()
-  const { data: jobDetailData, isLoading } = useJobDetailQuery({
+  const {
+    data: jobDetailData,
+    isLoading,
+    isError,
+  } = useJobDetailQuery({
     id: params.id,
   })
   const { data: jobTypeData } = useJobTypesQuery()
@@ -15,6 +20,7 @@ export function Component({}: Props) {
   const jobTypeList = jobTypeData?.data ?? []
 
   if (isLoading) return <p>Loading...</p>
+  if (isError) return <ErrorPage />
   if (!jobDetail) return
 
   const jobType = jobTypeList.find((item) => item.id === jobDetail.type_id)

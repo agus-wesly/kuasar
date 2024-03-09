@@ -1,3 +1,4 @@
+import ErrorPage from '@/components/shared/error-page'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -24,12 +25,16 @@ type Props = {}
 
 export function Component({}: Props) {
   const { id } = useParams()
-  const { data: jobDetailData, isLoading: isLoadingJobDetail } =
-    useJobDetailQuery({ id })
+  const {
+    data: jobDetailData,
+    isLoading: isLoadingJobDetail,
+    isError,
+  } = useJobDetailQuery({ id })
 
   const jobDetail = jobDetailData?.data
 
   if (isLoadingJobDetail) return <p>Loading...</p>
+  if (isError) return <ErrorPage />
 
   return (
     <div className="w-full">

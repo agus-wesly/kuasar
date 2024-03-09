@@ -17,6 +17,7 @@ import { useParams } from 'react-router-dom'
 import { z } from 'zod'
 import { Loader2 } from 'lucide-react'
 import { ApplicationResponse } from '@/features/applications/types/application'
+import ErrorPage from '@/components/shared/error-page'
 
 export function Component() {
   const { id: applicationId } = useParams()
@@ -27,7 +28,7 @@ export function Component() {
   } = useApplicationDetailQuery({ id: applicationId })
 
   if (isLoadingApplicationDetail) return <p>Loading...</p>
-  if (isError) return <p>Error</p>
+  if (isError) return <ErrorPage />
 
   return (
     <div className="w-full">
@@ -166,7 +167,7 @@ function UpdateApplicationForm({
                   <SelectItem key={item} value={item}>
                     {item}
                   </SelectItem>
-                )
+                ),
               )}
             </SelectContent>
           </Select>

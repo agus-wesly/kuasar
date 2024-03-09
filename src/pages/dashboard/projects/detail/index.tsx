@@ -1,3 +1,4 @@
+import ErrorPage from '@/components/shared/error-page'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { useDeleteProjectMutation } from '@/features/projects/mutation'
 import { useProjectDetailQuery } from '@/features/projects/query'
@@ -9,11 +10,13 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 
 export function Component() {
   const { id: projectId } = useParams()
-  const { data, isLoading } = useProjectDetailQuery({ id: projectId })
+  const { data, isLoading, isError } = useProjectDetailQuery({ id: projectId })
   const { mutateAsync, isPending: isDeleting } = useDeleteProjectMutation()
   const navigate = useNavigate()
 
   if (isLoading) return <p>Loading...</p>
+  if (isError) return <ErrorPage />
+
   const projectDetail = data?.data
   if (!projectDetail) return <p>Not found....</p>
 
@@ -41,7 +44,7 @@ export function Component() {
             <Link
               className={cn(
                 buttonVariants({ variant: 'outline' }),
-                'flex gap-2 items-center'
+                'flex gap-2 items-center',
               )}
               to={'update'}
             >

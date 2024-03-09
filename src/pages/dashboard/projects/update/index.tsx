@@ -1,3 +1,4 @@
+import ErrorPage from '@/components/shared/error-page'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
@@ -55,7 +56,7 @@ function HighlightSection({
             type="date"
             min={transformDateToYMD(new Date())}
             value={transformDateToYMD(
-              new Date(form.getValues('highlight_until') ?? '')
+              new Date(form.getValues('highlight_until') ?? ''),
             )}
             onChange={(e) => {
               form.setValue('highlight_until', e.target.value, {
@@ -278,7 +279,7 @@ export function Component() {
   const projectDetail = projectDetailData?.data
 
   if (isLoadingProjectDetail) return <p>Loading...</p>
-  if (isErrorProjectDetail) return <p>Error....</p>
+  if (isErrorProjectDetail) return <ErrorPage />
 
   if (!projectDetail) return null
 

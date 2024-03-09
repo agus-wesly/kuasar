@@ -3,14 +3,20 @@ import { ArrowLeft } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
+import ErrorPage from '@/components/shared/error-page'
 
 export function Component() {
   const { id: applicationId } = useParams()
-  const { data: applicationDetail, isLoading } = useApplicationDetailQuery({
+  const {
+    data: applicationDetail,
+    isLoading,
+    isError,
+  } = useApplicationDetailQuery({
     id: applicationId,
   })
 
   if (isLoading) return <p>Loading....</p>
+  if (isError) return <ErrorPage />
 
   if (!applicationDetail) return null
 
