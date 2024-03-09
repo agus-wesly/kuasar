@@ -76,6 +76,7 @@ function ApplicationSection() {
 
 export default function DashboardIndexPage({}: Props) {
   const username = useUser((state) => state.user?.username)
+  const role = useUser((state) => state.user?.role)
 
   return (
     <div className="w-full">
@@ -87,7 +88,7 @@ export default function DashboardIndexPage({}: Props) {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-        <ApplicationSection />
+        {role !== 'CLIENT' ? <ApplicationSection /> : null}
         <ProjectSection />
         <JobSection />
       </div>
