@@ -3,8 +3,14 @@ import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { useRegister } from '@/features/auth/hooks/use-register'
-
+import { axios } from '@/plugin/axios'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { userRegisterSchema } from '@/features/user/schema/user'
+import { z } from 'zod'
+import { AxiosError } from 'axios'
+import { useNavigate } from 'react-router-dom'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { AlertTriangle } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -127,17 +133,56 @@ export default function UserRegisterForm({
             Login
           </Link>
         </p>
-        {/* <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
-        </div> */}
       </div>
     </>
   )
+}
+
+export function useRegister() {
+  const form = useForm<z.infer<typeof userRegisterSchema>>({
+    resolver: zodResolver(userRegisterSchema),
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorRegister, setErrorRegister] = useState<AxiosError<{
+    message: string
+    statusCode: number
+  }> | null>(null)
+  const navigate = useNavigate()
+
+  async function _handleRegister({
+    username,
+    email,
+    password,
+    asCreator,
+  }: z.infer<typeof userRegisterSchema>) {
+    try {
+      setIsSubmitting(true)
+      let registerUrl = '/auth/create/client'
+      if (asCreator) {
+        registerUrl = '/auth/create/freelancer'
+      }
+
+      const response = await axios.post(registerUrl, {
+        username,
+        email,
+        password,
+      })
+      navigate(`/verify-account?email=${response.data.email}`)
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setErrorRegister(error)
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleRegister = form.handleSubmit(_handleRegister)
+
+  return {
+    isSubmitting,
+    handleRegister,
+    errorRegister,
+    form,
+  }
 }
