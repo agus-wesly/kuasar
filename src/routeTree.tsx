@@ -4,10 +4,9 @@ import HomePage from './pages/home'
 import RequireUnAuth from './layouts/require-unauth'
 import RequireAuth from './layouts/require-auth'
 import NotFoundPage from './pages/not-found'
-import DashboardPageLayout from './layouts/dashboard-layout'
 import LandingPageLayout from './layouts/landing-page-layout'
 import DashboardIndexPage from './pages/dashboard'
-import ApplicationLayout from './layouts/dashboard-layout/applications'
+import ApplicationLayout from './pages/dashboard/applications/layout'
 
 export const router = createBrowserRouter([
   {
@@ -53,82 +52,74 @@ export const router = createBrowserRouter([
         element: <RequireAuth />,
         children: [
           {
-            element: <DashboardPageLayout />,
+            path: '/dashboard',
+            lazy: () => import('./pages/dashboard/layout'),
             children: [
               {
-                path: '/dashboard',
-                lazy: () => import('./pages/dashboard/layout'),
+                index: true,
+                element: <DashboardIndexPage />,
+              },
+              {
+                path: 'projects',
                 children: [
                   {
                     index: true,
-                    element: <DashboardIndexPage />,
+                    lazy: () => import('./pages/dashboard/projects'),
                   },
                   {
-                    path: 'projects',
-                    children: [
-                      {
-                        index: true,
-                        lazy: () => import('./pages/dashboard/projects'),
-                      },
-                      {
-                        path: 'create',
-                        lazy: () => import('./pages/dashboard/projects/create'),
-                      },
-                      {
-                        path: ':id/update',
-                        lazy: () => import('./pages/dashboard/projects/update'),
-                      },
-                      {
-                        path: ':id',
-                        lazy: () => import('./pages/dashboard/projects/detail'),
-                      },
-                    ],
+                    path: 'create',
+                    lazy: () => import('./pages/dashboard/projects/create'),
                   },
                   {
-                    path: 'applications',
-                    element: <ApplicationLayout />,
-                    children: [
-                      {
-                        index: true,
-                        lazy: () => import('./pages/dashboard/applications'),
-                      },
-                      {
-                        path: 'create',
-                        lazy: () =>
-                          import('./pages/dashboard/applications/create'),
-                      },
-                      {
-                        path: ':id/update',
-                        lazy: () =>
-                          import('./pages/dashboard/applications/update'),
-                      },
-                      {
-                        path: ':id',
-                        lazy: () =>
-                          import('./pages/dashboard/applications/detail'),
-                      },
-                    ],
+                    path: ':id/update',
+                    lazy: () => import('./pages/dashboard/projects/update'),
                   },
                   {
-                    path: 'jobs',
-                    children: [
-                      {
-                        index: true,
-                        lazy: () => import('./pages/dashboard/jobs'),
-                      },
-                      {
-                        path: 'create',
-                        lazy: () => import('./pages/dashboard/jobs/create'),
-                      },
-                      {
-                        path: 'update/:id',
-                        lazy: () => import('./pages/dashboard/jobs/update'),
-                      },
-                      {
-                        path: ':id',
-                        lazy: () => import('./pages/dashboard/jobs/detail'),
-                      },
-                    ],
+                    path: ':id',
+                    lazy: () => import('./pages/dashboard/projects/detail'),
+                  },
+                ],
+              },
+              {
+                path: 'applications',
+                element: <ApplicationLayout />,
+                children: [
+                  {
+                    index: true,
+                    lazy: () => import('./pages/dashboard/applications'),
+                  },
+                  {
+                    path: 'create',
+                    lazy: () => import('./pages/dashboard/applications/create'),
+                  },
+                  {
+                    path: ':id/update',
+                    lazy: () => import('./pages/dashboard/applications/update'),
+                  },
+                  {
+                    path: ':id',
+                    lazy: () => import('./pages/dashboard/applications/detail'),
+                  },
+                ],
+              },
+              {
+                path: 'jobs',
+                children: [
+                  {
+                    index: true,
+                    lazy: () => import('./pages/dashboard/jobs'),
+                  },
+                  {
+                    path: 'create',
+                    lazy: () => import('./pages/dashboard/jobs/create'),
+                  },
+                  {
+                    path: 'update/:id',
+                    lazy: () => import('./pages/dashboard/jobs/update'),
+                  },
+                  {
+                    path: ':id',
+                    lazy: () => import('./pages/dashboard/jobs/detail'),
                   },
                 ],
               },
