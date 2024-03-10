@@ -37,7 +37,7 @@ export function Component({}: Props) {
               buttonVariants({
                 variant: 'outline',
               }),
-              'gap-2 px-2'
+              'gap-2 px-2',
             )}
           >
             Create project
@@ -65,7 +65,7 @@ function ProjectList() {
           .map((_, i) => (
             <Skeleton
               key={i}
-              className="w-60 aspect-[9/10] rounded-lg shadow-md"
+              className="w-full aspect-[9/10] rounded-lg shadow-md"
             />
           ))
       ) : projects.length > 0 ? (
