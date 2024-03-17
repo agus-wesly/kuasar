@@ -1,6 +1,6 @@
 import _axios from 'axios'
 
-const BASE_URL = 'https://api.thekuasar.com'
+const BASE_URL = 'https://kuasar-backend-tvgmxwhmma-as.a.run.app'
 
 export const axios = _axios.create({
   baseURL: BASE_URL,
