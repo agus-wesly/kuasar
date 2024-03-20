@@ -4,7 +4,6 @@ import { useDeleteProjectMutation } from '@/features/projects/mutation'
 import { useProjectDetailQuery } from '@/features/projects/query'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/utils/formatDate'
-import { formatUrlLink } from '@/utils/formatUrl'
 import { ArrowLeft, Pencil, Trash2 } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
@@ -25,7 +24,7 @@ export function Component() {
       <div className="flex items-center justify-between">
         <Link
           to={'/dashboard/projects'}
-          className="flex gap-2 items-center font-semibold text-lg md:text-xl text-primary"
+          className="flex items-center gap-2 text-lg font-semibold md:text-xl text-primary"
         >
           <span>
             <ArrowLeft />
@@ -34,17 +33,17 @@ export function Component() {
         </Link>
       </div>
 
-      <div className="p-0 mb-5 w-full  my-3 md:my-5 flex flex-col gap-5 text-sm md:text-base">
-        <div className="flex justify-between items-center">
-          <p className="text-lg md:text-xl font-bold capitalize">
+      <div className="flex flex-col w-full gap-5 p-0 my-3 mb-5 text-sm md:my-5 md:text-base">
+        <div className="flex items-center justify-between">
+          <p className="text-lg font-bold capitalize md:text-xl">
             {projectDetail.title}
           </p>
 
-          <div className="flex gap-4 items-center">
+          <div className="flex items-center gap-4">
             <Link
               className={cn(
                 buttonVariants({ variant: 'outline' }),
-                'flex gap-2 items-center',
+                'flex gap-2 items-center'
               )}
               to={'update'}
             >
@@ -59,7 +58,7 @@ export function Component() {
                 navigate('/dashboard/projects')
               }}
               variant={'outline'}
-              className="border-destructive text-destructive flex gap-2 items-center"
+              className="flex items-center gap-2 border-destructive text-destructive"
             >
               <Trash2 className="size-4" />
               {isDeleting ? 'Deleting...' : 'Delete'}
@@ -69,33 +68,30 @@ export function Component() {
 
         {projectDetail.image ? (
           <div className="w-full">
-            <img
-              src={formatUrlLink(projectDetail.image) ?? undefined}
-              className=""
-            />
+            <img src={projectDetail.image ?? undefined} className="" />
           </div>
         ) : null}
 
-        <div className="aspect-video w-full">
+        <div className="w-full aspect-video">
           <video
             preload="none"
             controls
             autoPlay={false}
             loop={false}
             playsInline={true}
-            src={formatUrlLink(projectDetail.video) ?? undefined}
+            src={projectDetail.video ?? undefined}
             muted
             crossOrigin="anonymous"
             className="size-full"
           ></video>
         </div>
 
-        <div className="text-neutral-600 space-y-2">
-          <p className="text-neutral-800 font-semibold md:text-lg">
+        <div className="space-y-2 text-neutral-600">
+          <p className="font-semibold text-neutral-800 md:text-lg">
             Created by : {projectDetail.created_by}
           </p>
 
-          <p className="font-semibold text-xs md:text-sm text-primary">
+          <p className="text-xs font-semibold md:text-sm text-primary">
             {formatDate(projectDetail.createdAt)}
           </p>
 

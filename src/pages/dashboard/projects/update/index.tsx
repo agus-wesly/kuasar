@@ -8,7 +8,6 @@ import { useProjectDetailQuery } from '@/features/projects/query'
 import { ProjectUpdate, projectUpdateSchema } from '@/features/projects/schema'
 import { Project } from '@/features/projects/types/project'
 import { transformDateToYMD } from '@/utils/formatDate'
-import { formatUrlLink } from '@/utils/formatUrl'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, UploadCloud, X } from 'lucide-react'
 import { FieldErrors, UseFormReturn, useForm } from 'react-hook-form'
@@ -56,7 +55,7 @@ function HighlightSection({
             type="date"
             min={transformDateToYMD(new Date())}
             value={transformDateToYMD(
-              new Date(form.getValues('highlight_until') ?? ''),
+              new Date(form.getValues('highlight_until') ?? '')
             )}
             onChange={(e) => {
               form.setValue('highlight_until', e.target.value, {
@@ -103,7 +102,7 @@ function MediaSection({
     <>
       <div className="grid gap-1">
         <label htmlFor="highlight">Video</label>
-        <div className="bg-blue-50 h-56 md:h-64 w-full rounded-lg border-2 border-blue-200 border-dashed flex flex-col items-center justify-center text-neutral-500 gap-1 relative">
+        <div className="relative flex flex-col items-center justify-center w-full h-56 gap-1 border-2 border-blue-200 border-dashed rounded-lg bg-blue-50 md:h-64 text-neutral-500">
           {videoPreview ? (
             <>
               <video
@@ -113,7 +112,7 @@ function MediaSection({
                 src={videoPreview}
                 muted
                 crossOrigin="anonymous"
-                className="h-full w-full"
+                className="w-full h-full"
               ></video>
 
               <button
@@ -154,13 +153,13 @@ function MediaSection({
 
       <div className="grid gap-1">
         <label htmlFor="highlight">Image</label>
-        <div className="bg-blue-50 h-56 md:h-64 w-full rounded-lg border-2 border-blue-200 border-dashed flex flex-col items-center justify-center text-neutral-500 gap-1 relative">
+        <div className="relative flex flex-col items-center justify-center w-full h-56 gap-1 border-2 border-blue-200 border-dashed rounded-lg bg-blue-50 md:h-64 text-neutral-500">
           {imagePreview ? (
             <>
               <img
                 src={imagePreview}
                 crossOrigin="anonymous"
-                className="h-full w-full object-contain"
+                className="object-contain w-full h-full"
               />
 
               <button
@@ -259,8 +258,8 @@ function UpdateProjectForm({
           )}
         </div>
 
-        <Button className=" px-8">
-          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        <Button className="px-8 ">
+          {isSubmitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
           Update Job
         </Button>
       </fieldset>
@@ -287,13 +286,13 @@ export function Component() {
     <div className="w-full">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="font-semibold text-lg md:text-2xl text-primary">
+          <h3 className="text-lg font-semibold md:text-2xl text-primary">
             Update Project
           </h3>
         </div>
       </div>
 
-      <div className="p-0 rounded-xl shadow-sm mb-5">
+      <div className="p-0 mb-5 shadow-sm rounded-xl">
         <UpdateProjectForm initialProjectDetail={projectDetail} />
       </div>
     </div>
@@ -309,8 +308,8 @@ function useUpdateProject(initialProjectDetail: Project) {
     created_by: initialProjectDetail.created_by,
     highlight: initialProjectDetail.highlight,
     highlight_until: initialProjectDetail.highlight_until,
-    image: formatUrlLink(initialProjectDetail.image),
-    video: formatUrlLink(initialProjectDetail.video)!,
+    image: initialProjectDetail.image,
+    video: initialProjectDetail.video!,
   }
   const form = useForm<z.infer<typeof projectUpdateSchema>>({
     resolver: zodResolver(projectUpdateSchema),

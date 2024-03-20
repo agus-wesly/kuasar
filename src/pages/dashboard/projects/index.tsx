@@ -13,7 +13,6 @@ import {
 import { Project } from '@/features/projects/types/project'
 import InfiniteScroll from '@/components/infinite-scroll'
 import { useDeleteProjectMutation } from '@/features/projects/mutation'
-import { formatUrlLink } from '@/utils/formatUrl'
 import { useUser } from '@/features/auth/hooks/use-auth'
 
 type Props = {}
@@ -23,9 +22,9 @@ export function Component({}: Props) {
 
   return (
     <div className="max-h-full md:max-h-[80vh] w-full">
-      <div className="w-full flex items-center justify-between">
+      <div className="flex items-center justify-between w-full">
         <div>
-          <h3 className="font-semibold text-lg md:text-2xl text-primary">
+          <h3 className="text-lg font-semibold md:text-2xl text-primary">
             Projects
           </h3>
         </div>
@@ -37,7 +36,7 @@ export function Component({}: Props) {
               buttonVariants({
                 variant: 'outline',
               }),
-              'gap-2 px-2',
+              'gap-2 px-2'
             )}
           >
             Create project
@@ -58,7 +57,7 @@ function ProjectList() {
   const projects = query.data?.pages?.flatMap((item) => item.data) ?? []
 
   return (
-    <div className="h-fit flex-col max-h-full overflow-y-scroll md:pb-10 my-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 place-items-center md:place-items-center overflow-hidden">
+    <div className="grid flex-col max-h-full grid-cols-1 gap-10 my-6 overflow-hidden overflow-y-scroll h-fit md:pb-10 sm:grid-cols-2 md:grid-cols-3 place-items-center md:place-items-center">
       {query.isLoading ? (
         Array(8)
           .fill(0)
@@ -86,20 +85,20 @@ function ProjectItemCard(props: Project) {
   const role = useUser((state) => state.user?.role)
 
   return (
-    <div className="w-full max-w-60 md:max-w-none rounded-lg overflow-hidden shadow-md relative">
+    <div className="relative w-full overflow-hidden rounded-lg shadow-md max-w-60 md:max-w-none">
       <div className="flex w-full bg-purple-100 aspect-[9/10] items-center justify-center p-0">
         {/* PLAYER HERE */}
         <video
           preload="none"
           controls
           loop={false}
-          src={formatUrlLink(props.video) ?? undefined}
+          src={props.video ?? undefined}
           muted
           crossOrigin="anonymous"
-          className="h-full w-full"
+          className="w-full h-full"
         ></video>
       </div>
-      <div className="p-4 text-xs text-center flex items-center justify-between">
+      <div className="flex items-center justify-between p-4 text-xs text-center">
         <p className="line-clamp-2">Created by {props.created_by}</p>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -110,7 +109,7 @@ function ProjectItemCard(props: Project) {
           <DropdownMenuContent>
             <DropdownMenuItem asChild>
               <Link
-                className="cursor-pointer text-xs flex gap-3 items-center"
+                className="flex items-center gap-3 text-xs cursor-pointer"
                 to={`${props.id}`}
               >
                 <Info className="size-4" />
@@ -121,7 +120,7 @@ function ProjectItemCard(props: Project) {
               <>
                 <DropdownMenuItem asChild>
                   <Link
-                    className="cursor-pointer text-xs flex gap-3 items-center"
+                    className="flex items-center gap-3 text-xs cursor-pointer"
                     to={`${props.id}/update`}
                   >
                     <Pencil className="size-4" />
@@ -130,7 +129,7 @@ function ProjectItemCard(props: Project) {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => mutate(props.id)}
-                  className="cursor-pointer text-xs flex gap-3 items-center"
+                  className="flex items-center gap-3 text-xs cursor-pointer"
                 >
                   <Trash2 className="size-4" />
                   Delete
