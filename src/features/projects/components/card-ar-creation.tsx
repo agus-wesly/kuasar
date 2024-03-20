@@ -1,7 +1,7 @@
 import { Project } from '../types/project'
 
 export function CardARCreation(
-  props: Pick<Project, 'created_by' | 'video' | 'title'>
+  props: Pick<Project, 'created_by' | 'video' | 'title'>,
 ) {
   return (
     <div className="relative w-full overflow-hidden rounded-lg shadow-md max-w-60 md:max-w-none">
@@ -15,7 +15,6 @@ export function CardARCreation(
           playsInline={true}
           src={props.video ?? undefined}
           muted
-          crossOrigin="anonymous"
         ></video>
       </div>
       <div className="flex items-center justify-center p-4 text-xs text-center">
