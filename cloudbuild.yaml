@@ -22,5 +22,7 @@ steps:
       - '--allow-unauthenticated'
       - '--project'
       - '$PROJECT_ID'
+      - '--vpc-connector=connector-kuasar'
+      - '--vpc-egress=all-traffic'
 images:
   - 'gcr.io/$PROJECT_ID/kuasar-frontend'
