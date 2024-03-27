@@ -43,7 +43,7 @@ export function Component() {
             <Link
               className={cn(
                 buttonVariants({ variant: 'outline' }),
-                'flex gap-2 items-center'
+                'flex gap-2 items-center',
               )}
               to={'update'}
             >
@@ -95,13 +95,7 @@ export function Component() {
             {formatDate(projectDetail.createdAt)}
           </p>
 
-          <p>
-            {projectDetail.description} Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Necessitatibus voluptatibus voluptatem laboriosam
-            harum accusantium sequi et laborum quos. Animi quos ipsam assumenda
-            culpa beatae nesciunt laboriosam! Cumque delectus voluptates
-            ratione!
-          </p>
+          <p>{projectDetail.description} </p>
         </div>
       </div>
     </div>

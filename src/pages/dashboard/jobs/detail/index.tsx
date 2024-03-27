@@ -41,12 +41,7 @@ export function Component({}: Props) {
 
       <div className="p-0 mb-5 w-full max-w-lg my-3 md:my-5 flex flex-col gap-5 text-sm md:text-base">
         <p className="text-lg md:text-xl font-bold">{jobDetail.title}</p>
-        <p className="text-neutral-600">
-          {jobDetail.description} Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Necessitatibus voluptatibus voluptatem laboriosam
-          harum accusantium sequi et laborum quos. Animi quos ipsam assumenda
-          culpa beatae nesciunt laboriosam! Cumque delectus voluptates ratione!
-        </p>
+        <p className="text-neutral-600">{jobDetail.description}</p>
         <p className="font-semibold text-primary">
           Deadline : {formatDate(jobDetail.deadline)}
         </p>

@@ -22,7 +22,7 @@ import { useUser } from '@/features/auth/hooks/use-auth'
 
 type Props = {}
 
-export function Component({}: Props) {
+export function Component({ }: Props) {
   const navigate = useNavigate()
   const [searchParam] = useSearchParams()
   const searchQuery = searchParam.get('q') ?? ''
@@ -214,13 +214,7 @@ function JobItemCard(
 
       <div className="text-xs md:text-sm text-muted-foreground flex flex-col gap-2">
         <p className="line-clamp-3">
-          {props.description} Lorem ipsum dolor sit, amet consectetur
-          adipisicing elit. Assumenda ipsum provident reprehenderit, quis
-          soluta, dolore accusantium fugit laboriosam a dolores iusto alias
-          excepturi nostrum, accusamus ratione. Nostrum voluptates ipsam
-          recusandae doloremque quis vitae odio quae odit, dolorem voluptatum
-          mollitia repudiandae et laboriosam, repellendus nesciunt est possimus
-          incidunt. Tempore, odit doloremque.{' '}
+          {props.description}
         </p>
 
         <p className="text-xs md:text-sm text-neutral-900">
