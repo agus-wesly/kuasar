@@ -42,7 +42,7 @@ export default function SidebarMobile() {
       <AlertDialog>
         <Sheet>
           <SheetTrigger asChild>
-            <button>
+            <button aria-label="menu">
               <Menu className="size-6 text-purple-600" size="24" />
             </button>
           </SheetTrigger>

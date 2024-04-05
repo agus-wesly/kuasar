@@ -17,6 +17,7 @@ function NavbarDashboard() {
       <div className="container flex justify-between items-center py-3">
         <Link to={'/dashboard'}>
           <img
+            alt="kuasar-logo"
             src="https://static.wixstatic.com/media/9b385a_fe85acd294524651a9c73760dbaf3d31~mv2.png/v1/fill/w_114,h_61,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/9b385a_fe85acd294524651a9c73760dbaf3d31~mv2.png"
             className="w-[96px]"
           />

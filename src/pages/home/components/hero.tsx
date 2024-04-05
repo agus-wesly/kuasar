@@ -23,7 +23,7 @@ export default function Hero({}: Props) {
         <ExploreMoreButon
           className={cn(
             buttonVariants({ variant: 'default' }),
-            'mt-5 rounded-full z-[3] px-7 '
+            'mt-5 rounded-full z-[3] px-7 ',
           )}
         >
           Explore more
@@ -31,6 +31,7 @@ export default function Hero({}: Props) {
       </div>
 
       <img
+        alt="hero-image"
         src="https://static.wixstatic.com/media/1bf780_01b5374f635d4167bbaee4e0e1b99bfe~mv2.png/v1/crop/x_1255,y_0,w_2301,h_2000/fill/w_564,h_490,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/6485323.png"
         className="size-[320px] lg:size-[400px] object-cover mx-auto md:mx-0"
       />
@@ -47,7 +48,7 @@ function ExploreMoreButon(props: { className: string; children: ReactNode }) {
       className={cn(
         buttonVariants(),
         'group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-md bg-neutral-950 px-6 font-medium text-neutral-200 transition hover:scale-110 duration-200',
-        props.className
+        props.className,
       )}
     >
       {props.children}

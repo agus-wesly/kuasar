@@ -28,6 +28,7 @@ export default function NavbarLandingPage() {
       <div className="container flex justify-between items-center py-3">
         <Link to={'/'}>
           <img
+            alt="kuasar-logo"
             src="https://static.wixstatic.com/media/9b385a_fe85acd294524651a9c73760dbaf3d31~mv2.png/v1/fill/w_114,h_61,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/9b385a_fe85acd294524651a9c73760dbaf3d31~mv2.png"
             className="w-[96px]"
           />
@@ -49,7 +50,7 @@ export default function NavbarLandingPage() {
                   'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline',
                   {
                     'text-primary font-semibold hover:text-primary': isActive,
-                  }
+                  },
                 )
               }
               to={item.href}
@@ -63,7 +64,7 @@ export default function NavbarLandingPage() {
               buttonVariants({
                 variant: 'link',
               }),
-              'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline'
+              'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline',
             )}
             href="https://calendly.com/kuasar-michaela/30min"
           >
@@ -97,7 +98,7 @@ function NavLinkAuthentication() {
             'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline',
             {
               'text-primary font-semibold hover:text-primary': isActive,
-            }
+            },
           )
         }
         to={'/login'}
@@ -114,7 +115,7 @@ function NavLinkAuthentication() {
             'rounded-full text-sm text-neutral-600 hover:text-neutral-900 hover:no-underline',
             {
               'text-primary font-semibold hover:text-primary': isActive,
-            }
+            },
           )
         }
         to={'/register'}
